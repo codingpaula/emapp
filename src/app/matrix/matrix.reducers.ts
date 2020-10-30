@@ -1,15 +1,15 @@
 import produce from 'immer';
 import {
-  MatrixAction,
   GET_MATRIX_DATA,
-  UPDATE_TOPIC,
-  UPDATE_TASK,
   GET_MATRIX_DATA_FAILED,
-  UPDATE_TASK_FAILED,
-  UPDATE_TOPIC_FAILED,
-  TOGGLE_TOPIC_VISIBLITY,
   GET_MATRIX_DATA_SUCCESS,
+  MatrixAction,
+  TOGGLE_TOPIC_VISIBLITY,
+  UPDATE_TASK,
+  UPDATE_TASK_FAILED,
   UPDATE_TASK_SUCCESS,
+  UPDATE_TOPIC,
+  UPDATE_TOPIC_FAILED,
   UPDATE_TOPIC_SUCCESS,
 } from './matrix.actions';
 import { MatrixState, Task, TaskDictionary } from './matrix.interfaces';
@@ -79,7 +79,7 @@ const setUnloading = (draft: MatrixState): void => {
 };
 
 const createTaskDictionary = (tasks: Task[]): TaskDictionary => {
-  let dict: TaskDictionary = {};
+  const dict: TaskDictionary = {};
   tasks.forEach((task) => {
     if (dict[task.topic]) {
       dict[task.topic].push(task);

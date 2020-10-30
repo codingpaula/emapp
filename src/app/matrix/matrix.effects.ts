@@ -4,10 +4,10 @@ import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import {
+  GET_MATRIX_DATA,
   GetMatrixData,
   GetMatrixDataFailed,
   GetMatrixDataSuccess,
-  GET_MATRIX_DATA,
 } from './matrix.actions';
 import { MatrixData, Task, Topic } from './matrix.interfaces';
 

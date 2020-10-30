@@ -1,15 +1,15 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 
+import { CommonModule } from '@angular/common';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MatrixModule } from './matrix/matrix.module';
-import { StoreModule } from '@ngrx/store';
 import { HeaderComponent } from './header/header.component';
-import { EffectsModule } from '@ngrx/effects';
-import { appReducers } from './store/app.reducers';
+import { MatrixModule } from './matrix/matrix.module';
 import { appEffects } from './store/app.effects';
-import { CommonModule } from '@angular/common';
+import { appReducers } from './store/app.reducers';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent],

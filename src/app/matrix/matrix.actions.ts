@@ -1,5 +1,5 @@
 import { Action, createAction, props } from '@ngrx/store';
-import { Topic, Task, MatrixData } from './matrix.interfaces';
+import { MatrixData, Task, Topic } from './matrix.interfaces';
 
 export const GET_MATRIX_DATA = '[MATRIX] get all matrix data from sever';
 export const GET_MATRIX_DATA_SUCCESS =
