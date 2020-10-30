@@ -19,7 +19,9 @@
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
-    "@ngrx/store": "^10.0.1",
+    "@ngrx/effects": "8.6.0",
+    "@ngrx/store": "8.6.0",
+    "immer": "^7.0.14",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"

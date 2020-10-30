@@ -20,8 +20,8 @@ export const selectMatrixErrorMessage = createSelector(
 );
 
 export const selectMatrixTasks = createSelector(
-  selectMatrixTopics,
-  (topics: Topic[]) => [...topics.map((topic) => topic.tasks)],
+  selectMatrix,
+  (state: MatrixState) => state.tasks,
 );
 
 export const selectMatrixTopic = createSelector(

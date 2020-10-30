@@ -1,52 +1,91 @@
-import { createReducer, on, Action } from '@ngrx/store';
+import produce from 'immer';
 import {
-  getMatrixDataSuccess,
-  getMatrixData,
-  getMatrixDataFailed,
+  MatrixAction,
+  GET_MATRIX_DATA,
+  UPDATE_TOPIC,
+  UPDATE_TASK,
+  GET_MATRIX_DATA_FAILED,
+  UPDATE_TASK_FAILED,
+  UPDATE_TOPIC_FAILED,
+  TOGGLE_TOPIC_VISIBLITY,
+  GET_MATRIX_DATA_SUCCESS,
+  UPDATE_TASK_SUCCESS,
+  UPDATE_TOPIC_SUCCESS,
 } from './matrix.actions';
-import { MatrixState } from './matrix.interfaces';
+import { MatrixState, Task, TaskDictionary } from './matrix.interfaces';
 
 export const initialState: MatrixState = {
   topics: [],
+  tasks: {},
   isLoading: false,
   errorMessage: undefined,
 };
 
-const matrixReducer = createReducer(
+export const matrixReducer = produce(
+  (draft: MatrixState, action: MatrixAction) => {
+    switch (action.type) {
+      // === loading cases ===
+      case GET_MATRIX_DATA:
+      case UPDATE_TASK:
+      case UPDATE_TOPIC:
+        draft.isLoading = true;
+        draft.errorMessage = undefined;
+        return;
+      // === failed cases ===
+      case GET_MATRIX_DATA_FAILED:
+      case UPDATE_TASK_FAILED:
+      case UPDATE_TOPIC_FAILED:
+        draft.isLoading = false;
+        draft.errorMessage = action.message;
+        return;
+      // === success cases ===
+      case GET_MATRIX_DATA_SUCCESS:
+        draft.topics = action.data.topics;
+        draft.tasks = createTaskDictionary(action.data.tasks);
+        setUnloading(draft);
+        return;
+      case UPDATE_TASK_SUCCESS:
+        const taskIndex = draft.tasks[action.task.topic].findIndex(
+          (task) => task.id === action.task.id,
+        );
+        if (taskIndex > -1) {
+          draft.tasks[action.task.topic][taskIndex] = action.task;
+        }
+        setUnloading(draft);
+        return;
+      case UPDATE_TOPIC_SUCCESS:
+        const topicIndex = draft.topics.findIndex(
+          (topic) => topic.id === action.topic.id,
+        );
+        if (topicIndex > -1) {
+          draft.topics[topicIndex] = action.topic;
+        }
+        setUnloading(draft);
+        return;
+      // === frontend only actions ===
+      case TOGGLE_TOPIC_VISIBLITY:
+        draft.topics
+          .find((topic) => topic.id === action.topicId)
+          .toggleVisibility();
+        return;
+    }
+  },
   initialState,
-  on(getMatrixData, (state) => setLoadingState(state)),
-  on(getMatrixDataFailed, (state, { message }) =>
-    setFailedState(state, message)
-  ),
-  on(getMatrixDataSuccess, (state, { topics }) =>
-    setUnloadingState({ ...state, topics })
-  )
 );
 
-export function reducer(state: MatrixState | undefined, action: Action) {
-  return matrixReducer(state, action);
-}
-
-const setFailedState = (state: MatrixState, message: string): MatrixState => {
-  return {
-    ...state,
-    isLoading: false,
-    errorMessage: message,
-  };
+const setUnloading = (draft: MatrixState): void => {
+  draft.isLoading = false;
+  draft.errorMessage = undefined;
 };
 
-const setUnloadingState = (state: MatrixState): MatrixState => {
-  return {
-    ...state,
-    isLoading: false,
-    errorMessage: undefined,
-  };
-};
-
-const setLoadingState = (state: MatrixState): MatrixState => {
-  return {
-    ...state,
-    isLoading: true,
-    errorMessage: undefined,
-  };
+const createTaskDictionary = (tasks: Task[]): TaskDictionary => {
+  let dict: TaskDictionary = {};
+  tasks.forEach((task) => {
+    if (dict[task.topic]) {
+      dict[task.topic].push(task);
+    } else {
+      dict[task.topic] = [task];
+    }
+  });
+  return dict;
 };

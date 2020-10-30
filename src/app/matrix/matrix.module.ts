@@ -1,12 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { StoreModule } from '@ngrx/store';
+import { BrowserModule } from '@angular/platform-browser';
 import { MatrixComponent } from './matrix.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { TopicComponent } from './topic/topic.component';
-import * as fromMatrix from './matrix.reducers';
+import { TopicButtonComponent } from './topic-button/topic-button.component';
 
 @NgModule({
-  imports: [StoreModule.forFeature('matrix', fromMatrix.reducer)],
-  declarations: [MatrixComponent, SidebarComponent, TopicComponent],
+  imports: [BrowserModule, CommonModule],
+  declarations: [MatrixComponent, SidebarComponent, TopicButtonComponent],
 })
 export class MatrixModule {}
