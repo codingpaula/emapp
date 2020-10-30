@@ -1,0 +1,29 @@
+header {
+  width: 100%;
+  background-color: black;
+  color: white;
+}
+
+nav {
+  padding: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+a:hover {
+  color: grey;
+}
+
+.left-side > a {
+  margin-right: 2rem;
+}
+
+.right-side > a {
+  margin-left: 2rem;
+}
