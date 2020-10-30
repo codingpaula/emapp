@@ -1,0 +1,20 @@
+.topic-button {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+
+  div {
+    padding: 0.5rem;
+    background-color: transparent;
+    color: #f3f3f3;
+    border: none;
+  }
+
+  div:hover {
+    cursor: pointer;
+    color: grey;
+  }
+}
+
+.edit {
+}

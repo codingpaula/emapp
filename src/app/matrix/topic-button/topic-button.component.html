@@ -1,0 +1,7 @@
+<div class="topic-button" [style.background-color]="topic.color">
+  <div class="edit">edit</div>
+  <div class="name" (click)="toggleTopic()">
+    {{ topic.name }}, {{ topic.visible }}
+  </div>
+  <div class="plus">plus</div>
+</div>

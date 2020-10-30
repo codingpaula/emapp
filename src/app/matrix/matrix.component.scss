@@ -1,7 +1,7 @@
 .matrix {
   display: grid;
   grid-template-columns: 20% auto 30%;
-  color: white;
+  align-content: stretch;
 }
 
 .canvas {

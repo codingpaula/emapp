@@ -1,4 +1,8 @@
 <div class="sidebar">
   <h2>Topics</h2>
-  <app-topic topic="topics[0]"> </app-topic>
+  <app-topic-button
+    *ngFor="let topic of topics"
+    [topic]="topic"
+    (toggleVisibility)="toggleVisibility($event)"
+  ></app-topic-button>
 </div>
