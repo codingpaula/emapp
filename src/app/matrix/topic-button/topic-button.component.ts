@@ -8,10 +8,12 @@ import { Topic } from '../matrix.interfaces';
   styleUrls: ['./topic-button.component.scss'],
 })
 export class TopicButtonComponent {
-  @Input() topic: Topic;
+  @Input() topic?: Topic;
   @Output() toggleVisibility = new EventEmitter<number>();
 
   toggleTopic(): void {
-    this.toggleVisibility.emit(this.topic.id);
+    if (this.topic) {
+      this.toggleVisibility.emit(this.topic.id);
+    }
   }
 }

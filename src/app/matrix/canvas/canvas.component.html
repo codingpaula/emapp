@@ -1,0 +1,8 @@
+<p>Test</p>
+<div *ngFor="let topic of topics">
+  <div *ngIf="topic.visible">
+    <div *ngFor="let task of tasks[topic.id]">
+      <app-task-dot [task]="task"></app-task-dot>
+    </div>
+  </div>
+</div>

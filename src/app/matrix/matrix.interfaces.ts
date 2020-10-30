@@ -40,7 +40,7 @@ export interface MatrixState {
   topics: Topic[];
   tasks: TaskDictionary;
   isLoading: boolean;
-  errorMessage: string;
+  errorMessage?: string;
 }
 
 export interface MatrixService {

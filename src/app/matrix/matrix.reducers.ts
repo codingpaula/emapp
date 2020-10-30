@@ -1,3 +1,4 @@
+import { Action } from '@ngrx/store';
 import produce from 'immer';
 import {
   GET_MATRIX_DATA,
@@ -21,9 +22,9 @@ export const initialState: MatrixState = {
   errorMessage: undefined,
 };
 
-export const matrixReducer = produce(
-  (draft: MatrixState, action: MatrixAction) => {
-    switch (action.type) {
+export function matrixReducer(state = initialState, action: Action) {
+  return produce((draft: MatrixState, matrixAction) => {
+    switch (matrixAction.type) {
       // === loading cases ===
       case GET_MATRIX_DATA:
       case UPDATE_TASK:
@@ -36,42 +37,44 @@ export const matrixReducer = produce(
       case UPDATE_TASK_FAILED:
       case UPDATE_TOPIC_FAILED:
         draft.isLoading = false;
-        draft.errorMessage = action.message;
+        draft.errorMessage = matrixAction.message;
         return;
       // === success cases ===
       case GET_MATRIX_DATA_SUCCESS:
-        draft.topics = action.data.topics;
-        draft.tasks = createTaskDictionary(action.data.tasks);
+        draft.topics = matrixAction.data.topics;
+        draft.tasks = createTaskDictionary(matrixAction.data.tasks);
         setUnloading(draft);
         return;
       case UPDATE_TASK_SUCCESS:
-        const taskIndex = draft.tasks[action.task.topic].findIndex(
-          (task) => task.id === action.task.id,
+        const taskIndex = draft.tasks[matrixAction.task.topic].findIndex(
+          (task) => task.id === matrixAction.task.id,
         );
         if (taskIndex > -1) {
-          draft.tasks[action.task.topic][taskIndex] = action.task;
+          draft.tasks[matrixAction.task.topic][taskIndex] = matrixAction.task;
         }
         setUnloading(draft);
         return;
       case UPDATE_TOPIC_SUCCESS:
         const topicIndex = draft.topics.findIndex(
-          (topic) => topic.id === action.topic.id,
+          (topic) => topic.id === matrixAction.topic.id,
         );
         if (topicIndex > -1) {
-          draft.topics[topicIndex] = action.topic;
+          draft.topics[topicIndex] = matrixAction.topic;
         }
         setUnloading(draft);
         return;
       // === frontend only actions ===
       case TOGGLE_TOPIC_VISIBLITY:
-        draft.topics
-          .find((topic) => topic.id === action.topicId)
-          .toggleVisibility();
+        const topicIdx = draft.topics.findIndex(
+          (topic) => topic.id === matrixAction.topicId,
+        );
+        if (topicIdx > -1) {
+          draft.topics[topicIdx].toggleVisibility();
+        }
         return;
     }
-  },
-  initialState,
-);
+  })(state, action as MatrixAction);
+}
 
 const setUnloading = (draft: MatrixState): void => {
   draft.isLoading = false;
@@ -87,5 +90,6 @@ const createTaskDictionary = (tasks: Task[]): TaskDictionary => {
       dict[task.topic] = [task];
     }
   });
+  console.log(dict);
   return dict;
 };

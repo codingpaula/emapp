@@ -12,7 +12,7 @@ import { selectMatrixTopics } from '../matrix.selectors';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
-  topics: Topic[];
+  topics: Topic[] = [];
 
   constructor(private readonly store: Store<AppState>) {}
 
@@ -21,10 +21,7 @@ export class SidebarComponent implements OnInit {
       .pipe(
         select(selectMatrixTopics),
         map((topics) => {
-          console.log(topics);
           if (topics && topics.length > 0) {
-            console.log('yay!');
-            console.log(topics);
             this.topics = topics;
           }
         }),
