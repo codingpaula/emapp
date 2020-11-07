@@ -16,12 +16,14 @@ export class MatrixEffects {
   private topics: Topic[] = [
     new Topic(1, 'Test', '#123456', true, false),
     new Topic(2, 'Test 2', '#654321', true, false),
+    new Topic(3, 'LongName Topic', '#343456', true, false),
   ];
   private tasks: Task[] = [
     new Task(1, 'Tast', 1, 60),
     new Task(2, 'Tast 2', 2, 20),
     new Task(3, 'Tast 3', 1, 33),
     new Task(4, 'Tast 4', 2, 99),
+    new Task(5, 'Long Name Task', 3, 44),
   ];
   private data: MatrixData = {
     topics: this.topics,

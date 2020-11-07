@@ -3,10 +3,9 @@ import { Task, Topic } from '../matrix.interfaces';
 
 @Component({
   selector: 'app-task-dot',
-  templateUrl: './task-dot.component.html',
-  styleUrls: ['./task-dot.component.scss'],
+  template: '<div>TaskDotMockComponent</div>',
 })
-export class TaskDotComponent {
+export class TaskDotMockComponent {
   @Input() task?: Task;
   @Input() topic?: Topic;
 }

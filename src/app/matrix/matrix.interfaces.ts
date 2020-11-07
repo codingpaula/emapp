@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs';
+
 export class Topic {
   constructor(
     public id: number,
@@ -48,5 +50,6 @@ export interface MatrixService {
   updateTask: (task: Task) => void;
   deleteTask: (taskId: number) => void;
   toggleTopicVisibility: (topicId: number) => void;
-  updateTopic: (topic: Partial<Topic>) => void;
+  updateTopic: (topic: Topic) => void;
+  selectTopics: () => Observable<Topic[]>;
 }
