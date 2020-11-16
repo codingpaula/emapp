@@ -1,6 +1,9 @@
 import { Action } from '@ngrx/store';
 import produce from 'immer';
 import {
+  ADD_TOPIC,
+  ADD_TOPIC_FAILED,
+  ADD_TOPIC_SUCCESS,
   GET_MATRIX_DATA,
   GET_MATRIX_DATA_FAILED,
   GET_MATRIX_DATA_SUCCESS,
@@ -29,6 +32,7 @@ export function matrixReducer(state = initialState, action: Action) {
       case GET_MATRIX_DATA:
       case UPDATE_TASK:
       case UPDATE_TOPIC:
+      case ADD_TOPIC:
         draft.isLoading = true;
         draft.errorMessage = undefined;
         return;
@@ -36,6 +40,7 @@ export function matrixReducer(state = initialState, action: Action) {
       case GET_MATRIX_DATA_FAILED:
       case UPDATE_TASK_FAILED:
       case UPDATE_TOPIC_FAILED:
+      case ADD_TOPIC_FAILED:
         draft.isLoading = false;
         draft.errorMessage = matrixAction.message;
         return;
@@ -52,6 +57,10 @@ export function matrixReducer(state = initialState, action: Action) {
         if (taskIndex > -1) {
           draft.tasks[matrixAction.task.topic][taskIndex] = matrixAction.task;
         }
+        setUnloading(draft);
+        return;
+      case ADD_TOPIC_SUCCESS:
+        draft.topics.push(matrixAction.topic);
         setUnloading(draft);
         return;
       case UPDATE_TOPIC_SUCCESS:

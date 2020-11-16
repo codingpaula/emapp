@@ -1,17 +1,89 @@
+@import '../../../colors.scss';
+
 .topic-button {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  position: relative;
   margin-bottom: 1rem;
+  border-radius: 4rem;
 
   div {
-    padding: 0.5rem;
+    text-align: center;
+    padding: 0.5rem 1rem;
     background-color: transparent;
     color: #f3f3f3;
     border: none;
   }
 
-  div:hover {
-    cursor: pointer;
-    color: grey;
+  .edit {
+    padding-right: 0.5rem;
   }
+
+  .name {
+    flex-grow: 1;
+  }
+
+  .plus {
+    padding-left: 0.5rem;
+  }
+}
+
+@mixin color-btn($color-primary, $color-secondary) {
+  background-image: linear-gradient(to right, $color-primary, $color-primary);
+  transition: all 0.45s;
+
+  &.off {
+    background-image: linear-gradient(
+      to left,
+      $color-primary,
+      #{$color-primary}4d 30%,
+      #{$color-primary}4d 70%,
+      $color-primary
+    );
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.edit-hover {
+    background-image: linear-gradient(
+      to left,
+      $color-primary,
+      $color-primary 30%,
+      $color-secondary
+    );
+  }
+
+  &.name-hover {
+    background-image: linear-gradient(
+      to left,
+      $color-primary,
+      $color-secondary 30%,
+      $color-secondary 70%,
+      $color-primary
+    );
+  }
+
+  &.plus-hover {
+    background-image: linear-gradient(
+      to right,
+      $color-primary,
+      $color-primary 30%,
+      $color-secondary
+    );
+  }
+}
+
+.blue {
+  @include color-btn($blue-primary, $blue-secondary);
+}
+
+.green {
+  @include color-btn($green-primary, $green-secondary);
+}
+
+.orange {
+  @include color-btn($orange-primary, $orange-secondary);
 }

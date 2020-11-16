@@ -1,7 +1,13 @@
-<div *ngFor="let topic of topics">
-  <div *ngIf="topic.visible">
-    <div *ngFor="let task of tasks[topic.id]">
-      <app-task-dot [task]="task" [topic]="topic"></app-task-dot>
-    </div>
-  </div>
-</div>
+<div class="line vertical"></div>
+<div class="line horizontal"></div>
+<ng-container *ngFor="let topic of topics">
+  <ng-container *ngIf="topic.visible">
+    <app-task-dot
+      *ngFor="let task of tasks[topic.id]"
+      [style.top]="task.importance | yPosition"
+      [style.left]="task.dueDate | xPosition: maxDate"
+      [task]="task"
+      [topic]="topic"
+    ></app-task-dot>
+  </ng-container>
+</ng-container>

@@ -6,6 +6,8 @@ import { MatrixComponent } from './matrix.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TaskDotComponent } from './task-dot/task-dot.component';
 import { TopicButtonComponent } from './topic-button/topic-button.component';
+import { XPositionPipe } from './x-position.pipe';
+import { YPositionPipe } from './y-position.pipe';
 
 @NgModule({
   imports: [BrowserModule, CommonModule],
@@ -15,6 +17,8 @@ import { TopicButtonComponent } from './topic-button/topic-button.component';
     SidebarComponent,
     TaskDotComponent,
     TopicButtonComponent,
+    XPositionPipe,
+    YPositionPipe,
   ],
 })
 export class MatrixModule {}

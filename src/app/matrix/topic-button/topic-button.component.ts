@@ -10,10 +10,21 @@ import { Topic } from '../matrix.interfaces';
 export class TopicButtonComponent {
   @Input() topic?: Topic;
   @Output() toggleVisibility = new EventEmitter<number>();
+  editHover = false;
+  nameHover = false;
+  plusHover = false;
+
+  editTopic(): void {
+    console.log('pressed edit topic');
+  }
 
   toggleTopic(): void {
     if (this.topic) {
       this.toggleVisibility.emit(this.topic.id);
     }
+  }
+
+  addTask(): void {
+    console.log('pressed plus task');
   }
 }

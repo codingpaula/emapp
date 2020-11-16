@@ -13,8 +13,11 @@ import { selectMatrixTasks, selectMatrixTopics } from '../matrix.selectors';
 export class CanvasComponent implements OnInit {
   topics: Topic[] = [];
   tasks: TaskDictionary = {};
+  maxDate = new Date();
 
-  constructor(public readonly store: Store<AppState>) {}
+  constructor(public readonly store: Store<AppState>) {
+    this.maxDate = new Date(this.maxDate.setMonth(this.maxDate.getMonth() - 1));
+  }
 
   ngOnInit(): void {
     this.store

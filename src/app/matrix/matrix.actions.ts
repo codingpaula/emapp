@@ -14,6 +14,10 @@ export const DELETE_TASK = '[MATRIX] delete this task';
 export const DELETE_TASK_SUCCESS = '[MATRIX] successfully deleted task';
 export const DELETE_TASK_FAILED = '[MATRIX] failed to delete task';
 
+export const ADD_TOPIC = '[MATRIX] add new topic';
+export const ADD_TOPIC_SUCCESS = '[MATRIX] successfully added topic';
+export const ADD_TOPIC_FAILED = '[MATRIX] failed to add topic';
+
 export const UPDATE_TOPIC = '[MATRIX] update this topic';
 export const UPDATE_TOPIC_SUCCESS = '[MATRIX] successfully updated topic';
 export const UPDATE_TOPIC_FAILED = '[MATRIX] failed to update topic';
@@ -65,6 +69,20 @@ export class DeleteTaskFailed implements Action {
   constructor(public message: string) {}
 }
 
+export class AddTopic implements Action {
+  readonly type = ADD_TOPIC;
+}
+
+export class AddTopicSuccess implements Action {
+  readonly type = ADD_TOPIC_SUCCESS;
+  constructor(public topic: Topic) {}
+}
+
+export class AddTopicFailed implements Action {
+  readonly type = ADD_TOPIC_FAILED;
+  constructor(public message: string) {}
+}
+
 export class UpdateTopic implements Action {
   readonly type = UPDATE_TOPIC;
   constructor(public topic: Topic) {}
@@ -95,6 +113,9 @@ export type MatrixAction =
   | DeleteTask
   | DeleteTaskSuccess
   | DeleteTaskFailed
+  | AddTopic
+  | AddTopicSuccess
+  | AddTopicFailed
   | UpdateTopic
   | UpdateTopicSuccess
   | UpdateTopicFailed

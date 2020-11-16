@@ -3,6 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
+import { Color } from '../shared/color.interfaces';
 import {
   GET_MATRIX_DATA,
   GetMatrixData,
@@ -14,12 +15,12 @@ import { MatrixData, Task, Topic } from './matrix.interfaces';
 @Injectable()
 export class MatrixEffects {
   private topics: Topic[] = [
-    new Topic(1, 'Test', '#123456', true, false),
-    new Topic(2, 'Test 2', '#654321', true, false),
-    new Topic(3, 'LongName Topic', '#343456', true, false),
+    new Topic(1, 'Test', Color.blue, true, false),
+    new Topic(2, 'Test 2', Color.green, true, false),
+    new Topic(3, 'LongName Topic', Color.orange, true, false),
   ];
   private tasks: Task[] = [
-    new Task(1, 'Tast', 1, 60),
+    new Task(1, 'Tast', 1, 60, false, new Date('2020-12-01T12:00:00.000Z')),
     new Task(2, 'Tast 2', 2, 20),
     new Task(3, 'Tast 3', 1, 33),
     new Task(4, 'Tast 4', 2, 99),

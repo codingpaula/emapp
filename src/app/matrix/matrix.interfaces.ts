@@ -1,10 +1,11 @@
 import { Observable } from 'rxjs';
+import { Color } from '../shared/color.interfaces';
 
 export class Topic {
   constructor(
     public id: number,
     public name: string,
-    public color: string,
+    public color: Color,
     public visible: boolean,
     public deleted: boolean,
   ) {}
@@ -52,4 +53,8 @@ export interface MatrixService {
   toggleTopicVisibility: (topicId: number) => void;
   updateTopic: (topic: Topic) => void;
   selectTopics: () => Observable<Topic[]>;
+  selectIsLoading: () => Observable<boolean>;
+  selectErrorMessage: () => Observable<string | undefined>;
+  selectTasks: () => Observable<TaskDictionary>;
+  selectTopicById: (id: number) => Observable<Topic | undefined>;
 }

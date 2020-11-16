@@ -1,7 +1,30 @@
-.task-dot {
-  border-width: 5px;
+@import '../../../colors.scss';
+
+:host {
+  position: absolute;
+}
+
+@mixin color-dot($color-primary) {
+  border: 4px solid $color-primary;
   border-radius: 10px;
-  border-style: solid;
+  background-color: transparent;
   width: 10px;
   height: 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $color-primary;
+  }
+}
+
+.blue {
+  @include color-dot($blue-primary);
+}
+
+.green {
+  @include color-dot($green-primary);
+}
+
+.orange {
+  @include color-dot($orange-primary);
 }

@@ -1,0 +1,21 @@
+:host {
+  position: relative;
+  flex-grow: 1;
+}
+
+.line {
+  position: absolute;
+  background-color: #562c4b;
+}
+
+.vertical {
+  height: 100%;
+  width: 4px;
+  left: 50%;
+}
+
+.horizontal {
+  height: 4px;
+  width: 100%;
+  top: 50%;
+}

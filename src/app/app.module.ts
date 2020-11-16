@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { MatrixModule } from './matrix/matrix.module';
+import { SharedModule } from './shared/shared.module';
 import { appEffects } from './store/app.effects';
 import { appReducers } from './store/app.reducers';
 
@@ -18,6 +19,7 @@ import { appReducers } from './store/app.reducers';
     BrowserModule,
     CommonModule,
     AppRoutingModule,
+    SharedModule,
     EffectsModule.forRoot(appEffects),
     StoreModule.forRoot(appReducers),
   ],

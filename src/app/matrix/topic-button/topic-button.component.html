@@ -1,7 +1,32 @@
-<div class="topic-button" [style.background-color]="topic.color">
-  <div class="edit">edit</div>
-  <div class="name" (click)="toggleTopic()">
-    {{ topic.name }}, {{ topic.visible }}
+<div
+  [class]="topic.color + ' topic-button '"
+  [class.off]="!topic.visible"
+  [class.edit-hover]="editHover"
+  [class.name-hover]="nameHover"
+  [class.plus-hover]="plusHover"
+>
+  <div
+    class="edit"
+    (click)="editTopic()"
+    (mouseenter)="editHover = true"
+    (mouseleave)="editHover = false"
+  >
+    edit
   </div>
-  <div class="plus">plus</div>
+  <div
+    class="name"
+    (click)="toggleTopic()"
+    (mouseenter)="nameHover = true"
+    (mouseleave)="nameHover = false"
+  >
+    {{ topic.name }}
+  </div>
+  <div
+    class="plus"
+    (click)="addTask()"
+    (mouseenter)="plusHover = true"
+    (mouseleave)="plusHover = false"
+  >
+    plus
+  </div>
 </div>

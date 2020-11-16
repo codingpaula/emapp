@@ -13,9 +13,16 @@ import {
 import {
   MatrixService as IMatrixService,
   Task,
+  TaskDictionary,
   Topic,
 } from './matrix.interfaces';
-import { selectMatrixTopics } from './matrix.selectors';
+import {
+  selectMatrixErrorMessage,
+  selectMatrixIsLoading,
+  selectMatrixTasks,
+  selectMatrixTopic,
+  selectMatrixTopics,
+} from './matrix.selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -53,6 +60,34 @@ export class MatrixService implements IMatrixService, OnDestroy {
   selectTopics(): Observable<Topic[]> {
     return this.store.pipe(
       select(selectMatrixTopics),
+      takeUntil(this.unsubscribe$),
+    );
+  }
+
+  selectIsLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(selectMatrixIsLoading),
+      takeUntil(this.unsubscribe$),
+    );
+  }
+
+  selectErrorMessage(): Observable<string | undefined> {
+    return this.store.pipe(
+      select(selectMatrixErrorMessage),
+      takeUntil(this.unsubscribe$),
+    );
+  }
+
+  selectTasks(): Observable<TaskDictionary> {
+    return this.store.pipe(
+      select(selectMatrixTasks),
+      takeUntil(this.unsubscribe$),
+    );
+  }
+
+  selectTopicById(id: number): Observable<Topic | undefined> {
+    return this.store.pipe(
+      select(selectMatrixTopic),
       takeUntil(this.unsubscribe$),
     );
   }
