@@ -2,8 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CanvasComponent } from './canvas/canvas.component';
+import { DetailComponent } from './detail/detail.component';
 import { MatrixComponent } from './matrix.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { TaskCardComponent } from './task-card/task-card.component';
 import { TaskDotComponent } from './task-dot/task-dot.component';
 import { TopicButtonComponent } from './topic-button/topic-button.component';
 import { XPositionPipe } from './x-position.pipe';
@@ -13,8 +15,10 @@ import { YPositionPipe } from './y-position.pipe';
   imports: [BrowserModule, CommonModule],
   declarations: [
     CanvasComponent,
+    DetailComponent,
     MatrixComponent,
     SidebarComponent,
+    TaskCardComponent,
     TaskDotComponent,
     TopicButtonComponent,
     XPositionPipe,
