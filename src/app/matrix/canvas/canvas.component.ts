@@ -16,7 +16,7 @@ export class CanvasComponent implements OnInit {
   maxDate = new Date();
 
   constructor(public readonly store: Store<AppState>) {
-    this.maxDate = new Date(this.maxDate.setMonth(this.maxDate.getMonth() - 1));
+    this.maxDate = new Date(this.maxDate.setMonth(this.maxDate.getMonth() + 1));
   }
 
   ngOnInit(): void {
