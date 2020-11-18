@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Task, Topic } from '../matrix.interfaces';
 
 @Component({
@@ -8,4 +8,5 @@ import { Task, Topic } from '../matrix.interfaces';
 export class TaskDotMockComponent {
   @Input() task?: Task;
   @Input() topic?: Topic;
+  @Output() selectTask = new EventEmitter<Task>();
 }

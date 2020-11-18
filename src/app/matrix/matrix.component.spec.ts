@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CanvasMockComponent } from './canvas/canvas.component.mock';
+import { DetailMockComponent } from './detail/detail.component.mock';
 import { MatrixComponent } from './matrix.component';
 import { SidebarMockComponent } from './sidebar/sidebar.component.mock';
 
@@ -14,6 +15,7 @@ describe('MatrixComponent', () => {
         MatrixComponent,
         SidebarMockComponent,
         CanvasMockComponent,
+        DetailMockComponent,
       ],
     }).compileComponents();
 

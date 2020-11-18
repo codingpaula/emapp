@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import { AppState } from 'src/app/store/app.state';
-import { TaskDictionary, Topic } from '../matrix.interfaces';
+import { Task, TaskDictionary, Topic } from '../matrix.interfaces';
 import { selectMatrixTasks, selectMatrixTopics } from '../matrix.selectors';
+import { MatrixService } from '../matrix.service';
 
 @Component({
   selector: 'app-canvas',
@@ -15,14 +16,14 @@ export class CanvasComponent implements OnInit {
   tasks: TaskDictionary = {};
   maxDate = new Date();
 
-  constructor(public readonly store: Store<AppState>) {
+  constructor(public readonly matrixService: MatrixService) {
     this.maxDate = new Date(this.maxDate.setMonth(this.maxDate.getMonth() + 1));
   }
 
   ngOnInit(): void {
-    this.store
+    this.matrixService
+      .selectTasks()
       .pipe(
-        select(selectMatrixTasks),
         map((tasks) => {
           console.log(tasks);
           if (tasks) {
@@ -32,9 +33,9 @@ export class CanvasComponent implements OnInit {
       )
       .subscribe();
 
-    this.store
+    this.matrixService
+      .selectTopics()
       .pipe(
-        select(selectMatrixTopics),
         map((topics) => {
           if (topics && topics.length > 0) {
             this.topics = topics;
@@ -42,5 +43,9 @@ export class CanvasComponent implements OnInit {
         }),
       )
       .subscribe();
+  }
+
+  onSelectTask(event: Task): void {
+    this.matrixService.selectTask(event);
   }
 }

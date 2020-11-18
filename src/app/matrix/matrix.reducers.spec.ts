@@ -20,7 +20,7 @@ import {
 import { MatrixState, Task, Topic } from './matrix.interfaces';
 import { matrixReducer } from './matrix.reducers';
 
-fdescribe('MatrixReducers', () => {
+describe('MatrixReducers', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({});
   }));
@@ -33,6 +33,7 @@ fdescribe('MatrixReducers', () => {
       defaultState = {
         topics: [],
         tasks: {},
+        currentTask: { taskId: undefined, topicId: undefined },
         isLoading: false,
         errorMessage: undefined,
       };
@@ -79,6 +80,7 @@ fdescribe('MatrixReducers', () => {
       defaultState = {
         topics: [],
         tasks: {},
+        currentTask: { taskId: undefined, topicId: undefined },
         isLoading: true,
         errorMessage: undefined,
       };
@@ -124,6 +126,7 @@ fdescribe('MatrixReducers', () => {
       defaultState = {
         topics: [new Topic(1, 'test', Color.orange, true, false)],
         tasks: { [1]: [] },
+        currentTask: { taskId: undefined, topicId: undefined },
         isLoading: true,
         errorMessage: 'test message',
       };
@@ -175,6 +178,7 @@ fdescribe('MatrixReducers', () => {
       emptyState = {
         topics: [],
         tasks: {},
+        currentTask: { taskId: undefined, topicId: undefined },
         isLoading: true,
         errorMessage: undefined,
       };
@@ -231,6 +235,7 @@ fdescribe('MatrixReducers', () => {
           new Topic(2, 'test', Color.orange, false, false),
         ],
         tasks: {},
+        currentTask: { taskId: undefined, topicId: undefined },
         isLoading: false,
         errorMessage: undefined,
       };

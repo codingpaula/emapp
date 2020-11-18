@@ -1,5 +1,5 @@
 import { Action, createAction, props } from '@ngrx/store';
-import { MatrixData, Task, Topic } from './matrix.interfaces';
+import { CurrentTask, MatrixData, Task, Topic } from './matrix.interfaces';
 
 export const GET_MATRIX_DATA = '[MATRIX] get all matrix data from sever';
 export const GET_MATRIX_DATA_SUCCESS =
@@ -22,6 +22,7 @@ export const UPDATE_TOPIC = '[MATRIX] update this topic';
 export const UPDATE_TOPIC_SUCCESS = '[MATRIX] successfully updated topic';
 export const UPDATE_TOPIC_FAILED = '[MATRIX] failed to update topic';
 
+export const SELECT_TASK = '[MATRIX] select a task to why details';
 export const TOGGLE_TOPIC_VISIBLITY =
   '[MATRIX] toggle topic visibility on or off';
 
@@ -40,8 +41,8 @@ export class GetMatrixDataFailed implements Action {
 }
 
 export class UpdateTask implements Action {
-  readonly type = UPDATE_TASK;
   constructor(public task: Task) {}
+  readonly type = UPDATE_TASK;
 }
 
 export class UpdateTaskSuccess implements Action {
@@ -98,6 +99,11 @@ export class UpdateTopicFailed implements Action {
   constructor(public message: string) {}
 }
 
+export class SelectTask implements Action {
+  readonly type = SELECT_TASK;
+  constructor(public currentTask: CurrentTask) {}
+}
+
 export class ToggleTopicVisibility implements Action {
   readonly type = TOGGLE_TOPIC_VISIBLITY;
   constructor(public topicId: number) {}
@@ -119,4 +125,5 @@ export type MatrixAction =
   | UpdateTopic
   | UpdateTopicSuccess
   | UpdateTopicFailed
+  | SelectTask
   | ToggleTopicVisibility;

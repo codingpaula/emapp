@@ -6,17 +6,20 @@ import { AppState } from '../store/app.state';
 import {
   DeleteTask,
   GetMatrixData,
+  SelectTask,
   ToggleTopicVisibility,
   UpdateTask,
   UpdateTopic,
 } from './matrix.actions';
 import {
+  CurrentTask,
   MatrixService as IMatrixService,
   Task,
   TaskDictionary,
   Topic,
 } from './matrix.interfaces';
 import {
+  selectCurrentTask,
   selectMatrixErrorMessage,
   selectMatrixIsLoading,
   selectMatrixTasks,
@@ -49,6 +52,11 @@ export class MatrixService implements IMatrixService, OnDestroy {
     this.store.dispatch(new DeleteTask(taskid));
   }
 
+  selectTask(task: Task): void {
+    this.store.dispatch(
+      new SelectTask({ taskId: task.id, topicId: task.topic }),
+    );
+  }
   toggleTopicVisibility(topicId: number): void {
     this.store.dispatch(new ToggleTopicVisibility(topicId));
   }
@@ -81,6 +89,13 @@ export class MatrixService implements IMatrixService, OnDestroy {
   selectTasks(): Observable<TaskDictionary> {
     return this.store.pipe(
       select(selectMatrixTasks),
+      takeUntil(this.unsubscribe$),
+    );
+  }
+
+  selectCurrentTask(): Observable<Task | undefined> {
+    return this.store.pipe(
+      select(selectCurrentTask),
       takeUntil(this.unsubscribe$),
     );
   }

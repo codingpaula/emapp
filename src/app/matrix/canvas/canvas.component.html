@@ -8,6 +8,7 @@
       [style.left]="task.dueDate | xPosition: maxDate"
       [task]="task"
       [topic]="topic"
+      (selectTask)="onSelectTask($event)"
     ></app-task-dot>
   </ng-container>
 </ng-container>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Task, Topic } from '../matrix.interfaces';
 
 @Component({
@@ -9,4 +9,11 @@ import { Task, Topic } from '../matrix.interfaces';
 export class TaskDotComponent {
   @Input() task?: Task;
   @Input() topic?: Topic;
+  @Output() selectTask = new EventEmitter<Task>();
+
+  onClickTask(): void {
+    if (this.task) {
+      this.selectTask.emit(this.task);
+    }
+  }
 }

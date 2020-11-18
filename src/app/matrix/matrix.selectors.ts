@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { AppState } from '../store/app.state';
-import { MatrixState, Topic } from './matrix.interfaces';
+import { MatrixState, TaskDictionary, Topic } from './matrix.interfaces';
 
 export const selectMatrix = (state: AppState) => state.matrix;
 
@@ -27,4 +27,15 @@ export const selectMatrixTasks = createSelector(
 export const selectMatrixTopic = createSelector(
   selectMatrixTopics,
   (topics: Topic[], id: number) => topics.find((t) => t.id === id),
+);
+
+export const selectCurrentTask = createSelector(
+  selectMatrix,
+  (state: MatrixState) => {
+    if (state.currentTask.topicId && state.currentTask.taskId) {
+      return state.tasks[state.currentTask.topicId].find(
+        (t) => t.id === state.currentTask.taskId,
+      );
+    }
+  },
 );

@@ -34,6 +34,11 @@ export interface TaskDictionary {
   [topicId: number]: Task[];
 }
 
+export interface CurrentTask {
+  topicId?: number;
+  taskId?: number;
+}
+
 export interface MatrixData {
   topics: Topic[];
   tasks: Task[];
@@ -42,6 +47,7 @@ export interface MatrixData {
 export interface MatrixState {
   topics: Topic[];
   tasks: TaskDictionary;
+  currentTask: CurrentTask;
   isLoading: boolean;
   errorMessage?: string;
 }
@@ -50,11 +56,13 @@ export interface MatrixService {
   getData: () => void;
   updateTask: (task: Task) => void;
   deleteTask: (taskId: number) => void;
+  selectTask: (task: Task) => void;
   toggleTopicVisibility: (topicId: number) => void;
   updateTopic: (topic: Topic) => void;
   selectTopics: () => Observable<Topic[]>;
   selectIsLoading: () => Observable<boolean>;
   selectErrorMessage: () => Observable<string | undefined>;
   selectTasks: () => Observable<TaskDictionary>;
+  selectCurrentTask: () => Observable<Task | undefined>;
   selectTopicById: (id: number) => Observable<Topic | undefined>;
 }

@@ -8,6 +8,7 @@ import {
   GET_MATRIX_DATA_FAILED,
   GET_MATRIX_DATA_SUCCESS,
   MatrixAction,
+  SELECT_TASK,
   TOGGLE_TOPIC_VISIBLITY,
   UPDATE_TASK,
   UPDATE_TASK_FAILED,
@@ -21,6 +22,7 @@ import { MatrixState, Task, TaskDictionary } from './matrix.interfaces';
 export const initialState: MatrixState = {
   topics: [],
   tasks: {},
+  currentTask: { taskId: undefined, topicId: undefined },
   isLoading: false,
   errorMessage: undefined,
 };
@@ -73,6 +75,9 @@ export function matrixReducer(state = initialState, action: Action) {
         setUnloading(draft);
         return;
       // === frontend only actions ===
+      case SELECT_TASK:
+        draft.currentTask = matrixAction.currentTask;
+        return;
       case TOGGLE_TOPIC_VISIBLITY:
         const topicIdx = draft.topics.findIndex(
           (topic) => topic.id === matrixAction.topicId,
