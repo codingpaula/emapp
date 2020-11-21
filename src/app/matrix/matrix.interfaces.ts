@@ -21,8 +21,9 @@ export class Task {
     public name: string,
     public topic: number,
     public importance: number,
-    public done: boolean = false,
     public dueDate: Date = new Date(),
+    public description: string = '',
+    public done: boolean = false,
     public deleted: boolean = false,
     public createdAt: Date = new Date(),
     public updatedAt: Date = new Date(),
@@ -47,7 +48,7 @@ export interface MatrixData {
 export interface MatrixState {
   topics: Topic[];
   tasks: TaskDictionary;
-  currentTask: CurrentTask;
+  taskHistory: CurrentTask[];
   isLoading: boolean;
   errorMessage?: string;
 }
@@ -63,6 +64,6 @@ export interface MatrixService {
   selectIsLoading: () => Observable<boolean>;
   selectErrorMessage: () => Observable<string | undefined>;
   selectTasks: () => Observable<TaskDictionary>;
-  selectCurrentTask: () => Observable<Task | undefined>;
+  selectTaskHistory: () => Observable<Task[]>;
   selectTopicById: (id: number) => Observable<Topic | undefined>;
 }

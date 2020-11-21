@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { AppState } from '../store/app.state';
-import { MatrixState, TaskDictionary, Topic } from './matrix.interfaces';
+import { MatrixState, Task, TaskDictionary, Topic } from './matrix.interfaces';
 
 export const selectMatrix = (state: AppState) => state.matrix;
 
@@ -29,13 +29,24 @@ export const selectMatrixTopic = createSelector(
   (topics: Topic[], id: number) => topics.find((t) => t.id === id),
 );
 
-export const selectCurrentTask = createSelector(
+export const selectTaskHistory = createSelector(
   selectMatrix,
   (state: MatrixState) => {
-    if (state.currentTask.topicId && state.currentTask.taskId) {
-      return state.tasks[state.currentTask.topicId].find(
-        (t) => t.id === state.currentTask.taskId,
-      );
+    const result: Task[] = [];
+
+    if (state.taskHistory.length > 0) {
+      state.taskHistory.forEach((c) => {
+        if (c.topicId) {
+          const foundTask = state.tasks[c.topicId].find(
+            (t) => t.id === c.taskId,
+          );
+          if (foundTask) {
+            result.push(foundTask);
+          }
+        }
+      });
     }
+
+    return result;
   },
 );

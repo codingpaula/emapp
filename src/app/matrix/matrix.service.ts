@@ -12,19 +12,18 @@ import {
   UpdateTopic,
 } from './matrix.actions';
 import {
-  CurrentTask,
   MatrixService as IMatrixService,
   Task,
   TaskDictionary,
   Topic,
 } from './matrix.interfaces';
 import {
-  selectCurrentTask,
   selectMatrixErrorMessage,
   selectMatrixIsLoading,
   selectMatrixTasks,
   selectMatrixTopic,
   selectMatrixTopics,
+  selectTaskHistory,
 } from './matrix.selectors';
 
 @Injectable({
@@ -53,6 +52,7 @@ export class MatrixService implements IMatrixService, OnDestroy {
   }
 
   selectTask(task: Task): void {
+    console.log(task);
     this.store.dispatch(
       new SelectTask({ taskId: task.id, topicId: task.topic }),
     );
@@ -93,9 +93,9 @@ export class MatrixService implements IMatrixService, OnDestroy {
     );
   }
 
-  selectCurrentTask(): Observable<Task | undefined> {
+  selectTaskHistory(): Observable<Task[]> {
     return this.store.pipe(
-      select(selectCurrentTask),
+      select(selectTaskHistory),
       takeUntil(this.unsubscribe$),
     );
   }

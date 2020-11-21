@@ -1,6 +1,5 @@
 import { async, TestBed } from '@angular/core/testing';
 import { Color } from '../shared/color.interfaces';
-import { AppState } from '../store/app.state';
 import {
   AddTopic,
   AddTopicFailed,
@@ -33,7 +32,7 @@ describe('MatrixReducers', () => {
       defaultState = {
         topics: [],
         tasks: {},
-        currentTask: { taskId: undefined, topicId: undefined },
+        taskHistory: [],
         isLoading: false,
         errorMessage: undefined,
       };
@@ -80,7 +79,7 @@ describe('MatrixReducers', () => {
       defaultState = {
         topics: [],
         tasks: {},
-        currentTask: { taskId: undefined, topicId: undefined },
+        taskHistory: [],
         isLoading: true,
         errorMessage: undefined,
       };
@@ -126,7 +125,7 @@ describe('MatrixReducers', () => {
       defaultState = {
         topics: [new Topic(1, 'test', Color.orange, true, false)],
         tasks: { [1]: [] },
-        currentTask: { taskId: undefined, topicId: undefined },
+        taskHistory: [],
         isLoading: true,
         errorMessage: 'test message',
       };
@@ -178,7 +177,7 @@ describe('MatrixReducers', () => {
       emptyState = {
         topics: [],
         tasks: {},
-        currentTask: { taskId: undefined, topicId: undefined },
+        taskHistory: [],
         isLoading: true,
         errorMessage: undefined,
       };
@@ -204,7 +203,7 @@ describe('MatrixReducers', () => {
         ...defaultState,
         tasks: { [1]: [new Task(1, 'test', 1, 1)] },
       };
-      const updatedTask = new Task(1, 'test', 1, 1, true);
+      const updatedTask = new Task(1, 'test', 7, 1);
       const action: MatrixAction = new UpdateTaskSuccess(updatedTask);
       const newState = matrixReducer(defaultState, action);
       expect(newState.tasks[1]).toContain(updatedTask);
@@ -235,7 +234,7 @@ describe('MatrixReducers', () => {
           new Topic(2, 'test', Color.orange, false, false),
         ],
         tasks: {},
-        currentTask: { taskId: undefined, topicId: undefined },
+        taskHistory: [],
         isLoading: false,
         errorMessage: undefined,
       };

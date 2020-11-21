@@ -20,11 +20,22 @@ export class MatrixEffects {
     new Topic(3, 'LongName Topic', Color.orange, true, false),
   ];
   private tasks: Task[] = [
-    new Task(1, 'Tast', 1, 60, false, new Date('2020-12-01T12:00:00.000Z')),
+    new Task(1, 'Tast', 1, 60, new Date('2020-12-01T12:00:00.000Z')),
     new Task(2, 'Tast 2', 2, 20),
     new Task(3, 'Tast 3', 1, 33),
     new Task(4, 'Tast 4', 2, 99),
     new Task(5, 'Long Name Task', 3, 44),
+    new Task(6, 'tttttt anen', 3, 55, new Date('2020-12-02T12:00:00.000Z')),
+    new Task(7, 'Tast 2930', 1, 1, new Date('2020-11-20T12:00:00.000Z')),
+    new Task(8, 'nenene', 2, 2, new Date('2020-11-28T12:00:00.000Z')),
+    new Task(
+      9,
+      'nnn',
+      3,
+      90,
+      new Date('2020-12-10T12:00:00.000Z'),
+      'test description',
+    ),
   ];
   private data: MatrixData = {
     topics: this.topics,

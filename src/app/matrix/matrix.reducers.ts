@@ -22,13 +22,13 @@ import { MatrixState, Task, TaskDictionary } from './matrix.interfaces';
 export const initialState: MatrixState = {
   topics: [],
   tasks: {},
-  currentTask: { taskId: undefined, topicId: undefined },
+  taskHistory: [],
   isLoading: false,
   errorMessage: undefined,
 };
 
 export function matrixReducer(state = initialState, action: Action) {
-  return produce((draft: MatrixState, matrixAction) => {
+  return produce((draft: MatrixState, matrixAction: MatrixAction) => {
     switch (matrixAction.type) {
       // === loading cases ===
       case GET_MATRIX_DATA:
@@ -76,7 +76,17 @@ export function matrixReducer(state = initialState, action: Action) {
         return;
       // === frontend only actions ===
       case SELECT_TASK:
-        draft.currentTask = matrixAction.currentTask;
+        console.log(matrixAction.currentTask);
+        const alreadyInHistory = draft.taskHistory.findIndex(
+          (t) => t.taskId === matrixAction.currentTask.taskId,
+        );
+        if (alreadyInHistory > -1) {
+          draft.taskHistory.splice(alreadyInHistory, 1);
+        }
+        draft.taskHistory.unshift(matrixAction.currentTask);
+        if (draft.taskHistory.length > 6) {
+          draft.taskHistory.pop();
+        }
         return;
       case TOGGLE_TOPIC_VISIBLITY:
         const topicIdx = draft.topics.findIndex(

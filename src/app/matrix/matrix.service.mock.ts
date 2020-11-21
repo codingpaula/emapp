@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Color } from '../shared/color.interfaces';
 import {
-  CurrentTask,
   MatrixService,
   Task,
   TaskDictionary,
@@ -34,6 +33,9 @@ export class MatrixMockService implements MatrixService {
   }
   selectCurrentTask(): Observable<Task | undefined> {
     return of(this.testTask);
+  }
+  selectTaskHistory(): Observable<Task[]> {
+    return of([this.testTask]);
   }
   selectTopicById(id: number): Observable<Topic | undefined> {
     return of({ ...this.testTopic } as Topic);
