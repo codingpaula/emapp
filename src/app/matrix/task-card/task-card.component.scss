@@ -1,0 +1,92 @@
+@import '../../../colors.scss';
+
+.card-container {
+  padding: 1rem;
+  background-color: green;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  color: #f3f3f3;
+}
+
+.separator {
+  margin-right: 2rem;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.imp-due-date {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  align-items: center;
+
+  span {
+    padding-right: 4px;
+    padding-left: 2px;
+  }
+}
+
+.done-btn {
+  border: none;
+  background-color: #f3f3f3;
+  font-size: 1rem;
+  font-family: Nunito;
+  box-shadow: 4px 4px 5px rgba(32, 32, 32, 0.3);
+  border-radius: 20px;
+  padding: 0.5rem 2rem;
+}
+
+.topic-done {
+  p {
+    margin: 0;
+  }
+}
+
+@mixin color-card($color-primary, $color-secondary, $color-lighter) {
+  .card-container {
+    background-image: linear-gradient(
+      205.21deg,
+      $color-primary 5.69%,
+      $color-secondary 83.94%
+    );
+
+    input,
+    textarea {
+      color: #f3f3f3;
+      border: none;
+      background-color: transparent;
+    }
+
+    input[type='text'],
+    textarea {
+      font-size: 2rem;
+      font-family: Nunito;
+      border-bottom: 1px solid $color-lighter;
+    }
+
+    input[type='number'] {
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid $color-lighter;
+      border-radius: 10px;
+      box-sizing: border-box;
+      width: 4rem;
+    }
+  }
+}
+
+.blue {
+  @include color-card($blue-primary, $blue-secondary, $blue-lighter);
+}
+
+.green {
+  @include color-card($green-primary, $green-secondary, $blue-lighter);
+}
+
+.orange {
+  @include color-card($orange-primary, $orange-secondary, $orange-lighter);
+}

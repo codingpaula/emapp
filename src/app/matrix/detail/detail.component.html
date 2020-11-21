@@ -1,5 +1,11 @@
 <div class="detail">
   <h2>Settings</h2>
-  <p>{{ currentTask?.name }}</p>
-  <app-task-card></app-task-card>
+  <p *ngFor="let task of taskHistory; let i = index">
+    <app-task-card
+      [task]="task"
+      [position]="i"
+      [topic]="topics[task.topic]"
+      (changeTask)="changeTask($event)"
+    ></app-task-card>
+  </p>
 </div>

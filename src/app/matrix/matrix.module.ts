@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { CanvasComponent } from './canvas/canvas.component';
 import { DetailComponent } from './detail/detail.component';
@@ -12,7 +13,7 @@ import { XPositionPipe } from './x-position.pipe';
 import { YPositionPipe } from './y-position.pipe';
 
 @NgModule({
-  imports: [BrowserModule, CommonModule],
+  imports: [ReactiveFormsModule, BrowserModule, CommonModule],
   declarations: [
     CanvasComponent,
     DetailComponent,
