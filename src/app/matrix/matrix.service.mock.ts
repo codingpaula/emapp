@@ -28,7 +28,10 @@ export class MatrixMockService implements MatrixService {
   selectErrorMessage(): Observable<string | undefined> {
     return of(undefined);
   }
-  selectTasks(): Observable<TaskDictionary> {
+  selectTasks(): Observable<Task[]> {
+    return of([this.testTask]);
+  }
+  selectTasksByTopics(): Observable<TaskDictionary> {
     return of({ [1]: [this.testTask] });
   }
   selectCurrentTask(): Observable<Task | undefined> {

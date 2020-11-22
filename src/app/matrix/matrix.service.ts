@@ -21,6 +21,7 @@ import {
   selectMatrixErrorMessage,
   selectMatrixIsLoading,
   selectMatrixTasks,
+  selectMatrixTasksByTopics,
   selectMatrixTopic,
   selectMatrixTopics,
   selectTaskHistory,
@@ -53,9 +54,7 @@ export class MatrixService implements IMatrixService, OnDestroy {
 
   selectTask(task: Task): void {
     console.log(task);
-    this.store.dispatch(
-      new SelectTask({ taskId: task.id, topicId: task.topic }),
-    );
+    this.store.dispatch(new SelectTask(task.id));
   }
   toggleTopicVisibility(topicId: number): void {
     this.store.dispatch(new ToggleTopicVisibility(topicId));
@@ -86,9 +85,16 @@ export class MatrixService implements IMatrixService, OnDestroy {
     );
   }
 
-  selectTasks(): Observable<TaskDictionary> {
+  selectTasks(): Observable<Task[]> {
     return this.store.pipe(
       select(selectMatrixTasks),
+      takeUntil(this.unsubscribe$),
+    );
+  }
+
+  selectTasksByTopics(): Observable<TaskDictionary> {
+    return this.store.pipe(
+      select(selectMatrixTasksByTopics),
       takeUntil(this.unsubscribe$),
     );
   }
@@ -102,7 +108,7 @@ export class MatrixService implements IMatrixService, OnDestroy {
 
   selectTopicById(id: number): Observable<Topic | undefined> {
     return this.store.pipe(
-      select(selectMatrixTopic),
+      select(selectMatrixTopic, id),
       takeUntil(this.unsubscribe$),
     );
   }

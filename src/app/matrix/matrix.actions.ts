@@ -1,5 +1,5 @@
-import { Action, createAction, props } from '@ngrx/store';
-import { CurrentTask, MatrixData, Task, Topic } from './matrix.interfaces';
+import { Action } from '@ngrx/store';
+import { MatrixData, Task, Topic } from './matrix.interfaces';
 
 export const GET_MATRIX_DATA = '[MATRIX] get all matrix data from sever';
 export const GET_MATRIX_DATA_SUCCESS =
@@ -101,7 +101,7 @@ export class UpdateTopicFailed implements Action {
 
 export class SelectTask implements Action {
   readonly type = SELECT_TASK;
-  constructor(public currentTask: CurrentTask) {}
+  constructor(public currentTaskId: number) {}
 }
 
 export class ToggleTopicVisibility implements Action {

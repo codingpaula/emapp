@@ -17,11 +17,11 @@ import {
   UPDATE_TOPIC_FAILED,
   UPDATE_TOPIC_SUCCESS,
 } from './matrix.actions';
-import { MatrixState, Task, TaskDictionary } from './matrix.interfaces';
+import { MatrixState } from './matrix.interfaces';
 
 export const initialState: MatrixState = {
   topics: [],
-  tasks: {},
+  tasks: [],
   taskHistory: [],
   isLoading: false,
   errorMessage: undefined,
@@ -49,15 +49,15 @@ export function matrixReducer(state = initialState, action: Action) {
       // === success cases ===
       case GET_MATRIX_DATA_SUCCESS:
         draft.topics = matrixAction.data.topics;
-        draft.tasks = createTaskDictionary(matrixAction.data.tasks);
+        draft.tasks = matrixAction.data.tasks;
         setUnloading(draft);
         return;
       case UPDATE_TASK_SUCCESS:
-        const taskIndex = draft.tasks[matrixAction.task.topic].findIndex(
+        const taskIndex = draft.tasks.findIndex(
           (task) => task.id === matrixAction.task.id,
         );
         if (taskIndex > -1) {
-          draft.tasks[matrixAction.task.topic][taskIndex] = matrixAction.task;
+          draft.tasks[taskIndex] = matrixAction.task;
         }
         setUnloading(draft);
         return;
@@ -76,14 +76,13 @@ export function matrixReducer(state = initialState, action: Action) {
         return;
       // === frontend only actions ===
       case SELECT_TASK:
-        console.log(matrixAction.currentTask);
         const alreadyInHistory = draft.taskHistory.findIndex(
-          (t) => t.taskId === matrixAction.currentTask.taskId,
+          (t) => t === matrixAction.currentTaskId,
         );
         if (alreadyInHistory > -1) {
           draft.taskHistory.splice(alreadyInHistory, 1);
         }
-        draft.taskHistory.unshift(matrixAction.currentTask);
+        draft.taskHistory.unshift(matrixAction.currentTaskId);
         if (draft.taskHistory.length > 6) {
           draft.taskHistory.pop();
         }
@@ -103,17 +102,4 @@ export function matrixReducer(state = initialState, action: Action) {
 const setUnloading = (draft: MatrixState): void => {
   draft.isLoading = false;
   draft.errorMessage = undefined;
-};
-
-const createTaskDictionary = (tasks: Task[]): TaskDictionary => {
-  const dict: TaskDictionary = {};
-  tasks.forEach((task) => {
-    if (dict[task.topic]) {
-      dict[task.topic].push(task);
-    } else {
-      dict[task.topic] = [task];
-    }
-  });
-  console.log(dict);
-  return dict;
 };

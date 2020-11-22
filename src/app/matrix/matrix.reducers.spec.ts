@@ -31,7 +31,7 @@ describe('MatrixReducers', () => {
     beforeEach(() => {
       defaultState = {
         topics: [],
-        tasks: {},
+        tasks: [],
         taskHistory: [],
         isLoading: false,
         errorMessage: undefined,
@@ -80,7 +80,7 @@ describe('MatrixReducers', () => {
     beforeEach(() => {
       defaultState = {
         topics: [],
-        tasks: {},
+        tasks: [],
         taskHistory: [],
         isLoading: true,
         errorMessage: undefined,
@@ -126,7 +126,7 @@ describe('MatrixReducers', () => {
     beforeEach(() => {
       defaultState = {
         topics: [new Topic(1, 'test', Color.orange, true, false)],
-        tasks: { [1]: [] },
+        tasks: [],
         taskHistory: [],
         isLoading: true,
         errorMessage: 'test message',
@@ -178,7 +178,7 @@ describe('MatrixReducers', () => {
     beforeEach(() => {
       emptyState = {
         topics: [],
-        tasks: {},
+        tasks: [],
         taskHistory: [],
         isLoading: true,
         errorMessage: undefined,
@@ -187,7 +187,7 @@ describe('MatrixReducers', () => {
       defaultState = {
         ...emptyState,
         topics: [new Topic(1, 'test', Color.orange, true, false)],
-        tasks: {},
+        tasks: [],
       };
     });
 
@@ -235,7 +235,7 @@ describe('MatrixReducers', () => {
           new Topic(1, 'test', Color.green, true, false),
           new Topic(2, 'test', Color.orange, false, false),
         ],
-        tasks: {},
+        tasks: [],
         taskHistory: [],
         isLoading: false,
         errorMessage: undefined,

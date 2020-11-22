@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
-import { AppState } from 'src/app/store/app.state';
 import { Task, TaskDictionary, Topic } from '../matrix.interfaces';
-import { selectMatrixTasks, selectMatrixTopics } from '../matrix.selectors';
 import { MatrixService } from '../matrix.service';
 
 @Component({
@@ -22,10 +19,9 @@ export class CanvasComponent implements OnInit {
 
   ngOnInit(): void {
     this.matrixService
-      .selectTasks()
+      .selectTasksByTopics()
       .pipe(
         map((tasks) => {
-          console.log(tasks);
           if (tasks) {
             this.tasks = tasks;
           }

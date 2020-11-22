@@ -24,6 +24,11 @@ export const selectMatrixTasks = createSelector(
   (state: MatrixState) => state.tasks,
 );
 
+export const selectMatrixTasksByTopics = createSelector(
+  selectMatrix,
+  (state: MatrixState) => createTaskDictionary(state.tasks),
+);
+
 export const selectMatrixTopic = createSelector(
   selectMatrixTopics,
   (topics: Topic[], id: number) => topics.find((t) => t.id === id),
@@ -36,10 +41,8 @@ export const selectTaskHistory = createSelector(
 
     if (state.taskHistory.length > 0) {
       state.taskHistory.forEach((c) => {
-        if (c.topicId) {
-          const foundTask = state.tasks[c.topicId].find(
-            (t) => t.id === c.taskId,
-          );
+        if (c) {
+          const foundTask = state.tasks.find((t) => t.id === c);
           if (foundTask) {
             result.push(foundTask);
           }
@@ -50,3 +53,15 @@ export const selectTaskHistory = createSelector(
     return result;
   },
 );
+
+const createTaskDictionary = (tasks: Task[]): TaskDictionary => {
+  const dict: TaskDictionary = {};
+  tasks.forEach((task) => {
+    if (dict[task.topic]) {
+      dict[task.topic].push(task);
+    } else {
+      dict[task.topic] = [task];
+    }
+  });
+  return dict;
+};
