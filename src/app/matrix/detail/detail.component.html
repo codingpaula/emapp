@@ -4,7 +4,7 @@
     <app-task-card
       [task]="task"
       [position]="i"
-      [topic]="topics[task.topic]"
+      [topicsForSelect]="topics"
       (changeTask)="changeTask($event)"
     ></app-task-card>
   </p>

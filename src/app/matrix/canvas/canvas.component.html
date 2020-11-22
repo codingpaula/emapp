@@ -5,7 +5,7 @@
     <app-task-dot
       *ngFor="let task of tasks[topic.id]"
       [style.top]="task.importance | yPosition"
-      [style.left]="task.dueDate | xPosition: maxDate"
+      [style.left]="task.dueDay | xPosition: task.dueMonth:task.dueYear:maxDate"
       [task]="task"
       [topic]="topic"
       (selectTask)="onSelectTask($event)"

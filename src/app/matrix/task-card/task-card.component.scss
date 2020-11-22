@@ -4,9 +4,27 @@
   padding: 1rem;
   background-color: green;
   border-radius: 20px;
-  display: flex;
-  flex-direction: column;
   color: #f3f3f3;
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  input,
+  textarea {
+    color: #f3f3f3;
+    border: none;
+    background-color: transparent;
+  }
+
+  input[type='text'] {
+    font-size: 2rem;
+  }
+
+  textarea {
+    font-size: 1rem;
+  }
 }
 
 .separator {
@@ -54,16 +72,8 @@
       $color-secondary 83.94%
     );
 
-    input,
-    textarea {
-      color: #f3f3f3;
-      border: none;
-      background-color: transparent;
-    }
-
     input[type='text'],
     textarea {
-      font-size: 2rem;
       font-family: Nunito;
       border-bottom: 1px solid $color-lighter;
     }

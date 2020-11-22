@@ -50,7 +50,9 @@ describe('MatrixReducers', () => {
     });
 
     it('should set loading on UPDATE_TASK', () => {
-      const action: MatrixAction = new UpdateTask(new Task(1, 'test', 1, 1));
+      const action: MatrixAction = new UpdateTask(
+        new Task(1, 'test', 1, 1, 1, 12, 2020),
+      );
       const newState = matrixReducer(defaultState, action);
       expect(newState).toEqual(loadingState);
     });
@@ -143,7 +145,7 @@ describe('MatrixReducers', () => {
 
     it('should set unloading on UPDATE_TASK_SUCCESS', () => {
       const action: MatrixAction = new UpdateTaskSuccess(
-        new Task(1, 'test', 1, 1),
+        new Task(1, 'test', 1, 1, 1, 12, 2020),
       );
       const newState = matrixReducer(defaultState, action);
       expect(newState.isLoading).toEqual(false);
@@ -201,9 +203,9 @@ describe('MatrixReducers', () => {
     it('should update task on UPDATE_TASK_SUCCESS', () => {
       defaultState = {
         ...defaultState,
-        tasks: { [1]: [new Task(1, 'test', 1, 1)] },
+        tasks: [new Task(1, 'test', 1, 1, 1, 12, 2020)],
       };
-      const updatedTask = new Task(1, 'test', 7, 1);
+      const updatedTask = new Task(1, 'test', 7, 1, 1, 12, 2020);
       const action: MatrixAction = new UpdateTaskSuccess(updatedTask);
       const newState = matrixReducer(defaultState, action);
       expect(newState.tasks[1]).toContain(updatedTask);

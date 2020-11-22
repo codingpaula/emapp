@@ -11,7 +11,7 @@ import {
 @Injectable()
 export class MatrixMockService implements MatrixService {
   testTopic = new Topic(1, 'Test', Color.orange, true, false);
-  testTask = new Task(1, 'Test Task', 1, 23);
+  testTask = new Task(1, 'Test Task', 1, 23, 1, 12, 20);
 
   getData(): void {}
   updateTask(task: Task): void {}

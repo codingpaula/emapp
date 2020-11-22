@@ -1,46 +1,29 @@
-<div [class]="topic.color">
+<div [class]="topicsForSelect[task.topic].color">
   <div *ngIf="position <= 1" class="card-container">
-    <label *ngIf="task.name === ''" class="name-label" for="name"
-      >task name</label
-    >
-    <input
-      type="text"
-      class="name-input"
-      id="name"
-      required
-      value="{{ task.name }}"
-    />
-    <label for="description">description</label>
-    <textarea id="description" value="{{ task.description }}"></textarea>
-    <div class="row imp-due-date">
-      <input
-        type="number"
-        id="importance"
-        required
-        value="{{ task.importance }}"
-      />
-      <span class="separator">imp.</span>
-      <input type="number" id="day" value="{{ task.dueDate.getDay() + 1 }}" />
-      <span>.</span>
-      <input
-        type="number"
-        id="month"
-        value="{{ task.dueDate.getMonth() + 1 }}"
-      />
-      <span>.</span>
-      <span>20</span>
-      <input
-        type="number"
-        id="year"
-        value="{{ task.dueDate.getFullYear() - 2000 }}"
-      />
-    </div>
-    <div class="row topic-done">
-      <p>{{ task.topic }}</p>
-      <button class="done-btn">
-        {{ task.done ? 'mark undone' : 'mark done' }}
-      </button>
-    </div>
+    <form [formGroup]="taskForm">
+      <input formControlName="name" class="name-input" type="text" />
+      <textarea formControlName="description"></textarea>
+      <div class="row imp-due-date">
+        <input type="number" required formControlName="importance" />
+        <span class="separator">imp.</span>
+        <input type="number" formControlName="dueDay" />
+        <span>.</span>
+        <input type="number" formControlName="dueMonth" />
+        <span>.</span>
+        <span>20</span>
+        <input type="number" formControlName="dueYear" />
+      </div>
+      <div class="row topic-done">
+        <select formControlName="topic">
+          <option *ngFor="let t of topicsForSelect | keyvalue" [ngValue]="t.value.id">
+            {{ t.value.name }}
+          </option>
+        </select>
+        <button class="done-btn">
+          {{ task.done ? 'mark undone' : 'mark done' }}
+        </button>
+      </div>
+    </form>
   </div>
 
   <div *ngIf="position >= 2" class="card-small-container">

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { Task, Topic } from '../matrix.interfaces';
+import { Task, TopicDictionary } from '../matrix.interfaces';
 import { MatrixService } from '../matrix.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { MatrixService } from '../matrix.service';
 })
 export class DetailComponent implements OnInit {
   taskHistory: Task[] = [];
-  topics: { [key: number]: Topic } = {};
+  topics: TopicDictionary = {};
 
   constructor(private readonly matrixService: MatrixService) {}
 
