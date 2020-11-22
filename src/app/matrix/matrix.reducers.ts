@@ -4,6 +4,9 @@ import {
   ADD_TOPIC,
   ADD_TOPIC_FAILED,
   ADD_TOPIC_SUCCESS,
+  DELETE_TASK,
+  DELETE_TASK_FAILED,
+  DELETE_TASK_SUCCESS,
   GET_MATRIX_DATA,
   GET_MATRIX_DATA_FAILED,
   GET_MATRIX_DATA_SUCCESS,
@@ -35,6 +38,7 @@ export function matrixReducer(state = initialState, action: Action) {
       case UPDATE_TASK:
       case UPDATE_TOPIC:
       case ADD_TOPIC:
+      case DELETE_TASK:
         draft.isLoading = true;
         draft.errorMessage = undefined;
         return;
@@ -43,6 +47,7 @@ export function matrixReducer(state = initialState, action: Action) {
       case UPDATE_TASK_FAILED:
       case UPDATE_TOPIC_FAILED:
       case ADD_TOPIC_FAILED:
+      case DELETE_TASK_FAILED:
         draft.isLoading = false;
         draft.errorMessage = matrixAction.message;
         return;
@@ -53,6 +58,7 @@ export function matrixReducer(state = initialState, action: Action) {
         setUnloading(draft);
         return;
       case UPDATE_TASK_SUCCESS:
+      case DELETE_TASK_SUCCESS:
         const taskIndex = draft.tasks.findIndex(
           (task) => task.id === matrixAction.task.id,
         );

@@ -5,14 +5,26 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { Color } from '../shared/color.interfaces';
 import {
+  ADD_TOPIC,
+  AddTopic,
+  AddTopicFailed,
+  AddTopicSuccess,
+  DELETE_TASK,
+  DeleteTask,
+  DeleteTaskFailed,
+  DeleteTaskSuccess,
   GET_MATRIX_DATA,
   GetMatrixData,
   GetMatrixDataFailed,
   GetMatrixDataSuccess,
   UPDATE_TASK,
+  UPDATE_TOPIC,
   UpdateTask,
   UpdateTaskFailed,
   UpdateTaskSuccess,
+  UpdateTopic,
+  UpdateTopicFailed,
+  UpdateTopicSuccess,
 } from './matrix.actions';
 import { MatrixData, Task, Topic } from './matrix.interfaces';
 
@@ -59,6 +71,63 @@ export class MatrixEffects {
       of(action.task).pipe(
         map((task: Task) => new UpdateTaskSuccess(task)),
         catchError((message) => of(new UpdateTaskFailed(message))),
+      ),
+    ),
+  );
+
+  @Effect()
+  deleteTask$: Observable<Action> = this.actions$.pipe(
+    ofType<DeleteTask>(DELETE_TASK),
+    mergeMap((action) =>
+      of(action.taskId).pipe(
+        map(
+          (taskId: number) =>
+            new DeleteTaskSuccess(
+              new Task(
+                taskId,
+                'deleted',
+                1,
+                1,
+                1,
+                1,
+                21,
+                '',
+                false,
+                true,
+                undefined,
+                undefined,
+                new Date(),
+              ),
+            ),
+        ),
+        catchError((message) => of(new DeleteTaskFailed(message))),
+      ),
+    ),
+  );
+
+  @Effect()
+  addTopic$: Observable<Action> = this.actions$.pipe(
+    ofType<AddTopic>(ADD_TOPIC),
+    mergeMap((action) =>
+      of(Math.floor(Math.random() * (100 - 4) - 4)).pipe(
+        map(
+          (id: number) =>
+            new AddTopicSuccess(
+              new Topic(id, 'New Topic', Color.green, true, false),
+            ),
+        ),
+        catchError((message) => of(new AddTopicFailed(message))),
+      ),
+    ),
+  );
+
+  @Effect()
+  updateTopic$: Observable<Action> = this.actions$.pipe(
+    ofType<UpdateTopic>(UPDATE_TOPIC),
+    mergeMap((action) =>
+      of(action.topic).pipe(
+        map((topic: Topic) => new UpdateTopicSuccess(topic)),
+        catchError((message) => of(new UpdateTopicFailed(message))),
       ),
     ),
   );
