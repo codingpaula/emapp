@@ -29,7 +29,7 @@ module.exports = function (config) {
     singleRun: false,
     restartOnFileChange: true,
     customLaunchers: {
-      base: 'ChromeHeadless',
+      base: 'ChromeHeadlessCustom',
       flags: ['--no-sandbox', '--disable-gpu'],
     },
   });
