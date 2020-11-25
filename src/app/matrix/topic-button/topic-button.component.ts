@@ -8,7 +8,7 @@ import { Topic } from '../matrix.interfaces';
   styleUrls: ['./topic-button.component.scss'],
 })
 export class TopicButtonComponent {
-  @Input() topic?: Topic;
+  @Input() topic!: Topic;
   @Output() toggleVisibility = new EventEmitter<number>();
   editHover = false;
   nameHover = false;

@@ -7,8 +7,8 @@ import { Task, Topic } from '../matrix.interfaces';
   styleUrls: ['./task-dot.component.scss'],
 })
 export class TaskDotComponent {
-  @Input() task?: Task;
-  @Input() topic?: Topic;
+  @Input() task!: Task;
+  @Input() topic!: Topic;
   @Output() selectTask = new EventEmitter<Task>();
 
   onClickTask(): void {
