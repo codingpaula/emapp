@@ -14,7 +14,7 @@ import { MatrixState, Task, Topic } from './matrix.interfaces';
 import { initialState } from './matrix.reducers';
 import { MatrixService } from './matrix.service';
 
-fdescribe('MatrixService', () => {
+describe('MatrixService', () => {
   let store: MockStore<MatrixState>;
   let service: MatrixService;
 
@@ -73,7 +73,7 @@ fdescribe('MatrixService', () => {
     });
   });
 
-  describe('select', () => {
+  xdescribe('select', () => {
     it('selectTopics - should select topics from store', (done) => {
       const testTopic = new Topic(1, 'Test', Color.green, true, false);
       store.overrideSelector('selectMatrixTopics', [testTopic]);
