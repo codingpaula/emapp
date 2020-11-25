@@ -28,6 +28,6 @@ export class XPositionPipe implements PipeTransform {
     ratio = Math.max(ratio, 0);
     ratio = Math.min(ratio, 1);
 
-    return (1 - ratio) * 94 + '%';
+    return (1 - ratio) * 94 + 1 + '%';
   }
 }
