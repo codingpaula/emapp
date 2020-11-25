@@ -29,8 +29,10 @@ module.exports = function (config) {
     singleRun: false,
     restartOnFileChange: true,
     customLaunchers: {
-      base: 'ChromeHeadlessCustom',
-      flags: ['--no-sandbox', '--disable-gpu'],
+      ChromeHeadlessCustom: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox', '--disable-gpu'],
+      },
     },
   });
 };
