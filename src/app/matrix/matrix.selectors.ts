@@ -24,9 +24,29 @@ export const selectMatrixTasks = createSelector(
   (state: MatrixState) => state.tasks,
 );
 
+export const selectMatrixActiveTasks = createSelector(
+  selectMatrixTasks,
+  (tasks: Task[]) => tasks.filter((t) => !t.deleted && !t.done),
+);
+
+export const selectMatrixDoneTasks = createSelector(
+  selectMatrixTasks,
+  (tasks: Task[]) => tasks.filter((t) => t.done && !t.deleted),
+);
+
 export const selectMatrixTasksByTopics = createSelector(
-  selectMatrix,
-  (state: MatrixState) => createTaskDictionary(state.tasks),
+  selectMatrixTasks,
+  (tasks: Task[]) => createTaskDictionary(tasks),
+);
+
+export const selectMatrixActiveTasksByTopics = createSelector(
+  selectMatrixActiveTasks,
+  (tasks: Task[]) => createTaskDictionary(tasks),
+);
+
+export const selectMatrixDoneTasksByTopics = createSelector(
+  selectMatrixDoneTasks,
+  (tasks: Task[]) => createTaskDictionary(tasks),
 );
 
 export const selectMatrixTopic = createSelector(

@@ -31,8 +31,20 @@ export class MatrixMockService implements MatrixService {
   selectTasks(): Observable<Task[]> {
     return of([this.testTask]);
   }
+  selectActiveTasks(): Observable<Task[]> {
+    return of([this.testTask]);
+  }
+  selectDoneTasks(): Observable<Task[]> {
+    return of([{ ...this.testTask, done: true }]);
+  }
   selectTasksByTopics(): Observable<TaskDictionary> {
     return of({ [1]: [this.testTask] });
+  }
+  selectActiveTasksByTopics(): Observable<TaskDictionary> {
+    return of({ [1]: [this.testTask] });
+  }
+  selectDoneTasksByTopics(): Observable<TaskDictionary> {
+    return of({ [1]: [{ ...this.testTask, done: true }] });
   }
   selectCurrentTask(): Observable<Task | undefined> {
     return of(this.testTask);
@@ -42,5 +54,8 @@ export class MatrixMockService implements MatrixService {
   }
   selectTopicById(id: number): Observable<Topic | undefined> {
     return of({ ...this.testTopic } as Topic);
+  }
+  mockFunction(data: any): Observable<any> {
+    return of(data);
   }
 }

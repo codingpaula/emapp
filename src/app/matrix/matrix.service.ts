@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AppState } from '../store/app.state';
 import {
@@ -18,6 +18,10 @@ import {
   Topic,
 } from './matrix.interfaces';
 import {
+  selectMatrixActiveTasks,
+  selectMatrixActiveTasksByTopics,
+  selectMatrixDoneTasks,
+  selectMatrixDoneTasksByTopics,
   selectMatrixErrorMessage,
   selectMatrixIsLoading,
   selectMatrixTasks,
@@ -92,9 +96,37 @@ export class MatrixService implements IMatrixService, OnDestroy {
     );
   }
 
+  selectActiveTasks(): Observable<Task[]> {
+    return this.store.pipe(
+      select(selectMatrixActiveTasks),
+      takeUntil(this.unsubscribe$),
+    );
+  }
+
+  selectDoneTasks(): Observable<Task[]> {
+    return this.store.pipe(
+      select(selectMatrixDoneTasks),
+      takeUntil(this.unsubscribe$),
+    );
+  }
+
   selectTasksByTopics(): Observable<TaskDictionary> {
     return this.store.pipe(
       select(selectMatrixTasksByTopics),
+      takeUntil(this.unsubscribe$),
+    );
+  }
+
+  selectActiveTasksByTopics(): Observable<TaskDictionary> {
+    return this.store.pipe(
+      select(selectMatrixActiveTasksByTopics),
+      takeUntil(this.unsubscribe$),
+    );
+  }
+
+  selectDoneTasksByTopics(): Observable<TaskDictionary> {
+    return this.store.pipe(
+      select(selectMatrixDoneTasksByTopics),
       takeUntil(this.unsubscribe$),
     );
   }
@@ -111,5 +143,9 @@ export class MatrixService implements IMatrixService, OnDestroy {
       select(selectMatrixTopic, id),
       takeUntil(this.unsubscribe$),
     );
+  }
+
+  mockFunction(data: any): Observable<any> {
+    return of(data);
   }
 }

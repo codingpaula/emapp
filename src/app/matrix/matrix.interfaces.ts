@@ -65,7 +65,11 @@ export interface MatrixService {
   selectIsLoading: () => Observable<boolean>;
   selectErrorMessage: () => Observable<string | undefined>;
   selectTasks: () => Observable<Task[]>;
+  selectActiveTasks: () => Observable<Task[]>;
+  selectDoneTasks: () => Observable<Task[]>;
   selectTasksByTopics: () => Observable<TaskDictionary>;
+  selectActiveTasksByTopics: () => Observable<TaskDictionary>;
+  selectDoneTasksByTopics: () => Observable<TaskDictionary>;
   selectTaskHistory: () => Observable<Task[]>;
   selectTopicById: (id: number) => Observable<Topic | undefined>;
 }

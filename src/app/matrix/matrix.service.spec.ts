@@ -73,8 +73,8 @@ describe('MatrixService', () => {
     });
   });
 
-  xdescribe('select', () => {
-    it('selectTopics - should select topics from store', (done) => {
+  describe('select', () => {
+    xit('selectTopics - should select topics from store', (done) => {
       const testTopic = new Topic(1, 'Test', Color.green, true, false);
       store.overrideSelector('selectMatrixTopics', [testTopic]);
       service.selectTopics().subscribe((result) => {
@@ -82,6 +82,14 @@ describe('MatrixService', () => {
         done();
       });
     });
+
+    it('selectTasks - should select tasks from store', () => {});
+
+    it('selectActiveTasks - should select active tasks from store', () => {});
+
+    it('selectDoneTasks - should select done tasks from store', () => {});
+
+    it('selectTasksByTopics - should select tasks by topics from store', () => {});
   });
 
   describe('selectIsLoading', () => {});

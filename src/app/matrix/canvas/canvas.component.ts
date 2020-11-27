@@ -19,7 +19,7 @@ export class CanvasComponent implements OnInit {
 
   ngOnInit(): void {
     this.matrixService
-      .selectTasksByTopics()
+      .selectActiveTasksByTopics()
       .pipe(
         map((tasks) => {
           if (tasks) {
