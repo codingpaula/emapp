@@ -15,10 +15,14 @@
       </div>
       <div class="row topic-done">
         <select formControlName="topic">
-          <option *ngFor="let t of topicsForSelect | keyvalue" [ngValue]="t.value.id">
+          <option
+            *ngFor="let t of topicsForSelect | keyvalue"
+            [ngValue]="t.value.id"
+          >
             {{ t.value.name }}
           </option>
         </select>
+        <button class="delete-btn">d</button>
         <button class="done-btn">
           {{ task.done ? 'mark undone' : 'mark done' }}
         </button>

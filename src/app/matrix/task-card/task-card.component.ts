@@ -13,6 +13,7 @@ export class TaskCardComponent implements OnInit {
   @Input() topicsForSelect: TopicDictionary = {};
   @Input() position = 0;
   @Output() changeTask = new EventEmitter<Task>();
+  @Output() deleteTask = new EventEmitter<number>();
   taskForm!: FormGroup;
 
   constructor(private fb: FormBuilder) {}
@@ -33,7 +34,7 @@ export class TaskCardComponent implements OnInit {
       .subscribe();
   }
 
-  onChange(task: Task): void {
-    this.changeTask.emit(task);
+  onDeleteTask(): void {
+    this.deleteTask.emit(this.task.id);
   }
 }
