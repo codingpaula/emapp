@@ -1,3 +1,5 @@
+![CI](https://github.com/codingpaula/emapp/workflows/CI/badge.svg)
+
 # emapp
 
 ## Design
