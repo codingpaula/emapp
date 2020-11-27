@@ -24,8 +24,6 @@ export class SidebarComponent implements OnInit {
         }),
       )
       .subscribe();
-
-    this.matrixService.getData();
   }
 
   toggleVisibility(topicId: number): void {
