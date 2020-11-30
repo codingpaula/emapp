@@ -14,6 +14,7 @@ export class TaskCardComponent implements OnInit {
   @Input() position = 0;
   @Output() changeTask = new EventEmitter<Task>();
   @Output() deleteTask = new EventEmitter<number>();
+  @Output() toggleDoneTask = new EventEmitter<number>();
   taskForm!: FormGroup;
 
   constructor(private fb: FormBuilder) {}
@@ -36,5 +37,9 @@ export class TaskCardComponent implements OnInit {
 
   onDeleteTask(): void {
     this.deleteTask.emit(this.task.id);
+  }
+
+  onDone(): void {
+    this.toggleDoneTask.emit(this.task.id);
   }
 }

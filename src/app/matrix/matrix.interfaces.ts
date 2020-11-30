@@ -31,6 +31,10 @@ export class Task {
     public updatedAt: Date = new Date(),
     public deletedAt: Date = new Date(),
   ) {}
+
+  toggleDone() {
+    this.done = !this.done;
+  }
 }
 
 export interface TaskDictionary {
@@ -60,6 +64,7 @@ export interface MatrixService {
   deleteTask: (taskId: number) => void;
   selectTask: (task: Task) => void;
   toggleTopicVisibility: (topicId: number) => void;
+  toggleTaskDone: (taskId: number) => void;
   updateTopic: (topic: Topic) => void;
   selectTopics: () => Observable<Topic[]>;
   selectIsLoading: () => Observable<boolean>;

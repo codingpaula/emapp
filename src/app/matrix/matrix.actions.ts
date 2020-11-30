@@ -14,6 +14,11 @@ export const DELETE_TASK = '[MATRIX] delete this task';
 export const DELETE_TASK_SUCCESS = '[MATRIX] successfully deleted task';
 export const DELETE_TASK_FAILED = '[MATRIX] failed to delete task';
 
+export const TOGGLE_TASK_DONE = '[MATRIX] toggle task done';
+export const TOGGLE_TASK_DONE_SUCCESS =
+  '[MATRIX] successfully toggled task done';
+export const TOGGLE_TASK_DONE_FAILED = '[MATRIX] failed to toggle task done';
+
 export const ADD_TOPIC = '[MATRIX] add new topic';
 export const ADD_TOPIC_SUCCESS = '[MATRIX] successfully added topic';
 export const ADD_TOPIC_FAILED = '[MATRIX] failed to add topic';
@@ -70,6 +75,21 @@ export class DeleteTaskFailed implements Action {
   constructor(public message: string) {}
 }
 
+export class ToggleDoneTask implements Action {
+  readonly type = TOGGLE_TASK_DONE;
+  constructor(public taskId: number) {}
+}
+
+export class ToggleDoneTaskSuccess implements Action {
+  readonly type = TOGGLE_TASK_DONE_SUCCESS;
+  constructor(public task: Task) {}
+}
+
+export class ToggleDoneTaskFailed implements Action {
+  readonly type = TOGGLE_TASK_DONE_FAILED;
+  constructor(public message: string) {}
+}
+
 export class AddTopic implements Action {
   readonly type = ADD_TOPIC;
 }
@@ -119,6 +139,9 @@ export type MatrixAction =
   | DeleteTask
   | DeleteTaskSuccess
   | DeleteTaskFailed
+  | ToggleDoneTask
+  | ToggleDoneTaskSuccess
+  | ToggleDoneTaskFailed
   | AddTopic
   | AddTopicSuccess
   | AddTopicFailed

@@ -54,15 +54,21 @@ export const selectMatrixTopic = createSelector(
   (topics: Topic[], id: number) => topics.find((t) => t.id === id),
 );
 
-export const selectTaskHistory = createSelector(
+export const selectMatrixTaskHistory = createSelector(
   selectMatrix,
-  (state: MatrixState) => {
+  (state: MatrixState) => state.taskHistory,
+);
+
+export const selectCurrentTaskHistory = createSelector(
+  selectMatrixTaskHistory,
+  selectMatrixActiveTasks,
+  (history: number[], tasks: Task[]) => {
     const result: Task[] = [];
 
-    if (state.taskHistory.length > 0) {
-      state.taskHistory.forEach((c) => {
+    if (history.length > 0) {
+      history.forEach((c) => {
         if (c) {
-          const foundTask = state.tasks.find((t) => t.id === c);
+          const foundTask = tasks.find((t) => t.id === c);
           if (foundTask) {
             result.push(foundTask);
           }

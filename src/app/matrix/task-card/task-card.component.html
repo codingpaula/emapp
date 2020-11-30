@@ -22,8 +22,8 @@
             {{ t.value.name }}
           </option>
         </select>
-        <button class="delete-btn">d</button>
-        <button class="done-btn">
+        <button class="delete-btn" (click)="onDeleteTask()">d</button>
+        <button class="done-btn" (click)="onDone()">
           {{ task.done ? 'mark undone' : 'mark done' }}
         </button>
       </div>

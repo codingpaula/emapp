@@ -12,6 +12,9 @@ import {
   GET_MATRIX_DATA_SUCCESS,
   MatrixAction,
   SELECT_TASK,
+  TOGGLE_TASK_DONE,
+  TOGGLE_TASK_DONE_FAILED,
+  TOGGLE_TASK_DONE_SUCCESS,
   TOGGLE_TOPIC_VISIBLITY,
   UPDATE_TASK,
   UPDATE_TASK_FAILED,
@@ -20,7 +23,7 @@ import {
   UPDATE_TOPIC_FAILED,
   UPDATE_TOPIC_SUCCESS,
 } from './matrix.actions';
-import { MatrixState } from './matrix.interfaces';
+import { MatrixState, Task, Topic } from './matrix.interfaces';
 
 export const initialState: MatrixState = {
   topics: [],
@@ -59,8 +62,10 @@ export function matrixReducer(state = initialState, action: Action) {
         return;
       case UPDATE_TASK_SUCCESS:
       case DELETE_TASK_SUCCESS:
-        const taskIndex = draft.tasks.findIndex(
-          (task) => task.id === matrixAction.task.id,
+      case TOGGLE_TASK_DONE_SUCCESS:
+        const taskIndex = findIndexInArray(
+          draft.tasks.map((t) => t.id),
+          matrixAction.task.id,
         );
         if (taskIndex > -1) {
           draft.tasks[taskIndex] = matrixAction.task;
@@ -72,8 +77,9 @@ export function matrixReducer(state = initialState, action: Action) {
         setUnloading(draft);
         return;
       case UPDATE_TOPIC_SUCCESS:
-        const topicIndex = draft.topics.findIndex(
-          (topic) => topic.id === matrixAction.topic.id,
+        const topicIndex = findIndexInArray(
+          draft.topics.map((t) => t.id),
+          matrixAction.topic.id,
         );
         if (topicIndex > -1) {
           draft.topics[topicIndex] = matrixAction.topic;
@@ -82,8 +88,9 @@ export function matrixReducer(state = initialState, action: Action) {
         return;
       // === frontend only actions ===
       case SELECT_TASK:
-        const alreadyInHistory = draft.taskHistory.findIndex(
-          (t) => t === matrixAction.currentTaskId,
+        const alreadyInHistory = findIndexInArray(
+          draft.taskHistory,
+          matrixAction.currentTaskId,
         );
         if (alreadyInHistory > -1) {
           draft.taskHistory.splice(alreadyInHistory, 1);
@@ -94,11 +101,21 @@ export function matrixReducer(state = initialState, action: Action) {
         }
         return;
       case TOGGLE_TOPIC_VISIBLITY:
-        const topicIdx = draft.topics.findIndex(
-          (topic) => topic.id === matrixAction.topicId,
+        const topicIdx = findIndexInArray(
+          draft.topics.map((t) => t.id),
+          matrixAction.topicId,
         );
         if (topicIdx > -1) {
           draft.topics[topicIdx].toggleVisibility();
+        }
+        return;
+      case TOGGLE_TASK_DONE:
+        const taskIdx = findIndexInArray(
+          draft.tasks.map((t) => t.id),
+          matrixAction.taskId,
+        );
+        if (taskIdx > -1) {
+          draft.tasks[taskIdx].toggleDone();
         }
         return;
     }
@@ -109,3 +126,9 @@ const setUnloading = (draft: MatrixState): void => {
   draft.isLoading = false;
   draft.errorMessage = undefined;
 };
+
+function findIndexInArray(array: number[], id: number): number {
+  return array.findIndex((t) => t === id);
+}
+
+// function removeFromArray<T>(array: T[], )

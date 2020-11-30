@@ -23,6 +23,14 @@ export class DetailComponent implements OnInit {
     this.matrixService.updateTask(task);
   }
 
+  deleteTask(taskId: number): void {
+    this.matrixService.deleteTask(taskId);
+  }
+
+  toggleDoneTask(taskId: number): void {
+    this.matrixService.toggleTaskDone(taskId);
+  }
+
   private subscribeToTaskHistory(): void {
     this.matrixService
       .selectTaskHistory()

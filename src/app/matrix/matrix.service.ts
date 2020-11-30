@@ -7,6 +7,7 @@ import {
   DeleteTask,
   GetMatrixData,
   SelectTask,
+  ToggleDoneTask,
   ToggleTopicVisibility,
   UpdateTask,
   UpdateTopic,
@@ -60,8 +61,13 @@ export class MatrixService implements IMatrixService, OnDestroy {
     console.log(task);
     this.store.dispatch(new SelectTask(task.id));
   }
+
   toggleTopicVisibility(topicId: number): void {
     this.store.dispatch(new ToggleTopicVisibility(topicId));
+  }
+
+  toggleTaskDone(taskId: number): void {
+    this.store.dispatch(new ToggleDoneTask(taskId));
   }
 
   updateTopic(topic: Topic): void {
