@@ -289,6 +289,8 @@ describe('MatrixEffects', () => {
       );
       // act
       actions$ = hot('-a', { a: action });
+      // assert
+      expect(effects.updateTopic$).toBeObservable(expected);
     });
   });
 });
