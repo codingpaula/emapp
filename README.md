@@ -1,4 +1,4 @@
-![CI](https://github.com/codingpaula/emapp/workflows/CI/badge.svg)
+![CI](https://github.com/codingpaula/emapp/workflows/CI/badge.svg) [![CodeScene Code Health](https://codescene.io/projects/10982/status-badges/code-health)](https://codescene.io/projects/10982) [![CodeScene System Mastery](https://codescene.io/projects/10982/status-badges/system-mastery)](https://codescene.io/projects/10982)
 
 # emapp
 
