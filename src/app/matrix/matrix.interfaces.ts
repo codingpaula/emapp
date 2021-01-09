@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs';
 import { Color } from '../shared/color.interfaces';
+import { RequestStatus } from '../shared/request-status.interface';
 
 export class Topic {
   constructor(
@@ -54,8 +55,7 @@ export interface MatrixState {
   topics: Topic[];
   tasks: Task[];
   taskHistory: number[];
-  isLoading: boolean;
-  errorMessage?: string;
+  requestStatus: RequestStatus;
 }
 
 export interface MatrixService {
@@ -67,14 +67,14 @@ export interface MatrixService {
   toggleTaskDone: (taskId: number) => void;
   updateTopic: (topic: Topic) => void;
   selectTopics: () => Observable<Topic[]>;
-  selectIsLoading: () => Observable<boolean>;
-  selectErrorMessage: () => Observable<string | undefined>;
+  selectRequestStatus: () => Observable<RequestStatus>;
   selectTasks: () => Observable<Task[]>;
   selectActiveTasks: () => Observable<Task[]>;
   selectDoneTasks: () => Observable<Task[]>;
   selectTasksByTopics: () => Observable<TaskDictionary>;
   selectActiveTasksByTopics: () => Observable<TaskDictionary>;
   selectDoneTasksByTopics: () => Observable<TaskDictionary>;
-  selectTaskHistory: () => Observable<Task[]>;
+  selectCurrentTaskHistory: () => Observable<Task[]>;
+  selectMatrixTaskHistory: () => Observable<number[]>;
   selectTopicById: (id: number) => Observable<Topic | undefined>;
 }

@@ -7,6 +7,7 @@ import {
   TaskDictionary,
   Topic,
 } from './matrix.interfaces';
+import { RequestStatus } from '../shared/request-status.interface';
 
 @Injectable()
 export class MatrixMockService implements MatrixService {
@@ -23,11 +24,8 @@ export class MatrixMockService implements MatrixService {
   selectTopics(): Observable<Topic[]> {
     return of([{ ...this.testTopic } as Topic]);
   }
-  selectIsLoading(): Observable<boolean> {
-    return of(true);
-  }
-  selectErrorMessage(): Observable<string | undefined> {
-    return of(undefined);
+  selectRequestStatus(): Observable<RequestStatus> {
+    return of({ isLoading: true, errorMessage: undefined });
   }
   selectTasks(): Observable<Task[]> {
     return of([this.testTask]);
@@ -50,8 +48,11 @@ export class MatrixMockService implements MatrixService {
   selectCurrentTask(): Observable<Task | undefined> {
     return of(this.testTask);
   }
-  selectTaskHistory(): Observable<Task[]> {
+  selectCurrentTaskHistory(): Observable<Task[]> {
     return of([this.testTask]);
+  }
+  selectMatrixTaskHistory(): Observable<number[]> {
+    return of([1]);
   }
   selectTopicById(id: number): Observable<Topic | undefined> {
     return of({ ...this.testTopic } as Topic);

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { Color } from 'src/app/shared/color.interfaces';
+import { Color } from '../../shared/color.interfaces';
 import { Task, Topic } from '../matrix.interfaces';
 import { MatrixService } from '../matrix.service';
 import { MatrixMockService } from '../matrix.service.mock';
@@ -56,7 +56,7 @@ describe('DetailComponent', () => {
       // arrange
       const matrixServiceSpy = spyOn(
         service,
-        'selectTaskHistory',
+        'selectCurrentTaskHistory',
       ).and.returnValue(of([{} as Task]));
       // act
       component.ngOnInit();
@@ -66,7 +66,9 @@ describe('DetailComponent', () => {
 
     it('should set task history to variable task history', () => {
       // arrange
-      spyOn(service, 'selectTaskHistory').and.returnValue(of([testTask]));
+      spyOn(service, 'selectCurrentTaskHistory').and.returnValue(
+        of([testTask]),
+      );
       // act
       component.ngOnInit();
       // assert

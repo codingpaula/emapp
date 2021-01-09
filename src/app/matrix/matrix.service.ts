@@ -23,14 +23,15 @@ import {
   selectMatrixActiveTasksByTopics,
   selectMatrixDoneTasks,
   selectMatrixDoneTasksByTopics,
-  selectMatrixErrorMessage,
-  selectMatrixIsLoading,
+  selectMatrixRequestStatus,
   selectMatrixTasks,
   selectMatrixTasksByTopics,
   selectMatrixTopic,
   selectMatrixTopics,
-  selectTaskHistory,
+  selectMatrixTaskHistory,
+  selectCurrentTaskHistory,
 } from './matrix.selectors';
+import { RequestStatus } from '../shared/request-status.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -81,16 +82,9 @@ export class MatrixService implements IMatrixService, OnDestroy {
     );
   }
 
-  selectIsLoading(): Observable<boolean> {
+  selectRequestStatus(): Observable<RequestStatus> {
     return this.store.pipe(
-      select(selectMatrixIsLoading),
-      takeUntil(this.unsubscribe$),
-    );
-  }
-
-  selectErrorMessage(): Observable<string | undefined> {
-    return this.store.pipe(
-      select(selectMatrixErrorMessage),
+      select(selectMatrixRequestStatus),
       takeUntil(this.unsubscribe$),
     );
   }
@@ -137,9 +131,16 @@ export class MatrixService implements IMatrixService, OnDestroy {
     );
   }
 
-  selectTaskHistory(): Observable<Task[]> {
+  selectCurrentTaskHistory(): Observable<Task[]> {
     return this.store.pipe(
-      select(selectTaskHistory),
+      select(selectCurrentTaskHistory),
+      takeUntil(this.unsubscribe$),
+    );
+  }
+
+  selectMatrixTaskHistory(): Observable<number[]> {
+    return this.store.pipe(
+      select(selectMatrixTaskHistory),
       takeUntil(this.unsubscribe$),
     );
   }

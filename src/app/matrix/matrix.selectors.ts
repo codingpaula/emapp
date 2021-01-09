@@ -9,14 +9,9 @@ export const selectMatrixTopics = createSelector(
   (state: MatrixState) => state.topics,
 );
 
-export const selectMatrixIsLoading = createSelector(
+export const selectMatrixRequestStatus = createSelector(
   selectMatrix,
-  (state: MatrixState) => state.isLoading,
-);
-
-export const selectMatrixErrorMessage = createSelector(
-  selectMatrix,
-  (state: MatrixState) => state.errorMessage,
+  (state: MatrixState) => state.requestStatus,
 );
 
 export const selectMatrixTasks = createSelector(

@@ -33,10 +33,10 @@ export class DetailComponent implements OnInit {
 
   private subscribeToTaskHistory(): void {
     this.matrixService
-      .selectTaskHistory()
+      .selectCurrentTaskHistory()
       .pipe(
         map((tasks) => {
-          if (tasks.length > 0) {
+          if (tasks) {
             this.taskHistory = tasks;
           }
         }),

@@ -36,13 +36,18 @@ describe('MatrixReducers', () => {
         topics: [],
         tasks: [],
         taskHistory: [],
-        isLoading: false,
-        errorMessage: undefined,
+        requestStatus: {
+          isLoading: false,
+          errorMessage: undefined,
+        },
       };
 
       loadingState = {
         ...defaultState,
-        isLoading: true,
+        requestStatus: {
+          isLoading: true,
+          errorMessage: undefined,
+        },
       };
     });
 
@@ -85,16 +90,20 @@ describe('MatrixReducers', () => {
         topics: [],
         tasks: [],
         taskHistory: [],
-        isLoading: true,
-        errorMessage: undefined,
+        requestStatus: {
+          isLoading: true,
+          errorMessage: undefined,
+        },
       };
 
       errorMessage = 'test error message';
 
       failedState = {
         ...defaultState,
-        isLoading: false,
-        errorMessage,
+        requestStatus: {
+          isLoading: false,
+          errorMessage,
+        },
       };
     });
 
@@ -131,8 +140,10 @@ describe('MatrixReducers', () => {
         topics: [new Topic(1, 'test', Color.orange, true, false)],
         tasks: [new Task(1, 'Test', 1, 1, 1, 1, 21)],
         taskHistory: [],
-        isLoading: true,
-        errorMessage: 'test message',
+        requestStatus: {
+          isLoading: true,
+          errorMessage: 'test message',
+        },
       };
     });
 
@@ -142,8 +153,8 @@ describe('MatrixReducers', () => {
         tasks: [],
       });
       const newState = matrixReducer(defaultState, action);
-      expect(newState.isLoading).toEqual(false);
-      expect(newState.errorMessage).toBeUndefined();
+      expect(newState.requestStatus.isLoading).toEqual(false);
+      expect(newState.requestStatus.errorMessage).toBeUndefined();
     });
 
     it('should set unloading on UPDATE_TASK_SUCCESS', () => {
@@ -151,8 +162,8 @@ describe('MatrixReducers', () => {
         new Task(1, 'test', 1, 1, 1, 12, 2020),
       );
       const newState = matrixReducer(defaultState, action);
-      expect(newState.isLoading).toEqual(false);
-      expect(newState.errorMessage).toBeUndefined();
+      expect(newState.requestStatus.isLoading).toEqual(false);
+      expect(newState.requestStatus.errorMessage).toBeUndefined();
     });
 
     it('should set unloading on ADD_TOPIC_SUCCESS', () => {
@@ -160,8 +171,8 @@ describe('MatrixReducers', () => {
         new Topic(2, 'test', Color.orange, true, false),
       );
       const newState = matrixReducer(defaultState, action);
-      expect(newState.isLoading).toEqual(false);
-      expect(newState.errorMessage).toBeUndefined();
+      expect(newState.requestStatus.isLoading).toEqual(false);
+      expect(newState.requestStatus.errorMessage).toBeUndefined();
     });
 
     it('should set unloading on UPDATE_TOPIC_SUCCESS', () => {
@@ -169,8 +180,8 @@ describe('MatrixReducers', () => {
         new Topic(1, 'test', Color.green, true, false),
       );
       const newState = matrixReducer(defaultState, action);
-      expect(newState.isLoading).toEqual(false);
-      expect(newState.errorMessage).toBeUndefined();
+      expect(newState.requestStatus.isLoading).toEqual(false);
+      expect(newState.requestStatus.errorMessage).toBeUndefined();
     });
 
     it('should set unloading on DELETE_TASK_SUCCESS', () => {
@@ -192,8 +203,8 @@ describe('MatrixReducers', () => {
         ),
       );
       const newState = matrixReducer(defaultState, action);
-      expect(newState.isLoading).toEqual(false);
-      expect(newState.errorMessage).toBeUndefined();
+      expect(newState.requestStatus.isLoading).toEqual(false);
+      expect(newState.requestStatus.errorMessage).toBeUndefined();
     });
   });
 
@@ -206,8 +217,10 @@ describe('MatrixReducers', () => {
         topics: [],
         tasks: [],
         taskHistory: [],
-        isLoading: true,
-        errorMessage: undefined,
+        requestStatus: {
+          isLoading: true,
+          errorMessage: undefined,
+        },
       };
 
       defaultState = {
@@ -223,7 +236,10 @@ describe('MatrixReducers', () => {
         tasks: [],
       });
       const newState = matrixReducer(emptyState, action);
-      expect(newState).toEqual({ ...defaultState, isLoading: false });
+      expect(newState).toEqual({
+        ...defaultState,
+        requestStatus: { isLoading: false, errorMessage: undefined },
+      });
     });
 
     it('should update task on UPDATE_TASK_SUCCESS', () => {
@@ -288,8 +304,10 @@ describe('MatrixReducers', () => {
         ],
         tasks: [],
         taskHistory: [],
-        isLoading: false,
-        errorMessage: undefined,
+        requestStatus: {
+          isLoading: false,
+          errorMessage: undefined,
+        },
       };
     });
 
@@ -327,8 +345,10 @@ describe('MatrixReducers', () => {
           new Task(7, 'test', 1, 1, 1, 1, 21),
         ],
         taskHistory: [],
-        isLoading: false,
-        errorMessage: undefined,
+        requestStatus: {
+          isLoading: false,
+          errorMessage: undefined,
+        },
       };
     });
 
