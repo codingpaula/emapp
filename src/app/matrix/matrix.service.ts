@@ -2,7 +2,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, of, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AppState } from '../store/app.state';
+import { AppState } from '../app.state';
+import { RequestStatus } from '../shared/request-status.interface';
 import {
   DeleteTask,
   GetMatrixData,
@@ -19,19 +20,18 @@ import {
   Topic,
 } from './matrix.interfaces';
 import {
+  selectCurrentTaskHistory,
   selectMatrixActiveTasks,
   selectMatrixActiveTasksByTopics,
   selectMatrixDoneTasks,
   selectMatrixDoneTasksByTopics,
   selectMatrixRequestStatus,
+  selectMatrixTaskHistory,
   selectMatrixTasks,
   selectMatrixTasksByTopics,
   selectMatrixTopic,
   selectMatrixTopics,
-  selectMatrixTaskHistory,
-  selectCurrentTaskHistory,
 } from './matrix.selectors';
-import { RequestStatus } from '../shared/request-status.interface';
 
 @Injectable({
   providedIn: 'root',

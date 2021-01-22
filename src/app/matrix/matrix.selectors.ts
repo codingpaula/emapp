@@ -1,6 +1,7 @@
 import { createSelector } from '@ngrx/store';
-import { AppState } from '../store/app.state';
-import { MatrixState, Task, TaskDictionary, Topic } from './matrix.interfaces';
+import { AppState } from '../app.state';
+import { Task, TaskDictionary, Topic } from './matrix.interfaces';
+import { MatrixState } from './matrix.reducers';
 
 export const selectMatrix = (state: AppState) => state.matrix;
 

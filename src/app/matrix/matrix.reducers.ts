@@ -1,3 +1,4 @@
+import { RequestStatus } from '../shared/request-status.interface';
 import {
   ADD_TOPIC,
   ADD_TOPIC_FAILED,
@@ -21,7 +22,16 @@ import {
   UPDATE_TOPIC_FAILED,
   UPDATE_TOPIC_SUCCESS,
 } from './matrix.actions';
-import { MatrixState } from './matrix.interfaces';
+import { Task, Topic } from './matrix.interfaces';
+
+export interface MatrixState {
+  topics: Topic[];
+  tasks: Task[];
+  taskHistory: number[];
+  requestStatus: RequestStatus;
+}
+
+export const matrixFeatureKey = 'matrix';
 
 export const initialState: MatrixState = {
   topics: [],
@@ -34,7 +44,7 @@ export const initialState: MatrixState = {
 };
 
 export const matrixReducer = (
-  state = initialState,
+  state: MatrixState | undefined = initialState,
   action: MatrixAction,
 ): MatrixState => {
   return {

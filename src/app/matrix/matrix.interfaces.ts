@@ -51,11 +51,10 @@ export interface MatrixData {
   tasks: Task[];
 }
 
-export interface MatrixState {
-  topics: Topic[];
-  tasks: Task[];
-  taskHistory: number[];
-  requestStatus: RequestStatus;
+export interface DropdownItem {
+  id: number;
+  value: string;
+  color: string;
 }
 
 export interface MatrixService {
