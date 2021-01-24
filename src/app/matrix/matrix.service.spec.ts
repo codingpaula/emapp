@@ -1,7 +1,6 @@
 import { async, TestBed } from '@angular/core/testing';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { of } from 'rxjs';
 import { Color } from '../shared/color.interfaces';
 import {
   DeleteTask,
@@ -10,8 +9,8 @@ import {
   UpdateTask,
   UpdateTopic,
 } from './matrix.actions';
-import { MatrixState, Task, Topic } from './matrix.interfaces';
-import { initialState } from './matrix.reducers';
+import { Task, Topic } from './matrix.interfaces';
+import { initialState, MatrixState } from './matrix.reducers';
 import { MatrixService } from './matrix.service';
 
 describe('MatrixService', () => {

@@ -4,7 +4,6 @@ import {
   AddTopic,
   AddTopicFailed,
   AddTopicSuccess,
-  DeleteTaskFailed,
   DeleteTaskSuccess,
   GetMatrixData,
   GetMatrixDataFailed,
@@ -19,8 +18,8 @@ import {
   UpdateTopicFailed,
   UpdateTopicSuccess,
 } from './matrix.actions';
-import { MatrixState, Task, Topic } from './matrix.interfaces';
-import { matrixReducer } from './matrix.reducers';
+import { Task, Topic } from './matrix.interfaces';
+import { matrixReducer, MatrixState } from './matrix.reducers';
 
 describe('MatrixReducers', () => {
   beforeEach(async(() => {
