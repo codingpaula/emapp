@@ -50,6 +50,14 @@ export const selectMatrixTopic = createSelector(
   (topics: Topic[], id: number) => topics.find((t) => t.id === id),
 );
 
+export const selectMatrixTopicsDropdownItems = createSelector(
+  selectMatrixTopics,
+  (topics: Topic[]) =>
+    topics.map((topic) => {
+      return { id: topic.id, value: topic.name, color: topic.color };
+    }),
+);
+
 export const selectMatrixTaskHistory = createSelector(
   selectMatrix,
   (state: MatrixState) => state.taskHistory,
