@@ -51,6 +51,24 @@ describe('DetailComponent', () => {
     expect(matrixServiceSpy).toHaveBeenCalledWith(testTask);
   });
 
+  it('deleteTask - should use matrix service to delete task', () => {
+    // arrange
+    const matrixServiceSpy = spyOn(service, 'deleteTask');
+    // act
+    component.deleteTask(testTask.id);
+    // assert
+    expect(matrixServiceSpy).toHaveBeenCalledWith(testTask.id);
+  });
+
+  it('toggleDoneTask - should use matrix service to toggle task done', () => {
+    // arrange
+    const matrixServiceSpy = spyOn(service, 'toggleTaskDone');
+    // act
+    component.toggleDoneTask(testTask.id);
+    // assert
+    expect(matrixServiceSpy).toHaveBeenCalledWith(testTask.id);
+  });
+
   describe('ngOnInit', () => {
     it('should subscribe to task history on init', () => {
       // arrange
@@ -93,6 +111,26 @@ describe('DetailComponent', () => {
       component.ngOnInit();
       // assert
       expect(component.topics).toEqual({ [1]: testTopic });
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    it('should call next on unsubscribe$', () => {
+      // arrange
+      const nextSpy = spyOn(component.unsubscribe$, 'next');
+      // act
+      component.ngOnDestroy();
+      // assert
+      expect(nextSpy).toHaveBeenCalled();
+    });
+
+    it('should call complete on onsubscribe$', () => {
+      // arrange
+      const completeSpy = spyOn(component.unsubscribe$, 'complete');
+      // act
+      component.ngOnDestroy();
+      // assert
+      expect(completeSpy).toHaveBeenCalled();
     });
   });
 });
