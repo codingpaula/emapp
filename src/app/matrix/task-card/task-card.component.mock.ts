@@ -7,8 +7,9 @@ import { Task, TopicDictionary } from '../matrix.interfaces';
 })
 export class TaskCardMockComponent {
   @Input() task!: Task;
-  @Input() topicsForSelect: TopicDictionary = {};
+  @Input() color!: string;
   @Input() position = 0;
   @Output() changeTask = new EventEmitter<Task>();
   @Output() deleteTask = new EventEmitter<number>();
+  @Output() toggleDoneTask = new EventEmitter<number>();
 }

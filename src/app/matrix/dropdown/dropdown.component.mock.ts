@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { DropdownItem } from '../matrix.interfaces';
 
 @Component({
@@ -6,8 +7,8 @@ import { DropdownItem } from '../matrix.interfaces';
   template: '<div>DropdownMockComponent</div>',
 })
 export class DropdownMockComponent {
-  @Input() options: DropdownItem[] = [];
-  @Input() selected = -1;
-  @Input() formControlName = '';
+  @Input() topic!: FormGroup;
+  @Input() selectedId = -1;
+  @Input() formName = '';
   @Output() selection = new EventEmitter<number>();
 }

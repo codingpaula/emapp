@@ -1,5 +1,7 @@
-<select formControlName="">
-  <option *ngFor="let element of options" [ngValue]="element.id">
-    {{ element.value }}
-  </option>
-</select>
+<div [formGroup]="topic">
+  <select formControlName="topic">
+    <option *ngFor="let element of options$ | async" [ngValue]="element.id">
+      {{ element.value }}
+    </option>
+  </select>
+</div>

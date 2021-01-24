@@ -10,7 +10,7 @@ import { Task, TopicDictionary } from '../matrix.interfaces';
 })
 export class TaskCardComponent implements OnInit {
   @Input() task!: Task;
-  @Input() topicsForSelect: TopicDictionary = {};
+  @Input() color!: string;
   @Input() position = 0;
   @Output() changeTask = new EventEmitter<Task>();
   @Output() deleteTask = new EventEmitter<number>();
@@ -20,7 +20,19 @@ export class TaskCardComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.taskForm = this.fb.group(this.task);
+    this.taskForm = this.fb.group({
+      name: this.task.name,
+      description: this.task.description,
+      impDueDate: this.fb.group({
+        importance: this.task.importance,
+        dueDay: this.task.dueDay,
+        dueMonth: this.task.dueMonth,
+        dueYear: this.task.dueYear,
+      }),
+      selectedTopic: this.fb.group({
+        topic: this.task.topic,
+      }),
+    });
     this.taskForm.valueChanges
       .pipe(
         debounceTime(500),
@@ -38,6 +50,8 @@ export class TaskCardComponent implements OnInit {
   onDeleteTask(): void {
     this.deleteTask.emit(this.task.id);
   }
+
+  onTopicSelection(event: number): void {}
 
   onDone(): void {
     this.toggleDoneTask.emit(this.task.id);

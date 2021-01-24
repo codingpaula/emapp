@@ -4,7 +4,7 @@
     <app-task-card
       [task]="task"
       [position]="i"
-      [topicsForSelect]="topics"
+      [color]="topics[task.topic].color"
       (changeTask)="changeTask($event)"
       (deleteTask)="deleteTask($event)"
       (toggleDoneTask)="toggleDoneTask($event)"

@@ -1,9 +1,9 @@
-<div [class]="topicsForSelect[task.topic].color">
+<div [class]="color">
   <div *ngIf="position <= 1" class="card-container">
     <form [formGroup]="taskForm">
       <input formControlName="name" class="name-input" type="text" />
       <textarea formControlName="description"></textarea>
-      <div class="row imp-due-date">
+      <div [formGroup]="taskForm.get('impDueDate')" class="row imp-due-date">
         <input type="number" required formControlName="importance" />
         <span class="separator">imp.</span>
         <input type="number" formControlName="dueDay" />
@@ -14,14 +14,12 @@
         <input type="number" formControlName="dueYear" />
       </div>
       <div class="row topic-done">
-        <select formControlName="topic">
-          <option
-            *ngFor="let t of topicsForSelect | keyvalue"
-            [ngValue]="t.value.id"
-          >
-            {{ t.value.name }}
-          </option>
-        </select>
+        <app-dropdown
+          [topic]="taskForm.get('selectedTopic')"
+          [selectedId]="task.topic"
+          formName="topic"
+          (selection)="onTopicSelection($event)"
+        ></app-dropdown>
         <button class="delete-btn" (click)="onDeleteTask()">d</button>
         <button class="done-btn" (click)="onDone()">
           {{ task.done ? 'mark undone' : 'mark done' }}
