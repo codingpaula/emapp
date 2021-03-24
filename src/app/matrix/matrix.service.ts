@@ -5,15 +5,6 @@ import { takeUntil } from 'rxjs/operators';
 import { AppState } from '../app.state';
 import { RequestStatus } from '../shared/request-status.interface';
 import {
-  DeleteTask,
-  GetMatrixData,
-  SelectTask,
-  ToggleDoneTask,
-  ToggleTopicVisibility,
-  UpdateTask,
-  UpdateTopic,
-} from './matrix.actions';
-import {
   MatrixService as IMatrixService,
   Task,
   TaskDictionary,
@@ -44,35 +35,6 @@ export class MatrixService implements IMatrixService, OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
-  }
-
-  getData(): void {
-    this.store.dispatch(new GetMatrixData());
-  }
-
-  updateTask(task: Task): void {
-    this.store.dispatch(new UpdateTask(task));
-  }
-
-  deleteTask(taskid: number): void {
-    this.store.dispatch(new DeleteTask(taskid));
-  }
-
-  selectTask(task: Task): void {
-    console.log(task);
-    this.store.dispatch(new SelectTask(task.id));
-  }
-
-  toggleTopicVisibility(topicId: number): void {
-    this.store.dispatch(new ToggleTopicVisibility(topicId));
-  }
-
-  toggleTaskDone(taskId: number): void {
-    this.store.dispatch(new ToggleDoneTask(taskId));
-  }
-
-  updateTopic(topic: Topic): void {
-    this.store.dispatch(new UpdateTopic(topic));
   }
 
   selectTopics(): Observable<Topic[]> {
@@ -153,6 +115,7 @@ export class MatrixService implements IMatrixService, OnDestroy {
   }
 
   mockFunction(data: any): Observable<any> {
+    console.log(data);
     return of(data);
   }
 }

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
+import { AppState } from 'src/app/app.state';
+import { SelectTask } from '../matrix.actions';
 import { Task, TaskDictionary, Topic } from '../matrix.interfaces';
 import { MatrixService } from '../matrix.service';
 
@@ -13,7 +16,10 @@ export class CanvasComponent implements OnInit {
   tasks: TaskDictionary = {};
   maxDate = new Date();
 
-  constructor(public readonly matrixService: MatrixService) {
+  constructor(
+    public readonly matrixService: MatrixService,
+    public readonly store: Store<AppState>,
+  ) {
     this.maxDate = new Date(this.maxDate.setMonth(this.maxDate.getMonth() + 1));
   }
 
@@ -42,6 +48,6 @@ export class CanvasComponent implements OnInit {
   }
 
   onSelectTask(event: Task): void {
-    this.matrixService.selectTask(event);
+    this.store.dispatch(new SelectTask(event.id));
   }
 }

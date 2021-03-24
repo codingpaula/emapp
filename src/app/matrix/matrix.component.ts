@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MatrixService } from './matrix.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../app.state';
+import { GetMatrixData } from './matrix.actions';
 
 @Component({
   selector: 'app-matrix',
@@ -7,9 +9,9 @@ import { MatrixService } from './matrix.service';
   styleUrls: ['./matrix.component.scss'],
 })
 export class MatrixComponent implements OnInit {
-  constructor(private readonly matrixService: MatrixService) {}
+  constructor(private readonly store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.matrixService.getData();
+    this.store.dispatch(new GetMatrixData());
   }
 }

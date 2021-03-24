@@ -1,6 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { AppState } from 'src/app/app.state';
+import { DeleteTask, ToggleDoneTask, UpdateTask } from '../matrix.actions';
 import { Task, TopicDictionary } from '../matrix.interfaces';
 import { MatrixService } from '../matrix.service';
 
@@ -15,7 +18,10 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   unsubscribe$ = new Subject<void>();
 
-  constructor(private readonly matrixService: MatrixService) {}
+  constructor(
+    private readonly matrixService: MatrixService,
+    private readonly store: Store<AppState>,
+  ) {}
 
   ngOnInit(): void {
     this.subscribeToTaskHistory();
@@ -28,15 +34,19 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   changeTask(task: Task): void {
-    this.matrixService.updateTask(task);
+    this.store.dispatch(new UpdateTask(task));
   }
 
   deleteTask(taskId: number): void {
-    this.matrixService.deleteTask(taskId);
+    this.store.dispatch(new DeleteTask(taskId));
   }
 
   toggleDoneTask(taskId: number): void {
-    this.matrixService.toggleTaskDone(taskId);
+    this.store.dispatch(new ToggleDoneTask(taskId));
+  }
+
+  trackByFn(index: any, item: Task) {
+    return index;
   }
 
   private subscribeToTaskHistory(): void {
