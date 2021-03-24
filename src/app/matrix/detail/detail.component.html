@@ -1,6 +1,6 @@
 <div class="detail">
   <h2>Settings</h2>
-  <p *ngFor="let task of taskHistory; let i = index">
+  <p *ngFor="let task of taskHistory; let i = index; trackBy: trackByFn">
     <app-task-card
       [task]="task"
       [position]="i"
