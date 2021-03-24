@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { debounceTime, map, switchMap } from 'rxjs/operators';
-import { Task, TopicDictionary } from '../matrix.interfaces';
+import { debounceTime, map } from 'rxjs/operators';
+import { DropdownItem, Task } from '../matrix.interfaces';
 
 @Component({
   selector: 'app-task-card',
@@ -12,6 +12,7 @@ export class TaskCardComponent implements OnInit {
   @Input() task!: Task;
   @Input() color!: string;
   @Input() position = 0;
+  @Input() topicOptions: DropdownItem[] = [];
   @Output() changeTask = new EventEmitter<Task>();
   @Output() deleteTask = new EventEmitter<number>();
   @Output() toggleDoneTask = new EventEmitter<number>();
@@ -27,9 +28,7 @@ export class TaskCardComponent implements OnInit {
       dueDay: this.task.dueDay,
       dueMonth: this.task.dueMonth,
       dueYear: this.task.dueYear,
-      selectedTopic: this.fb.group({
-        topic: this.task.topic,
-      }),
+      topic: this.task.topic,
     });
     this.taskForm.valueChanges
       .pipe(
@@ -49,8 +48,6 @@ export class TaskCardComponent implements OnInit {
   onDeleteTask(): void {
     this.deleteTask.emit(this.task.id);
   }
-
-  onTopicSelection(event: number): void {}
 
   onDone(): void {
     this.toggleDoneTask.emit(this.task.id);

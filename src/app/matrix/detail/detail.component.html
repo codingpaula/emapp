@@ -5,6 +5,7 @@
       [task]="task"
       [position]="i"
       [color]="topics[task.topic].color"
+      [topicOptions]="topicOptions"
       (changeTask)="changeTask($event)"
       (deleteTask)="deleteTask($event)"
       (toggleDoneTask)="toggleDoneTask($event)"

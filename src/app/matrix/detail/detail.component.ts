@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { AppState } from 'src/app/app.state';
 import { DeleteTask, ToggleDoneTask, UpdateTask } from '../matrix.actions';
-import { Task, TopicDictionary } from '../matrix.interfaces';
+import { DropdownItem, Task, TopicDictionary } from '../matrix.interfaces';
+import { selectMatrixTopicsDropdownItems } from '../matrix.selectors';
 import { MatrixService } from '../matrix.service';
 
 @Component({
@@ -15,6 +16,7 @@ import { MatrixService } from '../matrix.service';
 export class DetailComponent implements OnInit, OnDestroy {
   taskHistory: Task[] = [];
   topics: TopicDictionary = {};
+  topicOptions: DropdownItem[] = [];
 
   unsubscribe$ = new Subject<void>();
 
@@ -26,6 +28,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscribeToTaskHistory();
     this.subscribeToTopics();
+    this.subscribeToTopicOptions();
   }
 
   ngOnDestroy(): void {
@@ -71,6 +74,20 @@ export class DetailComponent implements OnInit, OnDestroy {
         map((topics) => {
           if (topics.length > 0) {
             topics.forEach((t) => (this.topics[t.id] = t));
+          }
+        }),
+      )
+      .subscribe();
+  }
+
+  private subscribeToTopicOptions(): void {
+    this.store
+      .pipe(
+        select(selectMatrixTopicsDropdownItems),
+        takeUntil(this.unsubscribe$),
+        map((options) => {
+          if (options.length > 0) {
+            this.topicOptions = options;
           }
         }),
       )

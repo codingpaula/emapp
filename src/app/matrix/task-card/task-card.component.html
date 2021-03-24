@@ -14,12 +14,11 @@
         <input type="number" formControlName="dueYear" />
       </div>
       <div class="row topic-done">
-        <app-dropdown
-          [topic]="taskForm.get('selectedTopic')"
-          [selectedId]="task.topic"
-          formName="topic"
-          (selection)="onTopicSelection($event)"
-        ></app-dropdown>
+        <select formControlName="topic">
+          <option *ngFor="let element of topicOptions" [ngValue]="element.id">
+            {{ element.value }}
+          </option>
+        </select>
         <button class="delete-btn" (click)="onDeleteTask()">d</button>
         <button class="done-btn" (click)="onDone()">
           {{ task.done ? 'mark undone' : 'mark done' }}

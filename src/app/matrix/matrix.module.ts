@@ -5,11 +5,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { CanvasComponent } from './canvas/canvas.component';
-import { DetailComponent } from './detail/detail.component';
-import { DropdownComponent } from './dropdown/dropdown.component';
 import { MatrixAction } from './matrix.actions';
 import { MatrixComponent } from './matrix.component';
 import { MatrixEffects } from './matrix.effects';
+import { DetailComponent } from './detail/detail.component';
 import * as fromMatrix from './matrix.reducers';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TaskCardComponent } from './task-card/task-card.component';
@@ -32,7 +31,6 @@ import { YPositionPipe } from './y-position.pipe';
   declarations: [
     CanvasComponent,
     DetailComponent,
-    DropdownComponent,
     MatrixComponent,
     SidebarComponent,
     TaskCardComponent,
