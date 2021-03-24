@@ -23,12 +23,10 @@ export class TaskCardComponent implements OnInit {
     this.taskForm = this.fb.group({
       name: this.task.name,
       description: this.task.description,
-      impDueDate: this.fb.group({
-        importance: this.task.importance,
-        dueDay: this.task.dueDay,
-        dueMonth: this.task.dueMonth,
-        dueYear: this.task.dueYear,
-      }),
+      importance: this.task.importance,
+      dueDay: this.task.dueDay,
+      dueMonth: this.task.dueMonth,
+      dueYear: this.task.dueYear,
       selectedTopic: this.fb.group({
         topic: this.task.topic,
       }),
@@ -37,9 +35,10 @@ export class TaskCardComponent implements OnInit {
       .pipe(
         debounceTime(500),
         map((change: Task) => {
-          console.log(change);
           if (change) {
-            this.changeTask.emit(change);
+            var updatedTask = { ...this.task };
+            updatedTask = { ...updatedTask, ...change };
+            this.changeTask.emit(updatedTask);
             return change;
           }
         }),

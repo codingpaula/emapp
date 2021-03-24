@@ -3,7 +3,7 @@
     <form [formGroup]="taskForm">
       <input formControlName="name" class="name-input" type="text" />
       <textarea formControlName="description"></textarea>
-      <div [formGroup]="taskForm.get('impDueDate')" class="row imp-due-date">
+      <div class="row imp-due-date">
         <input type="number" required formControlName="importance" />
         <span class="separator">imp.</span>
         <input type="number" formControlName="dueDay" />
