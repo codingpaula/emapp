@@ -2,40 +2,28 @@ import { Observable } from 'rxjs';
 import { Color } from '../shared/color.interfaces';
 import { RequestStatus } from '../shared/request-status.interface';
 
-export class Topic {
-  constructor(
-    public id: number,
-    public name: string,
-    public color: Color,
-    public visible: boolean,
-    public deleted: boolean,
-  ) {}
-
-  toggleVisibility() {
-    this.visible = !this.visible;
-  }
+export interface Topic {
+  id: number;
+  name: string;
+  color: Color;
+  visible: boolean;
+  deleted: boolean;
 }
 
-export class Task {
-  constructor(
-    public id: number,
-    public name: string,
-    public topic: number,
-    public importance: number,
-    public dueDay: number,
-    public dueMonth: number,
-    public dueYear: number,
-    public description: string = '',
-    public done: boolean = false,
-    public deleted: boolean = false,
-    public createdAt: Date = new Date(),
-    public updatedAt: Date = new Date(),
-    public deletedAt: Date = new Date(),
-  ) {}
-
-  toggleDone() {
-    this.done = !this.done;
-  }
+export interface Task {
+  id: number;
+  name: string;
+  importance: number;
+  topic: number;
+  dueDay: number;
+  dueMonth: number;
+  dueYear: number;
+  description?: string;
+  done: boolean;
+  deleted: boolean;
+  createdAt: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
 }
 
 export interface TaskDictionary {
@@ -58,13 +46,6 @@ export interface DropdownItem {
 }
 
 export interface MatrixService {
-  getData: () => void;
-  updateTask: (task: Task) => void;
-  deleteTask: (taskId: number) => void;
-  selectTask: (task: Task) => void;
-  toggleTopicVisibility: (topicId: number) => void;
-  toggleTaskDone: (taskId: number) => void;
-  updateTopic: (topic: Topic) => void;
   selectTopics: () => Observable<Topic[]>;
   selectRequestStatus: () => Observable<RequestStatus>;
   selectTasks: () => Observable<Task[]>;

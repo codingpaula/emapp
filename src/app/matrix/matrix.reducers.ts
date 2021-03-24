@@ -81,7 +81,7 @@ const topicsReducer = (
       );
       const toggleTopics = [...topics];
       if (topicIdx > -1) {
-        toggleTopics[topicIdx].toggleVisibility();
+        toggleTopics[topicIdx].visible = !toggleTopics[topicIdx].visible;
       }
       return toggleTopics;
     default:
@@ -98,14 +98,17 @@ const tasksReducer = (
       return action.data.tasks;
     case UPDATE_TASK_SUCCESS:
     case DELETE_TASK_SUCCESS:
+      console.log(action.task.name);
       const taskIndex = findIndexInArray(
         tasks.map((t) => t.id),
         action.task.id,
       );
+      console.log(taskIndex);
       const newTasks = [...tasks];
       if (taskIndex > -1) {
         newTasks[taskIndex] = action.task;
       }
+      console.log(newTasks);
       return newTasks;
     case TOGGLE_TASK_DONE:
       const taskIdx = findIndexInArray(
@@ -114,7 +117,7 @@ const tasksReducer = (
       );
       const toggleTasks = [...tasks];
       if (taskIdx > -1) {
-        toggleTasks[taskIdx].toggleDone();
+        toggleTasks[taskIdx].done = !toggleTasks[taskIdx].done;
       }
       return toggleTasks;
     default:

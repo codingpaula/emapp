@@ -11,16 +11,26 @@ import { RequestStatus } from '../shared/request-status.interface';
 
 @Injectable()
 export class MatrixMockService implements MatrixService {
-  testTopic = new Topic(1, 'Test', Color.orange, true, false);
-  testTask = new Task(1, 'Test Task', 1, 23, 1, 12, 20);
+  testTopic: Topic = {
+    id: 1,
+    name: 'Test',
+    color: Color.orange,
+    visible: true,
+    deleted: false,
+  };
+  testTask: Task = {
+    id: 1,
+    name: 'Test Task',
+    importance: 23,
+    topic: 1,
+    dueDay: 1,
+    dueMonth: 12,
+    dueYear: 20,
+    done: false,
+    deleted: false,
+    createdAt: new Date(),
+  };
 
-  getData(): void {}
-  updateTask(task: Task): void {}
-  deleteTask(taskId: number): void {}
-  selectTask(task: Task): void {}
-  toggleTopicVisibility(topicId: number): void {}
-  toggleTaskDone(taskId: number): void {}
-  updateTopic(topic: Topic): void {}
   selectTopics(): Observable<Topic[]> {
     return of([{ ...this.testTopic } as Topic]);
   }
