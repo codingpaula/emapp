@@ -57,6 +57,17 @@
   span {
     padding-right: 4px;
     padding-left: 2px;
+    padding-top: 0.25rem;
+    font-size: 1rem;
+  }
+
+  .importance,
+  .due-date {
+    align-items: center;
+  }
+
+  .importance > span {
+    font-size: 0.75rem;
   }
 }
 
@@ -69,7 +80,7 @@
   font-family: Nunito, Helvetica, sans-serif;
   box-shadow: 4px 4px 5px rgba(32, 32, 32, 0.3);
   border-radius: 20px;
-  padding: 0.5rem 2rem;
+  padding: 0.5rem 1.5rem;
 }
 
 .delete-btn {
@@ -103,6 +114,7 @@
       border-radius: 10px;
       box-sizing: border-box;
       width: 2.5rem;
+      text-align: center;
     }
   }
 }

@@ -4,14 +4,18 @@
       <input formControlName="name" class="name-input" type="text" />
       <textarea formControlName="description"></textarea>
       <div class="row imp-due-date">
-        <input type="number" required formControlName="importance" />
-        <span class="separator">imp.</span>
-        <input type="number" formControlName="dueDay" />
-        <span>.</span>
-        <input type="number" formControlName="dueMonth" />
-        <span>.</span>
-        <span>20</span>
-        <input type="number" formControlName="dueYear" />
+        <div class="row importance">
+          <input type="number" required formControlName="importance" />
+          <span class="separator">imp.</span>
+        </div>
+        <div class="row due-date">
+          <input type="number" formControlName="dueDay" />
+          <span>.</span>
+          <input type="number" formControlName="dueMonth" />
+          <span>.</span>
+          <span>20</span>
+          <input type="number" formControlName="dueYear" />
+        </div>
       </div>
       <div class="row topic-done">
         <select formControlName="topic">
@@ -19,9 +23,11 @@
             {{ element.value }}
           </option>
         </select>
-        <button class="delete-btn" (click)="onDeleteTask()">d</button>
-        <button class="done-btn" (click)="onDone()">
-          {{ task.done ? 'mark undone' : 'mark done' }}
+        <button class="delete-btn" type="button" (click)="onDeleteTask()">
+          d
+        </button>
+        <button class="done-btn" type="button" (click)="onDone()">
+          {{ task.done ? 'undo!' : 'done!' }}
         </button>
       </div>
     </form>
