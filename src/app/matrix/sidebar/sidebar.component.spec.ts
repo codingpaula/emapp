@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatrixService } from '../matrix.service';
 import { MatrixMockService } from '../matrix.service.mock';
 import { TopicButtonMockComponent } from '../topic-button/topic-button.component.mock';
@@ -9,7 +9,7 @@ describe('SidebarComponent', () => {
   let fixture: ComponentFixture<SidebarComponent>;
   let sidebar: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SidebarComponent, TopicButtonMockComponent],
       providers: [

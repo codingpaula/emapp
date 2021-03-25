@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CanvasMockComponent } from './canvas/canvas.component.mock';
 import { DetailMockComponent } from './detail/detail.component.mock';
 import { MatrixComponent } from './matrix.component';
@@ -12,7 +12,7 @@ describe('MatrixComponent', () => {
   let matrix: any;
   let service: MatrixService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         MatrixComponent,

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { DropdownMockComponent } from '../dropdown/dropdown.component.mock';
 import { TaskCardComponent } from './task-card.component';
@@ -10,7 +10,7 @@ describe('TaskCardComponent', () => {
 
   const formBuilder: FormBuilder = new FormBuilder();
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TaskCardComponent, DropdownMockComponent],
       imports: [ReactiveFormsModule],

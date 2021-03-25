@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { Color } from '../shared/color.interfaces';
 import {
   AddTopic,
@@ -22,7 +22,7 @@ import { Task, Topic } from './matrix.interfaces';
 import { matrixReducer, MatrixState } from './matrix.reducers';
 
 describe('MatrixReducers', () => {
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({});
   }));
 

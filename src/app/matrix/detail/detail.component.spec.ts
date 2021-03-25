@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { Color } from '../../shared/color.interfaces';
 import { Task, Topic } from '../matrix.interfaces';
@@ -16,7 +16,7 @@ describe('DetailComponent', () => {
   let testTask: Task;
   let testTopic: Topic;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DetailComponent, TaskCardMockComponent],
       providers: [

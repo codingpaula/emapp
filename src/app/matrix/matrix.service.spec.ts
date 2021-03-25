@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Color } from '../shared/color.interfaces';
@@ -17,7 +17,7 @@ describe('MatrixService', () => {
   let store: MockStore<MatrixState>;
   let service: MatrixService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [provideMockStore({ initialState })],
     }).compileComponents();

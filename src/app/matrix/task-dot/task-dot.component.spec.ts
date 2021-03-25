@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TaskDictionary } from '../matrix.interfaces';
 import { TaskDotComponent } from './task-dot.component';
 
@@ -7,7 +7,7 @@ describe('TaskDotComponent', () => {
   let fixture: ComponentFixture<TaskDotComponent>;
   let taskDot: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TaskDotComponent],
     }).compileComponents();
