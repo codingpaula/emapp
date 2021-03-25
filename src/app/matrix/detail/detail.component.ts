@@ -49,7 +49,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   trackByFn(index: any, item: Task) {
-    return index;
+    return item.id;
   }
 
   private subscribeToTaskHistory(): void {
