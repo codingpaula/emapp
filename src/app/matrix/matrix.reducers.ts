@@ -43,17 +43,17 @@ export const initialState: MatrixState = {
   },
 };
 
-export const matrixReducer = (
+export function matrixReducer(
   state: MatrixState | undefined = initialState,
   action: MatrixAction,
-): MatrixState => {
+): MatrixState {
   return {
     topics: topicsReducer(state.topics, action),
     tasks: tasksReducer(state.tasks, action),
     taskHistory: taskHistoryReducer(state.taskHistory, action),
     requestStatus: requestStatusReducer(state.requestStatus, action),
   };
-};
+}
 
 const topicsReducer = (
   topics: MatrixState['topics'],
