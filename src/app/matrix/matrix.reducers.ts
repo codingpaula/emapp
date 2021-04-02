@@ -69,7 +69,7 @@ const topicsReducer = (
         topics.map((t) => t.id),
         action.topic.id,
       );
-      const newTopics = [...topics];
+      var newTopics = [...topics];
       if (topicIndex > -1) {
         newTopics[topicIndex] = action.topic;
       }
@@ -79,7 +79,7 @@ const topicsReducer = (
         topics.map((t) => t.id),
         action.topicId,
       );
-      const toggleTopics = [...topics];
+      var toggleTopics = [...topics];
       if (topicIdx > -1) {
         toggleTopics[topicIdx].visible = !toggleTopics[topicIdx].visible;
       }
