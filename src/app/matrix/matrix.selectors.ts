@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { AppState } from '../app.state';
-import { Task, TaskDictionary, Topic } from './matrix.interfaces';
+import { DropdownItem, Task, TaskDictionary, Topic } from './matrix.interfaces';
 import { MatrixState } from './matrix.reducers';
 
 export const selectMatrix = (state: AppState) => state.matrix;
@@ -54,7 +54,12 @@ export const selectMatrixTopicsDropdownItems = createSelector(
   selectMatrixTopics,
   (topics: Topic[]) =>
     topics.map((topic) => {
-      return { id: topic.id, value: topic.name, color: topic.color };
+      var item: DropdownItem = {
+        id: topic.id,
+        value: topic.name,
+        color: topic.color,
+      };
+      return item;
     }),
 );
 

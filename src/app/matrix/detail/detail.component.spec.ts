@@ -1,7 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { MemoizedSelector } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
 import { Color } from '../../shared/color.interfaces';
-import { Task, Topic } from '../matrix.interfaces';
+import { DropdownItem, Task, Topic } from '../matrix.interfaces';
+import { initialState, MatrixState } from '../matrix.reducers';
+import { selectMatrixTopicsDropdownItems } from '../matrix.selectors';
 import { MatrixService } from '../matrix.service';
 import { MatrixMockService } from '../matrix.service.mock';
 import { TaskCardMockComponent } from '../task-card/task-card.component.mock';
@@ -12,6 +16,11 @@ describe('DetailComponent', () => {
   let fixture: ComponentFixture<DetailComponent>;
   let detail: any;
   let service: MatrixService;
+  let store: MockStore<MatrixState>;
+  let mockSelectMatrixTopicsDropdownItems: MemoizedSelector<
+    any,
+    DropdownItem[]
+  >;
 
   let testTask: Task;
   let testTopic: Topic;
@@ -25,13 +34,15 @@ describe('DetailComponent', () => {
             provide: MatrixService,
             useClass: MatrixMockService,
           },
+          [provideMockStore({ initialState })],
         ],
       }).compileComponents();
 
       fixture = TestBed.createComponent(DetailComponent);
       component = fixture.componentInstance;
       detail = fixture.debugElement.componentInstance;
-      service = TestBed.get(MatrixService);
+      service = TestBed.inject(MatrixService);
+      store = TestBed.inject(MockStore);
     }),
   );
 
@@ -55,6 +66,10 @@ describe('DetailComponent', () => {
       visible: true,
       deleted: false,
     };
+    mockSelectMatrixTopicsDropdownItems = store.overrideSelector(
+      selectMatrixTopicsDropdownItems,
+      [],
+    );
   });
 
   it('should create the detail', () => {
@@ -97,7 +112,7 @@ describe('DetailComponent', () => {
       const matrixServiceSpy = spyOn(
         service,
         'selectCurrentTaskHistory',
-      ).and.returnValue(of([{} as Task]));
+      ).and.returnValue(of([{ ...testTask }]));
       // act
       component.ngOnInit();
       // assert
@@ -107,7 +122,7 @@ describe('DetailComponent', () => {
     it('should set task history to variable task history', () => {
       // arrange
       spyOn(service, 'selectCurrentTaskHistory').and.returnValue(
-        of([testTask]),
+        of([{ ...testTask }]),
       );
       // act
       component.ngOnInit();
@@ -118,7 +133,7 @@ describe('DetailComponent', () => {
     it('should subscribe to topics on init', () => {
       // arrange
       const matrixServiceSpy = spyOn(service, 'selectTopics').and.returnValue(
-        of([{} as Topic]),
+        of([{ ...testTopic }]),
       );
       // act
       component.ngOnInit();
@@ -128,7 +143,7 @@ describe('DetailComponent', () => {
 
     it('should set topics to variable topics as dictionary', () => {
       // arrange
-      spyOn(service, 'selectTopics').and.returnValue(of([testTopic]));
+      spyOn(service, 'selectTopics').and.returnValue(of([{ ...testTopic }]));
       // act
       component.ngOnInit();
       // assert

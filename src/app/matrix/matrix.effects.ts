@@ -199,7 +199,6 @@ export class MatrixEffects {
               dueDay: 1,
               dueMonth: 1,
               dueYear: 21,
-              description: '',
               done: false,
               deleted: true,
               createdAt: new Date('2020-10-12T12:00:00.000Z'),

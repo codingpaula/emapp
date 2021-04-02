@@ -7,15 +7,17 @@ describe('TaskDotComponent', () => {
   let fixture: ComponentFixture<TaskDotComponent>;
   let taskDot: any;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [TaskDotComponent],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [TaskDotComponent],
+      }).compileComponents();
 
-    fixture = TestBed.createComponent(TaskDotComponent);
-    component = fixture.componentInstance;
-    taskDot = fixture.debugElement.componentInstance;
-  }));
+      fixture = TestBed.createComponent(TaskDotComponent);
+      component = fixture.componentInstance;
+      taskDot = fixture.debugElement.componentInstance;
+    }),
+  );
 
   it('should create the task dot', () => {
     expect(taskDot).toBeTruthy();
