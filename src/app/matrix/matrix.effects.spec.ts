@@ -34,22 +34,41 @@ describe('MatrixEffects', () => {
   let task: Task;
   let topic: Topic;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        provideMockActions(() => actions$),
-        MatrixEffects,
-        { provide: MatrixService, useClass: MatrixMockService },
-      ],
-    });
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          provideMockActions(() => actions$),
+          MatrixEffects,
+          { provide: MatrixService, useClass: MatrixMockService },
+        ],
+      });
 
-    effects = TestBed.get(MatrixEffects);
-    service = TestBed.get(MatrixService);
-  }));
+      effects = TestBed.get(MatrixEffects);
+      service = TestBed.get(MatrixService);
+    }),
+  );
 
   beforeEach(() => {
-    task = new Task(1, 'test', 1, 1, 1, 1, 21);
-    topic = new Topic(1, 'New Topic', Color.green, true, false);
+    task = {
+      id: 1,
+      name: 'test',
+      topic: 1,
+      importance: 1,
+      dueDay: 1,
+      dueMonth: 1,
+      dueYear: 21,
+      done: false,
+      deleted: false,
+      createdAt: new Date(),
+    };
+    topic = {
+      id: 1,
+      name: 'New Topic',
+      color: Color.green,
+      visible: true,
+      deleted: false,
+    };
   });
 
   it('should create matrix effects', () => {
@@ -153,21 +172,14 @@ describe('MatrixEffects', () => {
     let deletedTask: Task;
 
     beforeEach(() => {
-      deletedTask = new Task(
-        1,
-        'deleted',
-        1,
-        1,
-        1,
-        1,
-        21,
-        '',
-        false,
-        true,
-        new Date('2020-10-12T12:00:00.000Z'),
-        new Date('2020-12-12T12:00:00.000Z'),
-        new Date('2020-12-12T12:00:00.000Z'),
-      );
+      deletedTask = {
+        ...task,
+        name: 'deleted',
+        deleted: true,
+        createdAt: new Date('2020-10-12T12:00:00.000Z'),
+        updatedAt: new Date('2020-12-12T12:00:00.000Z'),
+        deletedAt: new Date('2020-12-12T12:00:00.000Z'),
+      };
     });
 
     it('should return DeleteTaskSuccess with deleted task', () => {

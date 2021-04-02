@@ -7,15 +7,17 @@ describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
   let app: any;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [AppComponent, HeaderMockComponent],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule],
+        declarations: [AppComponent, HeaderMockComponent],
+      }).compileComponents();
 
-    fixture = TestBed.createComponent(AppComponent);
-    app = fixture.debugElement.componentInstance;
-  }));
+      fixture = TestBed.createComponent(AppComponent);
+      app = fixture.debugElement.componentInstance;
+    }),
+  );
 
   it('should create the app', () => {
     expect(app).toBeTruthy();
