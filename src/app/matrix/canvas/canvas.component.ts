@@ -1,32 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { map } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { AppState } from 'src/app/app.state';
 import { selectTask } from '../matrix.actions';
+import {
+  selectMatrixActiveTasksByTopics,
+  selectMatrixTopics,
+} from '../matrix.selectors';
 import { Task, TaskDictionary, Topic } from '../matrix.interfaces';
-import { MatrixService } from '../matrix.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.scss'],
 })
-export class CanvasComponent implements OnInit {
+export class CanvasComponent implements OnInit, OnDestroy {
   topics: Topic[] = [];
   tasks: TaskDictionary = {};
   maxDate = new Date();
 
-  constructor(
-    public readonly matrixService: MatrixService,
-    public readonly store: Store<AppState>,
-  ) {
+  private unsubscribe$ = new Subject<void>();
+
+  constructor(public readonly store: Store<AppState>) {
     this.maxDate = new Date(this.maxDate.setMonth(this.maxDate.getMonth() + 1));
   }
 
   ngOnInit(): void {
-    this.matrixService
-      .selectActiveTasksByTopics()
+    this.store
+      .select(selectMatrixActiveTasksByTopics)
       .pipe(
+        takeUntil(this.unsubscribe$),
         map((tasks) => {
           if (tasks) {
             this.tasks = tasks;
@@ -35,9 +39,10 @@ export class CanvasComponent implements OnInit {
       )
       .subscribe();
 
-    this.matrixService
-      .selectTopics()
+    this.store
+      .select(selectMatrixTopics)
       .pipe(
+        takeUntil(this.unsubscribe$),
         map((topics) => {
           if (topics && topics.length > 0) {
             this.topics = topics;
@@ -45,6 +50,11 @@ export class CanvasComponent implements OnInit {
         }),
       )
       .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   onSelectTask(event: Task): void {
