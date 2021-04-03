@@ -15,6 +15,7 @@ import { TaskDotComponent } from './task-dot/task-dot.component';
 import { TopicButtonComponent } from './topic-button/topic-button.component';
 import { XPositionPipe } from './x-position.pipe';
 import { YPositionPipe } from './y-position.pipe';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { YPositionPipe } from './y-position.pipe';
       fromMatrix.matrixFeatureKey,
       fromMatrix.matrixReducer,
     ),
+    FontAwesomeModule,
   ],
   declarations: [
     CanvasComponent,
