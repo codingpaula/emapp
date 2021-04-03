@@ -24,10 +24,10 @@
           </option>
         </select>
         <button class="delete-btn" type="button" (click)="onDeleteTask()">
-          d
+          <fa-icon [icon]="faTrash"></fa-icon>
         </button>
         <button class="done-btn" type="button" (click)="onDone()">
-          {{ task.done ? 'undo!' : 'done!' }}
+          <fa-icon [icon]="faCheck"></fa-icon>
         </button>
       </div>
     </form>
