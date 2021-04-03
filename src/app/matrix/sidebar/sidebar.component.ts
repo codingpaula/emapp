@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.state';
 import { toggleTopicVisibility } from '../matrix.actions';
 import { Topic } from '../matrix.interfaces';
-import { MatrixService } from '../matrix.service';
+import { selectMatrixTopics } from '../matrix.selectors';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,14 +14,11 @@ import { MatrixService } from '../matrix.service';
 export class SidebarComponent implements OnInit {
   topics: Topic[] = [];
 
-  constructor(
-    private readonly matrixService: MatrixService,
-    private readonly store: Store<AppState>,
-  ) {}
+  constructor(private readonly store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.matrixService
-      .selectTopics()
+    this.store
+      .select(selectMatrixTopics)
       .pipe(
         map((topics) => {
           if (topics && topics.length > 0) {
