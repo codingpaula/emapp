@@ -1,6 +1,7 @@
 import { createSelector } from '@ngrx/store';
-import { AppState } from '../store/app.state';
-import { MatrixState, Task, TaskDictionary, Topic } from './matrix.interfaces';
+import { AppState } from '../app.state';
+import { DropdownItem, Task, TaskDictionary, Topic } from './matrix.interfaces';
+import { MatrixState } from './matrix.reducers';
 
 export const selectMatrix = (state: AppState) => state.matrix;
 
@@ -9,14 +10,9 @@ export const selectMatrixTopics = createSelector(
   (state: MatrixState) => state.topics,
 );
 
-export const selectMatrixIsLoading = createSelector(
+export const selectMatrixRequestStatus = createSelector(
   selectMatrix,
-  (state: MatrixState) => state.isLoading,
-);
-
-export const selectMatrixErrorMessage = createSelector(
-  selectMatrix,
-  (state: MatrixState) => state.errorMessage,
+  (state: MatrixState) => state.requestStatus,
 );
 
 export const selectMatrixTasks = createSelector(
@@ -24,9 +20,29 @@ export const selectMatrixTasks = createSelector(
   (state: MatrixState) => state.tasks,
 );
 
+export const selectMatrixActiveTasks = createSelector(
+  selectMatrixTasks,
+  (tasks: Task[]) => tasks.filter((t) => !t.deleted && !t.done),
+);
+
+export const selectMatrixDoneTasks = createSelector(
+  selectMatrixTasks,
+  (tasks: Task[]) => tasks.filter((t) => t.done && !t.deleted),
+);
+
 export const selectMatrixTasksByTopics = createSelector(
-  selectMatrix,
-  (state: MatrixState) => createTaskDictionary(state.tasks),
+  selectMatrixTasks,
+  (tasks: Task[]) => createTaskDictionary(tasks),
+);
+
+export const selectMatrixActiveTasksByTopics = createSelector(
+  selectMatrixActiveTasks,
+  (tasks: Task[]) => createTaskDictionary(tasks),
+);
+
+export const selectMatrixDoneTasksByTopics = createSelector(
+  selectMatrixDoneTasks,
+  (tasks: Task[]) => createTaskDictionary(tasks),
 );
 
 export const selectMatrixTopic = createSelector(
@@ -34,15 +50,34 @@ export const selectMatrixTopic = createSelector(
   (topics: Topic[], id: number) => topics.find((t) => t.id === id),
 );
 
-export const selectTaskHistory = createSelector(
+export const selectMatrixTopicsDropdownItems = createSelector(
+  selectMatrixTopics,
+  (topics: Topic[]) =>
+    topics.map((topic) => {
+      var item: DropdownItem = {
+        id: topic.id,
+        value: topic.name,
+        color: topic.color,
+      };
+      return item;
+    }),
+);
+
+export const selectMatrixTaskHistory = createSelector(
   selectMatrix,
-  (state: MatrixState) => {
+  (state: MatrixState) => state.taskHistory,
+);
+
+export const selectCurrentTaskHistory = createSelector(
+  selectMatrixTaskHistory,
+  selectMatrixActiveTasks,
+  (history: number[], tasks: Task[]) => {
     const result: Task[] = [];
 
-    if (state.taskHistory.length > 0) {
-      state.taskHistory.forEach((c) => {
+    if (history.length > 0) {
+      history.forEach((c) => {
         if (c) {
-          const foundTask = state.tasks.find((t) => t.id === c);
+          const foundTask = tasks.find((t) => t.id === c);
           if (foundTask) {
             result.push(foundTask);
           }

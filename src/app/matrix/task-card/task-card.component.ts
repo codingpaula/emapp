@@ -1,7 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { debounceTime, map, switchMap } from 'rxjs/operators';
-import { Task, TopicDictionary } from '../matrix.interfaces';
+import {
+  faCheck,
+  faChevronDown,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
+import { debounceTime, map } from 'rxjs/operators';
+import { DropdownItem, Task } from '../matrix.interfaces';
 
 @Component({
   selector: 'app-task-card',
@@ -10,22 +15,37 @@ import { Task, TopicDictionary } from '../matrix.interfaces';
 })
 export class TaskCardComponent implements OnInit {
   @Input() task!: Task;
-  @Input() topicsForSelect: TopicDictionary = {};
+  @Input() color!: string;
   @Input() position = 0;
+  @Input() topicOptions: DropdownItem[] = [];
   @Output() changeTask = new EventEmitter<Task>();
+  @Output() deleteTask = new EventEmitter<number>();
+  @Output() toggleDoneTask = new EventEmitter<number>();
   taskForm!: FormGroup;
+  faCheck = faCheck;
+  faTrash = faTrash;
+  faChevronDown = faChevronDown;
 
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.taskForm = this.fb.group(this.task);
+    this.taskForm = this.fb.group({
+      name: this.task.name,
+      description: this.task.description,
+      importance: this.task.importance,
+      dueDay: this.task.dueDay,
+      dueMonth: this.task.dueMonth,
+      dueYear: this.task.dueYear,
+      topic: this.task.topic,
+    });
     this.taskForm.valueChanges
       .pipe(
         debounceTime(500),
         map((change: Task) => {
-          console.log(change);
           if (change) {
-            this.changeTask.emit(change);
+            var updatedTask = { ...this.task };
+            updatedTask = { ...updatedTask, ...change };
+            this.changeTask.emit(updatedTask);
             return change;
           }
         }),
@@ -33,7 +53,11 @@ export class TaskCardComponent implements OnInit {
       .subscribe();
   }
 
-  onChange(task: Task): void {
-    this.changeTask.emit(task);
+  onDeleteTask(): void {
+    this.deleteTask.emit(this.task.id);
+  }
+
+  onDone(): void {
+    this.toggleDoneTask.emit(this.task.id);
   }
 }

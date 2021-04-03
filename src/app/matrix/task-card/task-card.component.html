@@ -1,26 +1,36 @@
-<div [class]="topicsForSelect[task.topic].color">
+<div [class]="color">
   <div *ngIf="position <= 1" class="card-container">
     <form [formGroup]="taskForm">
       <input formControlName="name" class="name-input" type="text" />
       <textarea formControlName="description"></textarea>
       <div class="row imp-due-date">
-        <input type="number" required formControlName="importance" />
-        <span class="separator">imp.</span>
-        <input type="number" formControlName="dueDay" />
-        <span>.</span>
-        <input type="number" formControlName="dueMonth" />
-        <span>.</span>
-        <span>20</span>
-        <input type="number" formControlName="dueYear" />
+        <div class="row importance">
+          <input type="number" required formControlName="importance" />
+          <span class="separator">imp.</span>
+        </div>
+        <div class="row due-date">
+          <input type="number" formControlName="dueDay" />
+          <span>.</span>
+          <input type="number" formControlName="dueMonth" />
+          <span>.</span>
+          <span>20</span>
+          <input type="number" formControlName="dueYear" />
+        </div>
       </div>
       <div class="row topic-done">
-        <select formControlName="topic">
-          <option *ngFor="let t of topicsForSelect | keyvalue" [ngValue]="t.value.id">
-            {{ t.value.name }}
-          </option>
-        </select>
-        <button class="done-btn">
-          {{ task.done ? 'mark undone' : 'mark done' }}
+        <div class="topic-select">
+          <select formControlName="topic">
+            <option *ngFor="let element of topicOptions" [ngValue]="element.id">
+              {{ element.value }}
+            </option>
+          </select>
+          <fa-icon class="select-icon" [icon]="faChevronDown"></fa-icon>
+        </div>
+        <button class="delete-btn" type="button" (click)="onDeleteTask()">
+          <fa-icon [icon]="faTrash"></fa-icon>
+        </button>
+        <button class="done-btn" type="button" (click)="onDone()">
+          <fa-icon [icon]="faCheck"></fa-icon>
         </button>
       </div>
     </form>

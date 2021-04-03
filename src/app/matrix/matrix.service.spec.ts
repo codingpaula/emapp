@@ -1,87 +1,52 @@
-import { async, TestBed } from '@angular/core/testing';
-import { Action, Store } from '@ngrx/store';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { of } from 'rxjs';
 import { Color } from '../shared/color.interfaces';
-import {
-  DeleteTask,
-  GetMatrixData,
-  ToggleTopicVisibility,
-  UpdateTask,
-  UpdateTopic,
-} from './matrix.actions';
-import { MatrixState, Task, Topic } from './matrix.interfaces';
-import { initialState } from './matrix.reducers';
+import { Topic } from './matrix.interfaces';
+import { initialState, MatrixState } from './matrix.reducers';
 import { MatrixService } from './matrix.service';
 
 describe('MatrixService', () => {
   let store: MockStore<MatrixState>;
   let service: MatrixService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      providers: [provideMockStore({ initialState })],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        providers: [provideMockStore({ initialState })],
+      }).compileComponents();
 
-    store = TestBed.get<Store<MatrixState>>(Store);
-    service = TestBed.get(MatrixService);
-  }));
+      store = TestBed.inject(MockStore);
+      service = TestBed.inject(MatrixService);
+    }),
+  );
 
   it('should create the matrix service', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('dispatch', () => {
-    let dispatchSpy: jasmine.Spy;
-
-    beforeEach(() => {
-      dispatchSpy = spyOn(store, 'dispatch');
-    });
-
-    it('getData - should dispatch GetMatrixData action to store', () => {
-      const action = new GetMatrixData();
-      service.getData();
-      expect(dispatchSpy).toHaveBeenCalledWith(action);
-    });
-
-    it('updateTask - should dispatch UpdateTask action with task to store', () => {
-      const task = new Task(1, 'test', 1, 1, 1, 12, 20);
-      const action = new UpdateTask(task);
-      service.updateTask(task);
-      expect(dispatchSpy).toHaveBeenCalledWith(action);
-    });
-
-    it('deleteTask - should dispatch DeleteTask action with id to store', () => {
-      const id = 1;
-      const action = new DeleteTask(id);
-      service.deleteTask(id);
-      expect(dispatchSpy).toHaveBeenCalledWith(action);
-    });
-
-    it('toggleTopicVisibility - should dispatch ToggleTopicVisibility with id to store', () => {
-      const id = 34;
-      const action = new ToggleTopicVisibility(id);
-      service.toggleTopicVisibility(id);
-      expect(dispatchSpy).toHaveBeenCalledWith(action);
-    });
-
-    it('updateTopic - should dispatch UpdateTopic with topic to store', () => {
-      const topic = new Topic(1, 'Test', Color.orange, true, false);
-      const action = new UpdateTopic(topic);
-      service.updateTopic(topic);
-      expect(dispatchSpy).toHaveBeenCalledWith(action);
-    });
-  });
-
-  xdescribe('select', () => {
-    it('selectTopics - should select topics from store', (done) => {
-      const testTopic = new Topic(1, 'Test', Color.green, true, false);
+  describe('select', () => {
+    xit('selectTopics - should select topics from store', (done) => {
+      const testTopic: Topic = {
+        id: 1,
+        name: 'Test',
+        color: Color.green,
+        visible: true,
+        deleted: false,
+      };
       store.overrideSelector('selectMatrixTopics', [testTopic]);
       service.selectTopics().subscribe((result) => {
         expect(result).toEqual([testTopic]);
         done();
       });
     });
+
+    it('selectTasks - should select tasks from store', () => {});
+
+    it('selectActiveTasks - should select active tasks from store', () => {});
+
+    it('selectDoneTasks - should select done tasks from store', () => {});
+
+    it('selectTasksByTopics - should select tasks by topics from store', () => {});
   });
 
   describe('selectIsLoading', () => {});

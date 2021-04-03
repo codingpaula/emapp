@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
+import { AppState } from 'src/app/app.state';
+import { toggleTopicVisibility } from '../matrix.actions';
 import { Topic } from '../matrix.interfaces';
-import { MatrixService } from '../matrix.service';
+import { selectMatrixTopics } from '../matrix.selectors';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,11 +14,11 @@ import { MatrixService } from '../matrix.service';
 export class SidebarComponent implements OnInit {
   topics: Topic[] = [];
 
-  constructor(private readonly matrixService: MatrixService) {}
+  constructor(private readonly store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.matrixService
-      .selectTopics()
+    this.store
+      .select(selectMatrixTopics)
       .pipe(
         map((topics) => {
           if (topics && topics.length > 0) {
@@ -24,11 +27,9 @@ export class SidebarComponent implements OnInit {
         }),
       )
       .subscribe();
-
-    this.matrixService.getData();
   }
 
   toggleVisibility(topicId: number): void {
-    this.matrixService.toggleTopicVisibility(topicId);
+    this.store.dispatch(toggleTopicVisibility({ topicId: topicId }));
   }
 }

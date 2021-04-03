@@ -1,6 +1,23 @@
 :host {
-  width: 25%;
   background-color: #373737;
+}
+
+@media only screen and (min-width: 1601px) {
+  :host {
+    width: 20%;
+  }
+}
+
+@media only screen and (max-width: 1600px) {
+  :host {
+    width: 25%;
+  }
+}
+
+@media only screen and (max-width: 1300px) {
+  :host {
+    width: 30%;
+  }
 }
 
 .detail {
