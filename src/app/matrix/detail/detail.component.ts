@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { AppState } from 'src/app/app.state';
-import { DeleteTask, ToggleDoneTask, UpdateTask } from '../matrix.actions';
+import { deleteTask, toggleDoneTask, updateTask } from '../matrix.actions';
 import { DropdownItem, Task, TopicDictionary } from '../matrix.interfaces';
 import { selectMatrixTopicsDropdownItems } from '../matrix.selectors';
 import { MatrixService } from '../matrix.service';
@@ -37,15 +37,15 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   changeTask(task: Task): void {
-    this.store.dispatch(new UpdateTask(task));
+    this.store.dispatch(updateTask({ task: task }));
   }
 
   deleteTask(taskId: number): void {
-    this.store.dispatch(new DeleteTask(taskId));
+    this.store.dispatch(deleteTask({ taskId: taskId }));
   }
 
   toggleDoneTask(taskId: number): void {
-    this.store.dispatch(new ToggleDoneTask(taskId));
+    this.store.dispatch(toggleDoneTask({ taskId: taskId }));
   }
 
   trackByFn(index: any, item: Task) {

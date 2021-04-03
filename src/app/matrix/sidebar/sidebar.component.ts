@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.state';
-import { ToggleTopicVisibility } from '../matrix.actions';
+import { toggleTopicVisibility } from '../matrix.actions';
 import { Topic } from '../matrix.interfaces';
 import { MatrixService } from '../matrix.service';
 
@@ -33,6 +33,6 @@ export class SidebarComponent implements OnInit {
   }
 
   toggleVisibility(topicId: number): void {
-    this.store.dispatch(new ToggleTopicVisibility(topicId));
+    this.store.dispatch(toggleTopicVisibility({ topicId: topicId }));
   }
 }

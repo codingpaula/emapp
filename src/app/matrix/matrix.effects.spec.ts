@@ -1,33 +1,17 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { Color } from '../shared/color.interfaces';
-import {
-  AddTopic,
-  AddTopicFailed,
-  AddTopicSuccess,
-  DeleteTask,
-  DeleteTaskFailed,
-  DeleteTaskSuccess,
-  GetMatrixData,
-  GetMatrixDataFailed,
-  GetMatrixDataSuccess,
-  MatrixAction,
-  UpdateTask,
-  UpdateTaskFailed,
-  UpdateTaskSuccess,
-  UpdateTopic,
-  UpdateTopicFailed,
-  UpdateTopicSuccess,
-} from './matrix.actions';
+import * as MatrixActions from './matrix.actions';
 import { MatrixEffects } from './matrix.effects';
 import { MatrixData, Task, Topic } from './matrix.interfaces';
 import { MatrixService } from './matrix.service';
 import { MatrixMockService } from './matrix.service.mock';
 
 describe('MatrixEffects', () => {
-  let actions$: Observable<MatrixAction>;
+  let actions$: Observable<Action>;
   let effects: MatrixEffects;
   let service: MatrixService;
 
@@ -87,8 +71,8 @@ describe('MatrixEffects', () => {
 
     it('should return GetMatrixDataSuccess on action', () => {
       // arrange
-      const action = new GetMatrixData();
-      const result = new GetMatrixDataSuccess(data);
+      const action = MatrixActions.getMatrixData();
+      const result = MatrixActions.getMatrixDataSuccess({ data: data });
       const expected = cold('-a', { a: result });
       spyOn(service, 'mockFunction').and.returnValue(of(data));
       // act
@@ -99,9 +83,9 @@ describe('MatrixEffects', () => {
 
     it('should only return GetMatrixDataSuccess on GetMatrixData action', () => {
       // arrange
-      const action = new GetMatrixData();
-      const taskAction = new UpdateTask(task);
-      const result = new GetMatrixDataSuccess(data);
+      const action = MatrixActions.getMatrixData();
+      const taskAction = MatrixActions.updateTask({ task: task });
+      const result = MatrixActions.getMatrixDataSuccess({ data: data });
       const expected = cold('---a', { a: result });
       spyOn(service, 'mockFunction').and.returnValue(of(data));
       // act
@@ -112,8 +96,10 @@ describe('MatrixEffects', () => {
 
     it('should return GetMatrixDataFailed on error', () => {
       // arrange
-      const action = new GetMatrixData();
-      const result = new GetMatrixDataFailed('test error');
+      const action = MatrixActions.getMatrixData();
+      const result = MatrixActions.getMatrixDataFailed({
+        message: 'test error',
+      });
       const expected = cold('--c', { c: result });
       spyOn(service, 'mockFunction').and.returnValue(
         cold('-#', {}, 'test error'),
@@ -128,8 +114,8 @@ describe('MatrixEffects', () => {
   describe('updateTask', () => {
     it('should return UpdateTaskSuccess with task', () => {
       // arrange
-      const value = { a: new UpdateTask(task) };
-      const result = { a: new UpdateTaskSuccess(task) };
+      const value = { a: MatrixActions.updateTask({ task: task }) };
+      const result = { a: MatrixActions.updateTaskSuccess({ task: task }) };
       const expected = cold('-a', result);
       spyOn(service, 'mockFunction').and.returnValue(of(task));
       // act
@@ -141,10 +127,10 @@ describe('MatrixEffects', () => {
     it('should only return UpdateTaskSuccess on UpdateTask action', () => {
       // arrange
       const values = {
-        a: new UpdateTopic(topic),
-        b: new UpdateTask(task),
+        a: MatrixActions.updateTopic({ topic: topic }),
+        b: MatrixActions.updateTask({ task: task }),
       };
-      const result = { b: new UpdateTaskSuccess(task) };
+      const result = { b: MatrixActions.updateTaskSuccess({ task: task }) };
       const expected = cold('---b', result);
       spyOn(service, 'mockFunction').and.returnValue(of(task));
       // act
@@ -155,8 +141,8 @@ describe('MatrixEffects', () => {
 
     it('should return UpdateTaskFailed on error', () => {
       // arrange
-      const action = new UpdateTask(task);
-      const result = new UpdateTaskFailed('test error');
+      const action = MatrixActions.updateTask({ task: task });
+      const result = MatrixActions.updateTaskFailed({ message: 'test error' });
       const expected = cold('--c', { c: result });
       spyOn(service, 'mockFunction').and.returnValue(
         cold('-#', {}, 'test error'),
@@ -184,8 +170,10 @@ describe('MatrixEffects', () => {
 
     it('should return DeleteTaskSuccess with deleted task', () => {
       // arrange
-      const value = { a: new DeleteTask(task.id) };
-      const result = { a: new DeleteTaskSuccess(deletedTask) };
+      const value = { a: MatrixActions.deleteTask({ taskId: task.id }) };
+      const result = {
+        a: MatrixActions.deleteTaskSuccess({ task: deletedTask }),
+      };
       const expected = cold('-a', result);
       spyOn(service, 'mockFunction').and.returnValue(of(task.id));
       // act
@@ -197,10 +185,12 @@ describe('MatrixEffects', () => {
     it('should only return DeleteTaskSuccess on DeleteTask action', () => {
       // arrange
       const values = {
-        a: new UpdateTask(task),
-        b: new DeleteTask(task.id),
+        a: MatrixActions.updateTask({ task: task }),
+        b: MatrixActions.deleteTask({ taskId: task.id }),
       };
-      const result = { b: new DeleteTaskSuccess(deletedTask) };
+      const result = {
+        b: MatrixActions.deleteTaskSuccess({ task: deletedTask }),
+      };
       const expected = cold('---b', result);
       spyOn(service, 'mockFunction').and.returnValue(of(task.id));
       // act
@@ -211,8 +201,8 @@ describe('MatrixEffects', () => {
 
     it('should return DeleteTaskFailed on error', () => {
       // arrange
-      const action = new DeleteTask(task.id);
-      const result = new DeleteTaskFailed('test error');
+      const action = MatrixActions.deleteTask({ taskId: task.id });
+      const result = MatrixActions.deleteTaskFailed({ message: 'test error' });
       const expected = cold('--c', { c: result });
       spyOn(service, 'mockFunction').and.returnValue(
         cold('-#', {}, 'test error'),
@@ -227,8 +217,8 @@ describe('MatrixEffects', () => {
   describe('addTopic', () => {
     it('should return AddTopicSuccess on action', () => {
       // arrange
-      const action = new AddTopic();
-      const result = new AddTopicSuccess(topic);
+      const action = MatrixActions.addTopic();
+      const result = MatrixActions.addTopicSuccess({ topic: topic });
       const expected = cold('-a', { a: result });
       spyOn(service, 'mockFunction').and.returnValue(of(topic.id));
       // act
@@ -239,9 +229,9 @@ describe('MatrixEffects', () => {
 
     it('should only return AddTopicSuccess on AddTopic action', () => {
       // arrange
-      const action = new AddTopic();
-      const taskAction = new UpdateTask(task);
-      const result = new AddTopicSuccess(topic);
+      const action = MatrixActions.addTopic();
+      const taskAction = MatrixActions.updateTask({ task: task });
+      const result = MatrixActions.addTopicSuccess({ topic: topic });
       const expected = cold('---a', { a: result });
       spyOn(service, 'mockFunction').and.returnValue(of(topic.id));
       // act
@@ -252,8 +242,8 @@ describe('MatrixEffects', () => {
 
     it('should return AddTopicError on error', () => {
       // arrange
-      const action = new AddTopic();
-      const result = new AddTopicFailed('test error');
+      const action = MatrixActions.addTopic();
+      const result = MatrixActions.addTopicFailed({ message: 'test error' });
       const expected = cold('--c', { c: result });
       spyOn(service, 'mockFunction').and.returnValue(
         cold('-#', {}, 'test error'),
@@ -268,8 +258,8 @@ describe('MatrixEffects', () => {
   describe('updateTopic', () => {
     it('should return UpdateTopicSuccess with topic', () => {
       // arrange
-      const action = new UpdateTopic(topic);
-      const result = new UpdateTopicSuccess(topic);
+      const action = MatrixActions.updateTopic({ topic: topic });
+      const result = MatrixActions.updateTopicSuccess({ topic: topic });
       const expected = cold('-a', { a: result });
       spyOn(service, 'mockFunction').and.returnValue(of(topic));
       // act
@@ -280,9 +270,9 @@ describe('MatrixEffects', () => {
 
     it('should only return UpdateTopicSuccess on UpdateTopic action', () => {
       // arrange
-      const action = new UpdateTopic(topic);
-      const taskAction = new UpdateTask(task);
-      const result = new UpdateTopicSuccess(topic);
+      const action = MatrixActions.updateTopic({ topic: topic });
+      const taskAction = MatrixActions.updateTask({ task: task });
+      const result = MatrixActions.updateTopicSuccess({ topic: topic });
       const expected = cold('---a', { a: result });
       spyOn(service, 'mockFunction').and.returnValue(of(topic));
       // act
@@ -293,8 +283,8 @@ describe('MatrixEffects', () => {
 
     it('should return UpdateTopicFailed on error', () => {
       // arrange
-      const action = new UpdateTopic(topic);
-      const result = new UpdateTopicFailed('test error');
+      const action = MatrixActions.updateTopic({ topic: topic });
+      const result = MatrixActions.updateTopicFailed({ message: 'test error' });
       const expected = cold('--c', { c: result });
       spyOn(service, 'mockFunction').and.returnValue(
         cold('-#', {}, 'test error'),

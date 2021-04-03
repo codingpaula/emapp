@@ -5,7 +5,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { CanvasComponent } from './canvas/canvas.component';
-import { MatrixAction } from './matrix.actions';
 import { MatrixComponent } from './matrix.component';
 import { MatrixEffects } from './matrix.effects';
 import { DetailComponent } from './detail/detail.component';
@@ -23,7 +22,7 @@ import { YPositionPipe } from './y-position.pipe';
     BrowserModule,
     CommonModule,
     EffectsModule.forFeature([MatrixEffects]),
-    StoreModule.forFeature<fromMatrix.MatrixState, MatrixAction>(
+    StoreModule.forFeature(
       fromMatrix.matrixFeatureKey,
       fromMatrix.matrixReducer,
     ),

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.state';
-import { GetMatrixData } from './matrix.actions';
+import { getMatrixData } from './matrix.actions';
 
 @Component({
   selector: 'app-matrix',
@@ -12,6 +12,6 @@ export class MatrixComponent implements OnInit {
   constructor(private readonly store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.store.dispatch(new GetMatrixData());
+    this.store.dispatch(getMatrixData());
   }
 }

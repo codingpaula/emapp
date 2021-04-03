@@ -1,15 +1,7 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Color } from '../shared/color.interfaces';
-import {
-  DeleteTask,
-  GetMatrixData,
-  ToggleTopicVisibility,
-  UpdateTask,
-  UpdateTopic,
-} from './matrix.actions';
-import { Task, Topic } from './matrix.interfaces';
+import { Topic } from './matrix.interfaces';
 import { initialState, MatrixState } from './matrix.reducers';
 import { MatrixService } from './matrix.service';
 
@@ -23,8 +15,8 @@ describe('MatrixService', () => {
         providers: [provideMockStore({ initialState })],
       }).compileComponents();
 
-      store = TestBed.get<Store<MatrixState>>(Store);
-      service = TestBed.get(MatrixService);
+      store = TestBed.inject(MockStore);
+      service = TestBed.inject(MatrixService);
     }),
   );
 

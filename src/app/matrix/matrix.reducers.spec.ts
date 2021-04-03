@@ -1,23 +1,7 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
+import { Action } from '@ngrx/store';
 import { Color } from '../shared/color.interfaces';
-import {
-  AddTopic,
-  AddTopicFailed,
-  AddTopicSuccess,
-  DeleteTaskSuccess,
-  GetMatrixData,
-  GetMatrixDataFailed,
-  GetMatrixDataSuccess,
-  MatrixAction,
-  SelectTask,
-  ToggleTopicVisibility,
-  UpdateTask,
-  UpdateTaskFailed,
-  UpdateTaskSuccess,
-  UpdateTopic,
-  UpdateTopicFailed,
-  UpdateTopicSuccess,
-} from './matrix.actions';
+import * as MatrixActions from './matrix.actions';
 import { Task, Topic } from './matrix.interfaces';
 import { matrixReducer, MatrixState } from './matrix.reducers';
 
@@ -79,25 +63,29 @@ describe('MatrixReducers', () => {
     });
 
     it('should set loading on GET_MATRIX_DATA', () => {
-      const action: MatrixAction = new GetMatrixData();
+      const action: Action = MatrixActions.getMatrixData();
       const newState = matrixReducer(defaultState, action);
       expect(newState).toEqual(loadingState);
     });
 
     it('should set loading on UPDATE_TASK', () => {
-      const action: MatrixAction = new UpdateTask({ ...dummyTask });
+      const action: Action = MatrixActions.updateTask({
+        task: { ...dummyTask },
+      });
       const newState = matrixReducer(defaultState, action);
       expect(newState).toEqual(loadingState);
     });
 
     it('should set loading on UPDATE_TOPIC', () => {
-      const action: MatrixAction = new UpdateTopic({ ...dummyTopic });
+      const action: Action = MatrixActions.updateTopic({
+        topic: { ...dummyTopic },
+      });
       const newState = matrixReducer(defaultState, action);
       expect(newState).toEqual(loadingState);
     });
 
     it('should set loading on ADD_TOPIC', () => {
-      const action: MatrixAction = new AddTopic();
+      const action: Action = MatrixActions.addTopic();
       const newState = matrixReducer(defaultState, action);
       expect(newState).toEqual(loadingState);
     });
@@ -131,25 +119,33 @@ describe('MatrixReducers', () => {
     });
 
     it('should set error message on GET_MATRIX_DATA_FAILED', () => {
-      const action: MatrixAction = new GetMatrixDataFailed(errorMessage);
+      const action: Action = MatrixActions.getMatrixDataFailed({
+        message: errorMessage,
+      });
       const newState = matrixReducer(defaultState, action);
       expect(newState).toEqual(failedState);
     });
 
     it('should set error message on UPDATE_TASK_FAILED', () => {
-      const action: MatrixAction = new UpdateTaskFailed(errorMessage);
+      const action: Action = MatrixActions.updateTaskFailed({
+        message: errorMessage,
+      });
       const newState = matrixReducer(defaultState, action);
       expect(newState).toEqual(failedState);
     });
 
     it('should set error message on UPDATE_TOPIC_FAILED', () => {
-      const action: MatrixAction = new UpdateTopicFailed(errorMessage);
+      const action: Action = MatrixActions.updateTopicFailed({
+        message: errorMessage,
+      });
       const newState = matrixReducer(defaultState, action);
       expect(newState).toEqual(failedState);
     });
 
     it('should set error mesage on ADD_TOPIC_FAILED', () => {
-      const action: MatrixAction = new AddTopicFailed(errorMessage);
+      const action: Action = MatrixActions.addTopicFailed({
+        message: errorMessage,
+      });
       const newState = matrixReducer(defaultState, action);
       expect(newState).toEqual(failedState);
     });
@@ -171,9 +167,11 @@ describe('MatrixReducers', () => {
     });
 
     it('should set unloading on GET_MATRIX_DATA_SUCCESS', () => {
-      const action: MatrixAction = new GetMatrixDataSuccess({
-        topics: [],
-        tasks: [],
+      const action: Action = MatrixActions.getMatrixDataSuccess({
+        data: {
+          topics: [],
+          tasks: [],
+        },
       });
       const newState = matrixReducer(defaultState, action);
       expect(newState.requestStatus.isLoading).toEqual(false);
@@ -181,32 +179,40 @@ describe('MatrixReducers', () => {
     });
 
     it('should set unloading on UPDATE_TASK_SUCCESS', () => {
-      const action: MatrixAction = new UpdateTaskSuccess({ ...dummyTask });
+      const action: Action = MatrixActions.updateTaskSuccess({
+        task: { ...dummyTask },
+      });
       const newState = matrixReducer(defaultState, action);
       expect(newState.requestStatus.isLoading).toEqual(false);
       expect(newState.requestStatus.errorMessage).toBeUndefined();
     });
 
     it('should set unloading on ADD_TOPIC_SUCCESS', () => {
-      const action: MatrixAction = new AddTopicSuccess({ ...dummyTopic });
+      const action: Action = MatrixActions.addTopicSuccess({
+        topic: { ...dummyTopic },
+      });
       const newState = matrixReducer(defaultState, action);
       expect(newState.requestStatus.isLoading).toEqual(false);
       expect(newState.requestStatus.errorMessage).toBeUndefined();
     });
 
     it('should set unloading on UPDATE_TOPIC_SUCCESS', () => {
-      const action: MatrixAction = new UpdateTopicSuccess({ ...dummyTopic });
+      const action: Action = MatrixActions.updateTopicSuccess({
+        topic: { ...dummyTopic },
+      });
       const newState = matrixReducer(defaultState, action);
       expect(newState.requestStatus.isLoading).toEqual(false);
       expect(newState.requestStatus.errorMessage).toBeUndefined();
     });
 
     it('should set unloading on DELETE_TASK_SUCCESS', () => {
-      const action: MatrixAction = new DeleteTaskSuccess({
-        ...dummyTask,
-        deleted: true,
-        updatedAt: new Date(),
-        deletedAt: new Date(),
+      const action: Action = MatrixActions.deleteTaskSuccess({
+        task: {
+          ...dummyTask,
+          deleted: true,
+          updatedAt: new Date(),
+          deletedAt: new Date(),
+        },
       });
       const newState = matrixReducer(defaultState, action);
       expect(newState.requestStatus.isLoading).toEqual(false);
@@ -237,9 +243,11 @@ describe('MatrixReducers', () => {
     });
 
     it('should set new data on GET_MATRIX_DATA_SUCCESS', () => {
-      const action: MatrixAction = new GetMatrixDataSuccess({
-        topics: [{ ...dummyTopic }],
-        tasks: [],
+      const action: Action = MatrixActions.getMatrixDataSuccess({
+        data: {
+          topics: [{ ...dummyTopic }],
+          tasks: [],
+        },
       });
       const newState = matrixReducer(emptyState, action);
       expect(newState).toEqual({
@@ -254,7 +262,9 @@ describe('MatrixReducers', () => {
         tasks: [{ ...dummyTask }],
       };
       const updatedTask = { ...dummyTask, importance: 7 };
-      const action: MatrixAction = new UpdateTaskSuccess(updatedTask);
+      const action: Action = MatrixActions.updateTaskSuccess({
+        task: updatedTask,
+      });
       const newState = matrixReducer(defaultState, action);
       expect(newState.tasks).toContain(updatedTask);
     });
@@ -269,21 +279,25 @@ describe('MatrixReducers', () => {
         deleted: true,
         deletedAt: new Date(),
       };
-      const action: MatrixAction = new DeleteTaskSuccess(updatedTask);
+      const action: Action = MatrixActions.deleteTaskSuccess({
+        task: updatedTask,
+      });
       const newState = matrixReducer(defaultState, action);
       expect(newState.tasks[0]).toEqual(updatedTask);
     });
 
     it('should add topic on ADD_TOPIC_SUCCESS', () => {
       const newTopic = { ...dummyTopic, id: 2, color: Color.green };
-      const action: MatrixAction = new AddTopicSuccess(newTopic);
+      const action: Action = MatrixActions.addTopicSuccess({ topic: newTopic });
       const newState = matrixReducer(defaultState, action);
       expect(newState.topics).toContain(newTopic);
     });
 
     it('should update topic on UPDATE_TOPIC_SUCCESS', () => {
       const updatedTopic = { ...dummyTopic, color: Color.green };
-      const action: MatrixAction = new UpdateTopicSuccess(updatedTopic);
+      const action: Action = MatrixActions.updateTopicSuccess({
+        topic: updatedTopic,
+      });
       const newState = matrixReducer(defaultState, action);
       expect(newState.topics).toContain(updatedTopic);
     });
@@ -308,8 +322,12 @@ describe('MatrixReducers', () => {
     });
 
     it('should toggle visibility on TOGGLE_TOPIC_VISIBILITY', () => {
-      const action1: MatrixAction = new ToggleTopicVisibility(1);
-      const action2: MatrixAction = new ToggleTopicVisibility(2);
+      const action1: Action = MatrixActions.toggleTopicVisibility({
+        topicId: 1,
+      });
+      const action2: Action = MatrixActions.toggleTopicVisibility({
+        topicId: 2,
+      });
       const newState1 = matrixReducer(defaultState, action1);
       expect(newState1.topics[0].visible).toEqual(false);
       expect(newState1.topics[1].visible).toEqual(false);
@@ -319,7 +337,9 @@ describe('MatrixReducers', () => {
     });
 
     it('should not change if topic not found on TOGGLE_TOPIC_VISIBILITY', () => {
-      const action: MatrixAction = new ToggleTopicVisibility(3);
+      const action: Action = MatrixActions.toggleTopicVisibility({
+        topicId: 3,
+      });
       const newState = matrixReducer(defaultState, action);
       expect(newState).toEqual(defaultState);
     });
@@ -349,10 +369,10 @@ describe('MatrixReducers', () => {
     });
 
     it('should select tasks in correct order on SELECT_TASK', () => {
-      const action1: MatrixAction = new SelectTask(1);
-      const action2: MatrixAction = new SelectTask(2);
-      const action3: MatrixAction = new SelectTask(3);
-      const action4: MatrixAction = new SelectTask(4);
+      const action1: Action = MatrixActions.selectTask({ currentTaskId: 1 });
+      const action2: Action = MatrixActions.selectTask({ currentTaskId: 2 });
+      const action3: Action = MatrixActions.selectTask({ currentTaskId: 3 });
+      const action4: Action = MatrixActions.selectTask({ currentTaskId: 4 });
       let newState = matrixReducer(defaultState, action1);
       newState = matrixReducer(newState, action2);
       newState = matrixReducer(newState, action3);
@@ -362,23 +382,23 @@ describe('MatrixReducers', () => {
     });
 
     it('should only select task once on SELECT_TASK', () => {
-      const action: MatrixAction = new SelectTask(1);
+      const action: Action = MatrixActions.selectTask({ currentTaskId: 1 });
       let newState = matrixReducer(defaultState, action);
       newState = matrixReducer(newState, action);
       expect(newState.taskHistory).toEqual([1]);
     });
 
     it('should only change taskHistory on SELECT_TASK', () => {
-      const action: MatrixAction = new SelectTask(1);
+      const action: Action = MatrixActions.selectTask({ currentTaskId: 1 });
       const newState = matrixReducer(defaultState, action);
       expect(newState).toEqual({ ...defaultState, taskHistory: [1] });
     });
 
     it('should correctly order tasks in history on SELECT_TASK', () => {
-      const action1: MatrixAction = new SelectTask(1);
-      const action7: MatrixAction = new SelectTask(7);
-      const action5: MatrixAction = new SelectTask(5);
-      const action3: MatrixAction = new SelectTask(3);
+      const action1: Action = MatrixActions.selectTask({ currentTaskId: 1 });
+      const action7: Action = MatrixActions.selectTask({ currentTaskId: 7 });
+      const action5: Action = MatrixActions.selectTask({ currentTaskId: 5 });
+      const action3: Action = MatrixActions.selectTask({ currentTaskId: 3 });
       let newState = matrixReducer(defaultState, action1);
       newState = matrixReducer(newState, action7);
       newState = matrixReducer(newState, action5);
@@ -389,9 +409,15 @@ describe('MatrixReducers', () => {
     });
 
     it('should only take 6 elements in history on SELECT_TASK', () => {
-      let newState = matrixReducer(defaultState, new SelectTask(1));
+      let newState = matrixReducer(
+        defaultState,
+        MatrixActions.selectTask({ currentTaskId: 1 }),
+      );
       for (let i = 2; i < 8; i++) {
-        newState = matrixReducer(newState, new SelectTask(i));
+        newState = matrixReducer(
+          newState,
+          MatrixActions.selectTask({ currentTaskId: i }),
+        );
       }
       expect(newState.taskHistory.length).toEqual(6);
     });

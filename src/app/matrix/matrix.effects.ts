@@ -1,31 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { Color } from '../shared/color.interfaces';
-import {
-  ADD_TOPIC,
-  AddTopic,
-  AddTopicFailed,
-  AddTopicSuccess,
-  DELETE_TASK,
-  DeleteTask,
-  DeleteTaskFailed,
-  DeleteTaskSuccess,
-  GET_MATRIX_DATA,
-  GetMatrixData,
-  GetMatrixDataFailed,
-  GetMatrixDataSuccess,
-  UPDATE_TASK,
-  UPDATE_TOPIC,
-  UpdateTask,
-  UpdateTaskFailed,
-  UpdateTaskSuccess,
-  UpdateTopic,
-  UpdateTopicFailed,
-  UpdateTopicSuccess,
-} from './matrix.actions';
+import * as MatrixActions from './matrix.actions';
 import { MatrixData, Task, Topic } from './matrix.interfaces';
 import { MatrixService } from './matrix.service';
 
@@ -162,84 +140,103 @@ export class MatrixEffects {
     private readonly matrixService: MatrixService,
   ) {}
 
-  @Effect()
-  getMatrixData$: Observable<Action> = this.actions$.pipe(
-    ofType<GetMatrixData>(GET_MATRIX_DATA),
-    mergeMap(() =>
-      this.matrixService.mockFunction(this.data).pipe(
-        map((data: MatrixData) => new GetMatrixDataSuccess(data)),
-        catchError((message) => of(new GetMatrixDataFailed(message))),
-      ),
-    ),
-  );
-
-  @Effect()
-  updateTask$: Observable<Action> = this.actions$.pipe(
-    ofType<UpdateTask>(UPDATE_TASK),
-    mergeMap((action) =>
-      this.matrixService.mockFunction(action.task).pipe(
-        map((task: Task) => new UpdateTaskSuccess(task)),
-        catchError((message) => of(new UpdateTaskFailed(message))),
-      ),
-    ),
-  );
-
-  @Effect()
-  deleteTask$: Observable<Action> = this.actions$.pipe(
-    ofType<DeleteTask>(DELETE_TASK),
-    mergeMap((action) =>
-      this.matrixService.mockFunction(action.taskId).pipe(
-        map(
-          (taskId: number) =>
-            new DeleteTaskSuccess({
-              id: taskId,
-              name: 'deleted',
-              importance: 1,
-              topic: 1,
-              dueDay: 1,
-              dueMonth: 1,
-              dueYear: 21,
-              done: false,
-              deleted: true,
-              createdAt: new Date('2020-10-12T12:00:00.000Z'),
-              updatedAt: new Date('2020-12-12T12:00:00.000Z'),
-              deletedAt: new Date('2020-12-12T12:00:00.000Z'),
-            }),
-        ),
-        catchError((message) => of(new DeleteTaskFailed(message))),
-      ),
-    ),
-  );
-
-  @Effect()
-  addTopic$: Observable<Action> = this.actions$.pipe(
-    ofType<AddTopic>(ADD_TOPIC),
-    mergeMap((action) =>
-      this.matrixService
-        .mockFunction(Math.floor(Math.random() * (100 - 4) - 4))
-        .pipe(
-          map(
-            (id: number) =>
-              new AddTopicSuccess({
-                id: id,
-                name: 'New Topic',
-                color: Color.green,
-                visible: true,
-                deleted: false,
-              }),
+  getMatrixData$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MatrixActions.getMatrixData),
+      mergeMap(() =>
+        this.matrixService.mockFunction(this.data).pipe(
+          map((data: MatrixData) =>
+            MatrixActions.getMatrixDataSuccess({ data }),
           ),
-          catchError((message) => of(new AddTopicFailed(message))),
+          catchError((message) =>
+            of(MatrixActions.getMatrixDataFailed({ message })),
+          ),
         ),
+      ),
     ),
   );
 
-  @Effect()
-  updateTopic$: Observable<Action> = this.actions$.pipe(
-    ofType<UpdateTopic>(UPDATE_TOPIC),
-    mergeMap((action) =>
-      this.matrixService.mockFunction(action.topic).pipe(
-        map((topic: Topic) => new UpdateTopicSuccess(topic)),
-        catchError((message) => of(new UpdateTopicFailed(message))),
+  updateTask$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MatrixActions.updateTask),
+      mergeMap((action) =>
+        this.matrixService.mockFunction(action.task).pipe(
+          map((task: Task) => MatrixActions.updateTaskSuccess({ task })),
+          catchError((message) =>
+            of(MatrixActions.updateTaskFailed({ message })),
+          ),
+        ),
+      ),
+    ),
+  );
+
+  deleteTask$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MatrixActions.deleteTask),
+      mergeMap((action) =>
+        this.matrixService.mockFunction(action.taskId).pipe(
+          map((taskId: number) =>
+            MatrixActions.deleteTaskSuccess({
+              task: {
+                id: taskId,
+                name: 'deleted',
+                importance: 1,
+                topic: 1,
+                dueDay: 1,
+                dueMonth: 1,
+                dueYear: 21,
+                done: false,
+                deleted: true,
+                createdAt: new Date('2020-10-12T12:00:00.000Z'),
+                updatedAt: new Date('2020-12-12T12:00:00.000Z'),
+                deletedAt: new Date('2020-12-12T12:00:00.000Z'),
+              },
+            }),
+          ),
+          catchError((message) =>
+            of(MatrixActions.deleteTaskFailed({ message: message })),
+          ),
+        ),
+      ),
+    ),
+  );
+
+  addTopic$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MatrixActions.addTopic),
+      mergeMap((action) =>
+        this.matrixService
+          .mockFunction(Math.floor(Math.random() * (100 - 4) - 4))
+          .pipe(
+            map((id: number) =>
+              MatrixActions.addTopicSuccess({
+                topic: {
+                  id: id,
+                  name: 'New Topic',
+                  color: Color.green,
+                  visible: true,
+                  deleted: false,
+                },
+              }),
+            ),
+            catchError((message) =>
+              of(MatrixActions.addTopicFailed({ message: message })),
+            ),
+          ),
+      ),
+    ),
+  );
+
+  updateTopic$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MatrixActions.updateTopic),
+      mergeMap((action) =>
+        this.matrixService.mockFunction(action.topic).pipe(
+          map((topic: Topic) => MatrixActions.updateTopicSuccess({ topic })),
+          catchError((message) =>
+            of(MatrixActions.updateTopicFailed({ message })),
+          ),
+        ),
       ),
     ),
   );

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.state';
-import { SelectTask } from '../matrix.actions';
+import { selectTask } from '../matrix.actions';
 import { Task, TaskDictionary, Topic } from '../matrix.interfaces';
 import { MatrixService } from '../matrix.service';
 
@@ -48,6 +48,6 @@ export class CanvasComponent implements OnInit {
   }
 
   onSelectTask(event: Task): void {
-    this.store.dispatch(new SelectTask(event.id));
+    this.store.dispatch(selectTask({ currentTaskId: event.id }));
   }
 }
