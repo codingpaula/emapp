@@ -1,13 +1,16 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MemoizedSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { of } from 'rxjs';
+import { AppState } from 'src/app/app.state';
 import { Color } from '../../shared/color.interfaces';
+import { deleteTask, toggleDoneTask, updateTask } from '../matrix.actions';
 import { DropdownItem, Task, Topic } from '../matrix.interfaces';
 import { initialState, MatrixState } from '../matrix.reducers';
-import { selectMatrixTopicsDropdownItems } from '../matrix.selectors';
-import { MatrixService } from '../matrix.service';
-import { MatrixMockService } from '../matrix.service.mock';
+import {
+  selectCurrentTaskHistory,
+  selectMatrixTopics,
+  selectMatrixTopicsDropdownItems,
+} from '../matrix.selectors';
 import { TaskCardMockComponent } from '../task-card/task-card.component.mock';
 import { DetailComponent } from './detail.component';
 
@@ -15,12 +18,14 @@ describe('DetailComponent', () => {
   let component: DetailComponent;
   let fixture: ComponentFixture<DetailComponent>;
   let detail: any;
-  let service: MatrixService;
   let store: MockStore<MatrixState>;
   let mockSelectMatrixTopicsDropdownItems: MemoizedSelector<
-    any,
+    AppState,
     DropdownItem[]
   >;
+  let mockSelectCurrentTaskHistory: MemoizedSelector<AppState, Task[]>;
+  let mockSelectTopics: MemoizedSelector<AppState, Topic[]>;
+  let dispatchSpy: jasmine.Spy;
 
   let testTask: Task;
   let testTopic: Topic;
@@ -29,19 +34,12 @@ describe('DetailComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [DetailComponent, TaskCardMockComponent],
-        providers: [
-          {
-            provide: MatrixService,
-            useClass: MatrixMockService,
-          },
-          [provideMockStore({ initialState })],
-        ],
+        providers: [[provideMockStore({ initialState })]],
       }).compileComponents();
 
       fixture = TestBed.createComponent(DetailComponent);
       component = fixture.componentInstance;
       detail = fixture.debugElement.componentInstance;
-      service = TestBed.inject(MatrixService);
       store = TestBed.inject(MockStore);
     }),
   );
@@ -70,60 +68,50 @@ describe('DetailComponent', () => {
       selectMatrixTopicsDropdownItems,
       [],
     );
+    mockSelectTopics = store.overrideSelector(selectMatrixTopics, []);
+    mockSelectCurrentTaskHistory = store.overrideSelector(
+      selectCurrentTaskHistory,
+      [],
+    );
+    dispatchSpy = spyOn(store, 'dispatch');
   });
 
   it('should create the detail', () => {
     expect(detail).toBeTruthy();
   });
 
-  xit('changeTask - should use matrix service to update task', () => {
-    // TODO
+  it('changeTask - should use matrix service to update task', () => {
     // arrange
-    // const matrixServiceSpy = spyOn(service, 'updateTask');
     // act
-    // component.changeTask(testTask);
+    component.changeTask(testTask);
     // assert
-    // expect(matrixServiceSpy).toHaveBeenCalledWith(testTask);
+    expect(dispatchSpy).toHaveBeenCalledWith(updateTask({ task: testTask }));
   });
 
-  xit('deleteTask - should use matrix service to delete task', () => {
-    // TODO
+  it('deleteTask - should use matrix service to delete task', () => {
     // arrange
-    // const matrixServiceSpy = spyOn(service, 'deleteTask');
     // act
-    // component.deleteTask(testTask.id);
+    component.deleteTask(testTask.id);
     // assert
-    // expect(matrixServiceSpy).toHaveBeenCalledWith(testTask.id);
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      deleteTask({ taskId: testTask.id }),
+    );
   });
 
-  xit('toggleDoneTask - should use matrix service to toggle task done', () => {
-    // TODO
+  it('toggleDoneTask - should use matrix service to toggle task done', () => {
     // arrange
-    // const matrixServiceSpy = spyOn(service, 'toggleTaskDone');
     // act
-    // component.toggleDoneTask(testTask.id);
+    component.toggleDoneTask(testTask.id);
     // assert
-    // expect(matrixServiceSpy).toHaveBeenCalledWith(testTask.id);
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      toggleDoneTask({ taskId: testTask.id }),
+    );
   });
 
   describe('ngOnInit', () => {
     it('should subscribe to task history on init', () => {
       // arrange
-      const matrixServiceSpy = spyOn(
-        service,
-        'selectCurrentTaskHistory',
-      ).and.returnValue(of([{ ...testTask }]));
-      // act
-      component.ngOnInit();
-      // assert
-      expect(matrixServiceSpy).toHaveBeenCalled();
-    });
-
-    it('should set task history to variable task history', () => {
-      // arrange
-      spyOn(service, 'selectCurrentTaskHistory').and.returnValue(
-        of([{ ...testTask }]),
-      );
+      mockSelectCurrentTaskHistory.setResult([testTask]);
       // act
       component.ngOnInit();
       // assert
@@ -132,18 +120,7 @@ describe('DetailComponent', () => {
 
     it('should subscribe to topics on init', () => {
       // arrange
-      const matrixServiceSpy = spyOn(service, 'selectTopics').and.returnValue(
-        of([{ ...testTopic }]),
-      );
-      // act
-      component.ngOnInit();
-      // assert
-      expect(matrixServiceSpy).toHaveBeenCalled();
-    });
-
-    it('should set topics to variable topics as dictionary', () => {
-      // arrange
-      spyOn(service, 'selectTopics').and.returnValue(of([{ ...testTopic }]));
+      mockSelectTopics.setResult([testTopic]);
       // act
       component.ngOnInit();
       // assert

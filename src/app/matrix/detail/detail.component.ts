@@ -5,8 +5,11 @@ import { map, takeUntil } from 'rxjs/operators';
 import { AppState } from 'src/app/app.state';
 import { deleteTask, toggleDoneTask, updateTask } from '../matrix.actions';
 import { DropdownItem, Task, TopicDictionary } from '../matrix.interfaces';
-import { selectMatrixTopicsDropdownItems } from '../matrix.selectors';
-import { MatrixService } from '../matrix.service';
+import {
+  selectCurrentTaskHistory,
+  selectMatrixTopics,
+  selectMatrixTopicsDropdownItems,
+} from '../matrix.selectors';
 
 @Component({
   selector: 'app-detail',
@@ -20,10 +23,7 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   unsubscribe$ = new Subject<void>();
 
-  constructor(
-    private readonly matrixService: MatrixService,
-    private readonly store: Store<AppState>,
-  ) {}
+  constructor(private readonly store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.subscribeToTaskHistory();
@@ -53,8 +53,8 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToTaskHistory(): void {
-    this.matrixService
-      .selectCurrentTaskHistory()
+    this.store
+      .select(selectCurrentTaskHistory)
       .pipe(
         takeUntil(this.unsubscribe$),
         map((tasks) => {
@@ -67,8 +67,8 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToTopics(): void {
-    this.matrixService
-      .selectTopics()
+    this.store
+      .select(selectMatrixTopics)
       .pipe(
         takeUntil(this.unsubscribe$),
         map((topics) => {
