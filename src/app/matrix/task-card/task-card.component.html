@@ -18,11 +18,14 @@
         </div>
       </div>
       <div class="row topic-done">
-        <select formControlName="topic">
-          <option *ngFor="let element of topicOptions" [ngValue]="element.id">
-            {{ element.value }}
-          </option>
-        </select>
+        <div class="topic-select">
+          <select formControlName="topic">
+            <option *ngFor="let element of topicOptions" [ngValue]="element.id">
+              {{ element.value }}
+            </option>
+          </select>
+          <fa-icon class="select-icon" [icon]="faChevronDown"></fa-icon>
+        </div>
         <button class="delete-btn" type="button" (click)="onDeleteTask()">
           <fa-icon [icon]="faTrash"></fa-icon>
         </button>

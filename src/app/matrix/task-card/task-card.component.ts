@@ -1,6 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { faCheck, faTrash } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCheck,
+  faChevronDown,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 import { debounceTime, map } from 'rxjs/operators';
 import { DropdownItem, Task } from '../matrix.interfaces';
 
@@ -20,6 +24,7 @@ export class TaskCardComponent implements OnInit {
   taskForm!: FormGroup;
   faCheck = faCheck;
   faTrash = faTrash;
+  faChevronDown = faChevronDown;
 
   constructor(private fb: FormBuilder) {}
 
