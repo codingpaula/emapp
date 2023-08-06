@@ -1,20 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TaskCardComponent } from './task-card.component';
 
 describe('TaskCardComponent', () => {
   let component: TaskCardComponent;
   let fixture: ComponentFixture<TaskCardComponent>;
 
-  const formBuilder: FormBuilder = new FormBuilder();
+  const formBuilder: UntypedFormBuilder = new UntypedFormBuilder();
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [TaskCardComponent],
         imports: [ReactiveFormsModule],
-        providers: [{ provide: FormBuilder, useValue: formBuilder }],
+        providers: [{ provide: UntypedFormBuilder, useValue: formBuilder }],
       }).compileComponents();
 
       fixture = TestBed.createComponent(TaskCardComponent);

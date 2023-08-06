@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import {
   faCheck,
   faChevronDown,
@@ -21,12 +21,12 @@ export class TaskCardComponent implements OnInit {
   @Output() changeTask = new EventEmitter<Task>();
   @Output() deleteTask = new EventEmitter<number>();
   @Output() toggleDoneTask = new EventEmitter<number>();
-  taskForm!: FormGroup;
+  taskForm!: UntypedFormGroup;
   faCheck = faCheck;
   faTrash = faTrash;
   faChevronDown = faChevronDown;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.taskForm = this.fb.group({
